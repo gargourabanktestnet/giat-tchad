@@ -1,0 +1,2310 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GIAT - Gombo Intelligence Artificielle Tchad | Académie Nationale d'Intelligence</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Cinzel for prestigious certificate -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Cinzel', 'serif'],
+          },
+          colors: {
+            giat: {
+              navy: '#0B192C',
+              navyLight: '#132743',
+              navyCard: '#10223B',
+              gold: '#D4AF37',
+              goldBright: '#F59E0B',
+              emerald: '#10B981',
+              crimson: '#C8102E',
+              chadBlue: '#002664',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #07111F;
+      color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Gold shimmer & custom scrollbars */
+    .gold-gradient {
+      background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 50%, #B48A1E 100%);
+    }
+    .gold-text {
+      background: linear-gradient(135deg, #FDE047 0%, #D4AF37 55%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .chad-bar {
+      background: linear-gradient(90deg, #002664 0%, #002664 33.3%, #FECB00 33.3%, #FECB00 66.6%, #C60C30 66.6%, #C60C30 100%);
+    }
+
+    /* Liveness scanner animation */
+    @keyframes scanLine {
+      0% { top: 10%; }
+      50% { top: 85%; }
+      100% { top: 10%; }
+    }
+    .scanner-line {
+      animation: scanLine 2.4s ease-in-out infinite;
+    }
+
+    /* Print styles for A4 Official Certificate */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #printable-certificate, #printable-certificate * {
+        visibility: visible !important;
+      }
+      #printable-certificate {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        box-shadow: none !important;
+        border: 8px double #0B192C !important;
+        background: #FFFDF7 !important;
+        color: #0B192C !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B192C;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #233B5D;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- National Chad Top Ribbon -->
+  <div class="chad-bar h-1.5 w-full sticky top-0 z-50"></div>
+
+  <!-- Toast / Notification Container (No alert() used anywhere) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Top Institutional Header & Real-time Status Bar -->
+  <header class="bg-[#0B192C]/95 backdrop-blur-md border-b border-slate-800/90 sticky top-1.5 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        
+        <!-- Brand Identity -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('accueil')">
+            <div class="w-11 h-11 rounded-xl gold-gradient p-0.5 shadow-lg shadow-amber-500/20 flex-shrink-0">
+              <div class="w-full h-full bg-[#0B192C] rounded-[10px] flex items-center justify-center relative overflow-hidden">
+                <span class="font-serif font-extrabold text-lg gold-text tracking-tighter">GIAT</span>
+                <span class="absolute bottom-0.5 right-1 w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white">GIAT <span class="text-amber-400 font-semibold hidden sm:inline">TCHAD</span></h1>
+                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold">Académie Nationale</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Par le PDG <span class="text-slate-200 font-medium">Mahamat Gombo Abakar</span> • <span class="text-amber-400/90">Gargoura Digital Bank</span></p>
+            </div>
+          </div>
+
+          <!-- Mobile Quick Demo Button -->
+          <button onclick="openDemoModal()" class="lg:hidden text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Démo PDG
+          </button>
+        </div>
+
+        <!-- Real-Time User Status Pill Bar -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 bg-[#07111F]/90 border border-slate-800 px-3 py-2 rounded-xl text-xs">
+          <!-- KYC Status -->
+          <div id="header-kyc-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/25 font-medium">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>KYC : En attente</span>
+          </div>
+
+          <!-- Payment / Access Status -->
+          <div id="header-access-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-medium">
+            <i class="fa-solid fa-lock text-slate-400"></i>
+            <span>Accès : Verrouillé (5 000 FCFA)</span>
+          </div>
+
+          <!-- Golden Progress Bar -->
+          <div class="flex items-center gap-2 min-w-[130px] flex-1 sm:flex-initial">
+            <div class="w-full sm:w-24 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+              <div id="header-progress-bar" class="gold-gradient h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <span id="header-progress-text" class="font-bold text-amber-400 tabular-nums">0%</span>
+          </div>
+
+          <!-- Desktop PDG Demo Mode Trigger -->
+          <button onclick="openDemoModal()" title="Outils de simulation rapide pour démonstration officielle" class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition font-medium cursor-pointer">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Mode Démo PDG</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto pt-3 pb-1 no-scrollbar text-xs sm:text-sm font-medium">
+        <button data-tab="accueil" onclick="switchTab('accueil')" class="nav-btn active-tab px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <i class="fa-solid fa-landmark"></i> Accueil & Vision
+        </button>
+        <button data-tab="etape1" onclick="switchTab('etape1')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <span class="w-5 h-5 rounded-full bg-slate-800 text-[11px] flex items-center justify-center font-bold" id="nav-step1-icon">1</span>
+          <span>KYC Obligatoire</span>
+        </button>
+        <button data-tab="etape2" onclick="switchTab('etape2')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <span class="w-5 h-5 rounded-full bg-slate-800 text-[11px] flex items-center justify-center font-bold" id="nav-step2-icon">2</span>
+          <span>Paiement & Mode</span>
+        </button>
+        <button data-tab="formation" onclick="switchTab('formation')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <span class="w-5 h-5 rounded-full bg-slate-800 text-[11px] flex items-center justify-center font-bold" id="nav-step3-icon">3-4</span>
+          <span>Formation (6 Modules)</span>
+        </button>
+        <button data-tab="carte" onclick="switchTab('carte')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <i class="fa-solid fa-id-card"></i> Ma Carte GIAT
+        </button>
+        <button data-tab="certificat" onclick="switchTab('certificat')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <i class="fa-solid fa-award text-amber-400"></i> Mon Certificat
+        </button>
+        <button data-tab="laureats" onclick="switchTab('laureats')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <i class="fa-solid fa-briefcase"></i> Lauréats & Emplois
+        </button>
+        <button data-tab="verifier" onclick="switchTab('verifier')" class="nav-btn px-3.5 py-2 rounded-xl whitespace-nowrap flex items-center gap-2 transition">
+          <i class="fa-solid fa-qrcode"></i> Vérifier QR
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: ACCUEIL / VITRINE OFFICIELLE GIAT                  -->
+    <!-- ========================================================= -->
+    <section id="tab-accueil" class="tab-section space-y-8">
+      <!-- Hero Banner -->
+      <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0B192C] via-[#102542] to-[#07111F] border border-amber-500/25 p-6 sm:p-10 lg:p-12 shadow-2xl">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 grid lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>ACADÉMIE NATIONALE D'INTELLIGENCE • RÉPUBLIQUE DU TCHAD 🇹🇩</span>
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+              Gombo Intelligence Artificielle <span class="gold-text">Tchad (GIAT)</span>
+            </h2>
+
+            <blockquote class="border-l-4 border-amber-400 pl-4 py-1 bg-slate-900/50 rounded-r-xl pr-4">
+              <p class="text-base sm:text-lg italic font-medium text-amber-200">
+                « L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »
+              </p>
+              <footer class="text-xs text-slate-400 mt-1">— PDG Mahamat Gombo Abakar • Powered by Gargoura Digital Bank</footer>
+            </blockquote>
+
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Une initiative nationale historique pour former, certifier et mobiliser <strong class="text-white">100 000 Tchadiens en 12 mois</strong> sur l'Intelligence Artificielle. Parcours sécurisé avec <strong class="text-emerald-400">KYC numérique obligatoire</strong>, attestation officielle vérifiable par QR Code, et choix libre : <strong class="text-amber-300">100% en ligne</strong> ou <strong class="text-amber-300">100% en présentiel à N'Djamena</strong>.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <button onclick="switchTab('etape1')" class="gold-gradient text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-amber-500/25 hover:brightness-110 transition flex items-center gap-2.5 text-sm sm:text-base cursor-pointer">
+                <i class="fa-solid fa-user-check"></i>
+                <span>Commencer mon parcours (Étape 1 : KYC)</span>
+              </button>
+              <button onclick="switchTab('formation')" class="px-5 py-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-800 text-white border border-slate-700 font-semibold text-sm flex items-center gap-2 transition cursor-pointer">
+                <i class="fa-solid fa-book-open text-amber-400"></i>
+                <span>Découvrir les 6 Modules</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Impact Counters & 4-Step Roadmap Summary -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-[#07111F]/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Objectif National 12 Mois</span>
+                <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">Inscriptions Ouvertes</span>
+              </div>
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="text-3xl sm:text-4xl font-extrabold text-white tabular-nums" id="hero-counter">14 820</span>
+                <span class="text-xs text-slate-400">/ 100 000 Tchadiens formés</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden mb-4">
+                <div class="gold-gradient h-full rounded-full" style="width: 14.8%"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 text-center pt-2 border-t border-slate-800/80">
+                <div class="p-2 rounded-xl bg-slate-900/70">
+                  <div class="text-lg font-extrabold text-amber-400">5 000</div>
+                  <div class="text-[11px] text-slate-400">FCFA Tarif Unique</div>
+                </div>
+                <div class="p-2 rounded-xl bg-slate-900/70">
+                  <div class="text-lg font-extrabold text-emerald-400">100%</div>
+                  <div class="text-[11px] text-slate-400">KYC Vérifié</div>
+                </div>
+                <div class="p-2 rounded-xl bg-slate-900/70">
+                  <div class="text-lg font-extrabold text-sky-400">23</div>
+                  <div class="text-[11px] text-slate-400">Provinces Couvertes</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 Mandatory Steps Mini-Card -->
+            <div class="bg-[#0B192C] border border-slate-800 rounded-2xl p-5 space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <i class="fa-solid fa-route text-amber-400"></i> Parcours Obligatoire en 4 Étapes
+              </h3>
+              <div class="space-y-2 text-xs">
+                <div onclick="switchTab('etape1')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 cursor-pointer transition">
+                  <span class="font-semibold text-white"><span class="text-amber-400 font-bold mr-1.5">1.</span> Inscription + KYC Numérique</span>
+                  <span id="home-step1-status" class="text-amber-300 font-medium">À faire →</span>
+                </div>
+                <div onclick="switchTab('etape2')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 cursor-pointer transition">
+                  <span class="font-semibold text-white"><span class="text-amber-400 font-bold mr-1.5">2.</span> Paiement 5 000 FCFA & Choix Mode</span>
+                  <span id="home-step2-status" class="text-slate-400 font-medium">Verrouillé</span>
+                </div>
+                <div onclick="switchTab('formation')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 cursor-pointer transition">
+                  <span class="font-semibold text-white"><span class="text-amber-400 font-bold mr-1.5">3.</span> Formation 6 Modules (18 Heures)</span>
+                  <span id="home-step3-status" class="text-slate-400 font-medium">0 / 6</span>
+                </div>
+                <div onclick="switchTab('certificat')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 cursor-pointer transition">
+                  <span class="font-semibold text-white"><span class="text-amber-400 font-bold mr-1.5">4.</span> Attestation Officielle + QR Code</span>
+                  <span id="home-step4-status" class="text-slate-400 font-medium">PDF + Email</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cities & Official Poster Section -->
+      <div class="grid lg:grid-cols-12 gap-6">
+        <!-- Why KYC & National Deployment -->
+        <div class="lg:col-span-7 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-emerald-400"></i> Pourquoi le KYC GIAT est Obligatoire ?
+            </h3>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">Crédibilité Nationale</span>
+          </div>
+
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-certificate"></i>
+              </div>
+              <h4 class="font-bold text-sm text-white">1. Attestation Réelle</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Votre certificat officiel porte votre vrai nom vérifié et votre photo officielle, aucun faux diplôme possible.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-qrcode"></i>
+              </div>
+              <h4 class="font-bold text-sm text-white">2. Zéro Fraude</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Chaque attestation dispose d'un QR Code unique vérifiable instantanément en ligne par tout employeur.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-400 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-users-viewfinder"></i>
+              </div>
+              <h4 class="font-bold text-sm text-white">3. Base Talents IA</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">Intégration directe dans le premier annuaire de talents IA vérifiés du Tchad pour le recrutement.</p>
+            </div>
+          </div>
+
+          <!-- Cities Covered -->
+          <div class="pt-2">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">Villes & Provinces Actives :</p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold">📍 N'Djamena (Siège & Présentiel)</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Moundou</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Abéché</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Sarh</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Bongor</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Doba</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Pala</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Koumra</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">📍 Mongo</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800">🌍 Diaspora Tchadienne</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official Launch Poster Card Ready to Copy/Share -->
+        <div class="lg:col-span-5 bg-gradient-to-b from-[#132743] to-[#0B192C] border border-amber-500/30 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-bullhorn"></i> Affiche Officielle de Lancement
+              </span>
+              <span class="text-[11px] text-slate-400">Prête à partager</span>
+            </div>
+
+            <div id="official-poster-text" class="bg-[#07111F] border border-slate-800 rounded-xl p-4 text-xs sm:text-sm space-y-2.5 text-slate-200 font-medium">
+              <p class="font-extrabold text-amber-400">🇹🇩 GOMBO INTELLIGENCE ARTIFICIELLE TCHAD (GIAT) LANCE SA FORMATION NATIONALE</p>
+              <p>Tu as peur que l'IA te remplace ? Viens la maîtriser.</p>
+              <ul class="space-y-1 text-xs text-slate-300">
+                <li>💰 <strong class="text-white">PRIX : 5 000 FCFA SEULEMENT</strong> (Accès à vie + 6 modules)</li>
+                <li>💻🏫 <strong class="text-white">En Ligne ou en Présentiel à N'Djamena</strong> - Tu choisis</li>
+                <li>✅ <strong class="text-emerald-400">KYC OBLIGATOIRE</strong> - Attestation Officielle avec QR Code envoyée par Email + PDF à imprimer</li>
+              </ul>
+              <div class="pt-1 border-t border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Paiement Mobile Money :</p>
+                <p>• Moov Money : <strong>(+235) 92 82 52 52</strong></p>
+                <p>• Airtel Money : <strong>(+235) 66 78 75 46</strong></p>
+                <p class="text-slate-400 pt-1">Contact : PDG Mahamat Gombo Abakar • Powered by Gargoura Digital Bank</p>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="copyPosterText()" class="mt-4 w-full py-2.5 px-4 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copier le texte officiel pour WhatsApp / Facebook</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: ÉTAPE 1 - INSCRIPTION + KYC NUMÉRIQUE OBLIGATOIRE  -->
+    <!-- ========================================================= -->
+    <section id="tab-etape1" class="tab-section hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0B192C] border border-slate-800 rounded-2xl p-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Étape 1 sur 4 • Sécurité & Crédibilité</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">Inscription & KYC Numérique Obligatoire</h2>
+          <p class="text-sm text-slate-400 mt-1">Aucune inscription au paiement ou aux cours n'est possible sans la validation de votre identité réelle.</p>
+        </div>
+        <div id="step1-status-pill" class="px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold flex items-center gap-2 self-start">
+          <i class="fa-solid fa-clock"></i> Statut : Dossier à compléter
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-6">
+        <!-- Left Form: Civil Identity & OTP -->
+        <div class="lg:col-span-7 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-5">
+          <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3 flex items-center gap-2">
+            <i class="fa-solid fa-id-badge text-amber-400"></i> 1. Informations Civiles & Coordonnées Vérifiées
+          </h3>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nom de famille (tel que sur la pièce) *</label>
+              <input type="text" id="kyc-lastname" placeholder="Ex: ABAKAR" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400 uppercase" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Prénom(s) complet(s) *</label>
+              <input type="text" id="kyc-firstname" placeholder="Ex: Moussa Brahim" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Ville / Province *</label>
+              <select id="kyc-city" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400">
+                <option value="N'Djamena">N'Djamena</option>
+                <option value="Moundou">Moundou</option>
+                <option value="Abéché">Abéché</option>
+                <option value="Sarh">Sarh</option>
+                <option value="Bongor">Bongor</option>
+                <option value="Doba">Doba</option>
+                <option value="Pala">Pala</option>
+                <option value="Koumra">Koumra</option>
+                <option value="Mongo">Mongo</option>
+                <option value="Ati">Ati</option>
+                <option value="Faya-Largeau">Faya-Largeau</option>
+                <option value="Diaspora">Diaspora Tchadienne</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Quartier / Adresse *</label>
+              <input type="text" id="kyc-district" placeholder="Ex: Moursal, Chagoua, Klemat..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400" />
+            </div>
+          </div>
+
+          <!-- Phone + OTP Verification -->
+          <div class="p-4 rounded-xl bg-[#07111F] border border-slate-800 space-y-3">
+            <label class="block text-xs font-semibold text-slate-300">Numéro de Téléphone Tchad (+235) — Vérification OTP *</label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-amber-400 font-bold">
+                🇹🇩 +235
+              </div>
+              <input type="tel" id="kyc-phone" placeholder="66 00 00 00 ou 92 00 00 00" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400" />
+              <button type="button" onclick="sendOtpCode()" id="btn-send-otp" class="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold whitespace-nowrap cursor-pointer">
+                Recevoir code OTP
+              </button>
+            </div>
+
+            <div id="otp-box" class="hidden pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <input type="text" id="kyc-otp-input" maxlength="4" placeholder="Code à 4 chiffres (ex: 2026)" class="sm:w-44 px-3.5 py-2 rounded-xl bg-slate-900 border border-amber-500/50 text-center tracking-widest font-bold text-white text-sm" />
+              <button type="button" onclick="verifyOtpCode()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold cursor-pointer">
+                Confirmer OTP
+              </button>
+              <span id="otp-hint" class="text-[11px] text-amber-300"></span>
+            </div>
+            <div id="otp-verified-msg" class="hidden text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-check"></i> Numéro de téléphone vérifié par SMS OTP !
+            </div>
+          </div>
+
+          <!-- Email for Official Certificate -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Adresse Email Valide (Pour réception automatique de l'Attestation PDF) *</label>
+            <input type="email" id="kyc-email" placeholder="votre.nom@email.com" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400" />
+          </div>
+
+          <!-- ID Document Upload -->
+          <div class="p-4 rounded-xl bg-[#07111F] border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-semibold text-slate-300">Pièce d'Identité Officielle (CNI, Passeport ou Carte d'Électeur) *</label>
+              <select id="kyc-doc-type" class="text-xs bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-amber-300">
+                <option value="Carte Nationale d'Identité (CNI)">CNI Tchad</option>
+                <option value="Passeport Biométrique">Passeport</option>
+                <option value="Carte d'Électeur">Carte d'Électeur</option>
+              </select>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+              <label class="flex-1 w-full flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-700 hover:border-amber-400 rounded-xl cursor-pointer transition bg-slate-900/50">
+                <i class="fa-solid fa-cloud-arrow-up text-amber-400 text-xl mb-1"></i>
+                <span class="text-xs font-semibold text-slate-200" id="doc-upload-label">Importer photo recto de la pièce</span>
+                <span class="text-[11px] text-slate-500">JPG, PNG ou simulation instantanée</span>
+                <input type="file" accept="image/*" class="hidden" onchange="handleDocUpload(event)" />
+              </label>
+              <button type="button" onclick="simulateDocUpload()" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700 whitespace-nowrap cursor-pointer">
+                <i class="fa-solid fa-file-shield text-emerald-400 mr-1"></i> Simuler Pièce CNI
+              </button>
+            </div>
+            <div id="doc-upload-status" class="hidden text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
+              <i class="fa-solid fa-check-double"></i> Pièce d'identité chargée et lisible.
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Liveness Check Selfie & Submission -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3 flex items-center gap-2">
+              <i class="fa-solid fa-camera text-emerald-400"></i> 2. Selfie en Direct (Liveness Check)
+            </h3>
+            <p class="text-xs text-slate-400">Cette photo officielle figurera sur votre <strong class="text-white">Carte GIAT</strong> et votre <strong class="text-white">Attestation Officielle</strong>.</p>
+
+            <!-- Liveness Interactive Frame -->
+            <div class="relative mx-auto w-56 h-56 rounded-full border-4 border-dashed border-amber-400/70 bg-[#07111F] flex items-center justify-center overflow-hidden shadow-inner" id="liveness-frame">
+              <div id="liveness-placeholder" class="text-center p-4 space-y-2">
+                <i class="fa-solid fa-face-viewfinder text-4xl text-slate-500"></i>
+                <p class="text-xs text-slate-400">Caméra Biométrique GIAT</p>
+              </div>
+              <img id="selfie-preview" src="" alt="Selfie KYC" class="hidden w-full h-full object-cover" />
+              <div id="liveness-scanner" class="hidden absolute left-0 right-0 h-0.5 bg-emerald-400 shadow-[0_0_12px_#10B981] scanner-line"></div>
+            </div>
+
+            <!-- Liveness Instruction Prompt -->
+            <div id="liveness-instruction" class="text-center p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-amber-300">
+              Cliquez ci-dessous pour démarrer la vérification biométrique
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="startLivenessCheck()" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition">
+                <i class="fa-solid fa-video"></i> Lancer Liveness Check
+              </button>
+              <label class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition">
+                <i class="fa-solid fa-image"></i> Importer Photo
+                <input type="file" accept="image/*" class="hidden" onchange="handleSelfieUpload(event)" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Final Submit KYC Button -->
+          <div class="bg-gradient-to-br from-[#102542] to-[#0B192C] border border-amber-500/30 rounded-2xl p-6 space-y-4">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" id="kyc-consent" checked class="mt-1 accent-amber-500" />
+              <label for="kyc-consent" class="text-xs text-slate-300 leading-relaxed">
+                Je certifie sur l'honneur l'exactitude de mes informations pour l'émission de mon Attestation Officielle GIAT et mon inscription au registre des talents IA du Tchad.
+              </label>
+            </div>
+
+            <button type="button" onclick="submitKycForm()" class="w-full py-3.5 px-5 rounded-xl gold-gradient text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 hover:brightness-110 transition flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-shield-check"></i>
+              <span>Valider mon Dossier KYC GIAT</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: ÉTAPE 2 - PAIEMENT OFFICIEL 5000 FCFA & CHOIX MODE -->
+    <!-- ========================================================= -->
+    <section id="tab-etape2" class="tab-section hidden space-y-6">
+      <!-- Locked Overlay Warning if KYC not verified -->
+      <div id="etape2-locked-banner" class="bg-red-950/40 border border-red-500/40 rounded-2xl p-6 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto text-xl">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white">Étape 2 Verrouillée — Validation KYC Requise</h3>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+          Conformément au règlement de l'Académie Nationale d'Intelligence GIAT, vous devez d'abord obtenir votre badge <span class="text-emerald-400 font-semibold">"Identité Vérifiée GIAT ✅"</span> avant d'effectuer le paiement de 5 000 FCFA.
+        </p>
+        <button onclick="switchTab('etape1')" class="px-5 py-2.5 rounded-xl gold-gradient text-slate-950 font-bold text-xs sm:text-sm cursor-pointer">
+          Aller à l'Étape 1 : Compléter mon KYC
+        </button>
+      </div>
+
+      <!-- Unlocked Content for Step 2 -->
+      <div id="etape2-content" class="hidden space-y-6">
+        <div class="bg-[#0B192C] border border-emerald-500/30 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 mb-1">
+              <i class="fa-solid fa-circle-check"></i> Identité Vérifiée GIAT ✅ — Accès autorisé au paiement
+            </div>
+            <h2 class="text-2xl font-extrabold text-white">Étape 2 : Choix du Mode & Paiement Unique (5 000 FCFA)</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">Accès à vie aux 6 modules (18h), support WhatsApp et Attestation Officielle GIAT.</p>
+          </div>
+          <div class="px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-right">
+            <div class="text-xs text-slate-400">Tarif National Unique</div>
+            <div class="text-2xl font-extrabold text-amber-400">5 000 FCFA</div>
+          </div>
+        </div>
+
+        <!-- Step 2A: Training Mode Selection -->
+        <div class="bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h3 class="font-bold text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-amber-400"></i> 1. Choisissez votre Mode de Formation
+            </h3>
+            <span class="text-xs text-slate-400 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+              Changement d'option gratuit autorisé : <strong class="text-amber-300" id="mode-switch-count">1 fois restante</strong>
+            </span>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <!-- Option A: En Ligne -->
+            <div id="mode-card-online" onclick="selectTrainingMode('EN LIGNE')" class="p-5 rounded-2xl border-2 border-amber-400 bg-amber-500/5 cursor-pointer transition relative">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">OPTION A • 💻 EN LIGNE</span>
+                <i class="fa-solid fa-circle-check text-amber-400 text-lg" id="check-online"></i>
+              </div>
+              <h4 class="font-extrabold text-lg text-white mb-2">100% En Ligne sur l'App GIAT</h4>
+              <ul class="space-y-1.5 text-xs text-slate-300">
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Vidéos courtes 5-10 min + Audio en Français & Arabe Tchadien</li>
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Apprentissage à votre rythme 24h/24, compatible faible connexion</li>
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Quiz interactifs après chaque module + Groupe support WhatsApp</li>
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Idéal pour les provinces, commerçants, étudiants et diaspora</li>
+              </ul>
+            </div>
+
+            <!-- Option B: En Présentiel -->
+            <div id="mode-card-onsite" onclick="selectTrainingMode('EN PRÉSENTIEL (N\'Djamena)')" class="p-5 rounded-2xl border-2 border-slate-800 bg-[#07111F] hover:border-slate-700 cursor-pointer transition relative">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-bold">OPTION B • 🏫 PRÉSENTIEL N'DJAMENA</span>
+                <i class="fa-regular fa-circle text-slate-600 text-lg" id="check-onsite"></i>
+              </div>
+              <h4 class="font-extrabold text-lg text-white mb-2">2 Jours Intensifs à N'Djamena</h4>
+              <ul class="space-y-1.5 text-xs text-slate-300">
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Salle GIAT N'Djamena — Samedi & Dimanche (08h00 à 15h00)</li>
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> En direct avec le PDG Mahamat Gombo Abakar & formateurs</li>
+                <li><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> Ordinateur fourni sur place, atelier pratique accompagné</li>
+                <li class="text-amber-300 font-semibold"><i class="fa-solid fa-users mr-1.5"></i> Places limitées à 30/session (<span id="seats-left">11</span> places restantes ce week-end)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2B: Official Mobile Money Payment -->
+        <div class="grid lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-5">
+            <h3 class="font-bold text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-mobile-screen-button text-amber-400"></i> 2. Effectuez le dépôt de 5 000 FCFA
+            </h3>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <!-- Moov Money -->
+              <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-950/70 to-slate-900 border border-blue-500/30 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-xs font-extrabold">MOOV MONEY</span>
+                  <span class="text-xs text-blue-300 font-semibold">Tchad</span>
+                </div>
+                <div class="text-lg font-extrabold text-white tracking-wide">(+235) 92 82 52 52</div>
+                <div class="text-[11px] text-slate-300 font-medium">Titulaire : <span class="text-amber-300 font-bold">GOMBO INTELLIGENCE ARTIFICIELLE TCHAD</span></div>
+                <button type="button" onclick="copyText('92825252', 'Numéro Moov Money copié !')" class="w-full py-2 px-3 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/40 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-regular fa-copy"></i> Copier 92 82 52 52
+                </button>
+              </div>
+
+              <!-- Airtel Money -->
+              <div class="p-4 rounded-2xl bg-gradient-to-br from-red-950/70 to-slate-900 border border-red-500/30 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-0.5 rounded-md bg-red-600 text-white text-xs font-extrabold">AIRTEL MONEY</span>
+                  <span class="text-xs text-red-300 font-semibold">Tchad</span>
+                </div>
+                <div class="text-lg font-extrabold text-white tracking-wide">(+235) 66 78 75 46</div>
+                <div class="text-[11px] text-slate-300 font-medium">Titulaire : <span class="text-amber-300 font-bold">MAHAMAT GOMBO ABAKAR</span></div>
+                <button type="button" onclick="copyText('66787546', 'Numéro Airtel Money copié !')" class="w-full py-2 px-3 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-regular fa-copy"></i> Copier 66 78 75 46
+                </button>
+              </div>
+            </div>
+
+            <!-- Future Integrations Banner -->
+            <div class="p-3.5 rounded-xl bg-[#07111F] border border-slate-800 flex items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2.5 text-slate-300">
+                <i class="fa-solid fa-rocket text-amber-400"></i>
+                <span><strong>Prochainement :</strong> Paiement automatique intégré via <strong>CinetPay</strong> et en <strong>Microns Pi via Gargoura Digital Bank (GDB)</strong>.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transaction ID Validation Form -->
+          <div class="lg:col-span-5 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between">
+            <div class="space-y-4">
+              <h3 class="font-bold text-base text-white flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-emerald-400"></i> 3. Validation de la Transaction (< 15 min)
+              </h3>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Opérateur utilisé *</label>
+                <select id="pay-operator" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm">
+                  <option value="Moov Money">Moov Money (+235 92 82 52 52)</option>
+                  <option value="Airtel Money">Airtel Money (+235 66 78 75 46)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">ID / Référence de la transaction SMS *</label>
+                <input type="text" id="pay-tx-id" placeholder="Ex: MP261123.1845.A90421" class="w-full px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm font-mono uppercase focus:outline-none focus:border-amber-400" />
+                <p class="text-[11px] text-slate-400 mt-1">Copiez l'ID reçu dans le SMS de confirmation Moov ou Airtel.</p>
+              </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+              <button type="button" onclick="submitPayment()" id="btn-submit-payment" class="w-full py-3.5 px-5 rounded-xl gold-gradient text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 hover:brightness-110 transition flex items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-check-to-slot"></i>
+                <span>Confirmer mon Paiement de 5 000 FCFA</span>
+              </button>
+
+              <!-- Official Receipt Download Box after Payment -->
+              <div id="payment-receipt-box" class="hidden p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs space-y-2">
+                <div class="flex items-center justify-between text-emerald-400 font-bold">
+                  <span><i class="fa-solid fa-circle-check"></i> Paiement Validé par GIAT !</span>
+                  <span id="receipt-ref-badge" class="font-mono"></span>
+                </div>
+                <p class="text-slate-300">Vos 6 modules sont débloqués à vie. Reçu officiel généré.</p>
+                <button type="button" onclick="switchTab('formation')" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer">
+                  Accéder immédiatement aux 6 Modules →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: ÉTAPE 3 & 4 - FORMATION 6 MODULES (18 HEURES)      -->
+    <!-- ========================================================= -->
+    <section id="tab-formation" class="tab-section hidden space-y-6">
+      <!-- Locked Banner if not paid -->
+      <div id="formation-locked-banner" class="bg-amber-950/30 border border-amber-500/40 rounded-2xl p-6 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xl">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white">Salle de Formation Verrouillée</h3>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+          Complétez l'Étape 1 (KYC) et l'Étape 2 (Paiement unique de 5 000 FCFA) pour débloquer l'accès à vie aux 6 modules GIAT et à votre Attestation Officielle.
+        </p>
+        <div class="flex justify-center gap-3">
+          <button onclick="switchTab('etape1')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold cursor-pointer">Étape 1 : KYC</button>
+          <button onclick="switchTab('etape2')" class="px-4 py-2 rounded-xl gold-gradient text-slate-950 text-xs font-bold cursor-pointer">Étape 2 : Paiement</button>
+        </div>
+      </div>
+
+      <!-- Unlocked Classroom -->
+      <div id="formation-content" class="hidden space-y-6">
+        <!-- Classroom Header -->
+        <div class="bg-[#0B192C] border border-slate-800 rounded-2xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Programme Officiel GIAT • 18 Heures</span>
+              <span id="classroom-mode-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30 font-semibold">Mode : EN LIGNE</span>
+            </div>
+            <h2 class="text-2xl font-extrabold text-white">Les 6 Modules Fondamentaux de l'IA au Tchad</h2>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Language Toggle FR / Arabe Tchadien -->
+            <div class="flex items-center bg-[#07111F] p-1 rounded-xl border border-slate-800 text-xs">
+              <button onclick="setCourseLang('fr')" id="lang-btn-fr" class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold cursor-pointer">🇫🇷 Français</button>
+              <button onclick="setCourseLang('ar')" id="lang-btn-ar" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white font-semibold cursor-pointer">🇹🇩 Arabe Tchadien</button>
+            </div>
+
+            <button onclick="changeModeOnce()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 cursor-pointer" title="Changer d'option 1 fois gratuitement">
+              <i class="fa-solid fa-repeat text-amber-400 mr-1"></i> Changer Mode
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Modules Grid + Active Lesson Viewer -->
+        <div class="grid lg:grid-cols-12 gap-6">
+          <!-- Left Sidebar: Module Selector -->
+          <div class="lg:col-span-4 space-y-2.5" id="modules-list">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Right Area: Active Module Lesson, Interactive Practice & Quiz -->
+          <div class="lg:col-span-8 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-6" id="active-module-panel">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 5: MA CARTE DIGITALE GIAT                             -->
+    <!-- ========================================================= -->
+    <section id="tab-carte" class="tab-section hidden space-y-6">
+      <div class="max-w-3xl mx-auto text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Ma Carte Digitale d'Apprenant GIAT</h2>
+        <p class="text-xs sm:text-sm text-slate-400">Carte d'identité académique officielle sécurisée par KYC numérique — Valable pour l'accès aux salles GIAT et événements partenaires.</p>
+      </div>
+
+      <!-- Digital Student ID Card -->
+      <div class="max-w-xl mx-auto">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0B192C] via-[#152D4E] to-[#07111F] border-2 border-amber-400/60 shadow-2xl shadow-amber-500/10 p-6 sm:p-7">
+          <div class="chad-bar h-2 absolute top-0 left-0 right-0"></div>
+          
+          <!-- Card Header -->
+          <div class="flex items-center justify-between pt-2 pb-4 border-b border-slate-700/70">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-serif font-extrabold text-slate-950 text-base">
+                GIAT
+              </div>
+              <div>
+                <div class="text-xs font-extrabold tracking-wider text-amber-400 uppercase">République du Tchad 🇹🇩</div>
+                <div class="text-sm font-bold text-white">Académie Nationale d'Intelligence</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <span id="card-kyc-status" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[11px] font-bold">
+                KYC En attente
+              </span>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="py-5 grid sm:grid-cols-12 gap-5 items-center">
+            <div class="sm:col-span-4 flex flex-col items-center">
+              <div class="w-28 h-32 rounded-2xl border-2 border-amber-400 bg-slate-900 overflow-hidden flex items-center justify-center shadow-lg">
+                <img id="idcard-photo" src="" alt="Photo Apprenant" class="hidden w-full h-full object-cover" />
+                <i id="idcard-placeholder" class="fa-solid fa-user-tie text-4xl text-slate-600"></i>
+              </div>
+              <span class="mt-2 text-[10px] font-mono text-amber-300 bg-slate-900/90 px-2.5 py-0.5 rounded border border-slate-700" id="idcard-matricule">GIAT-2026-NDJ-XXXX</span>
+            </div>
+
+            <div class="sm:col-span-8 space-y-2.5 text-xs sm:text-sm">
+              <div>
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Nom & Prénom(s) Vérifiés</span>
+                <span class="font-extrabold text-lg text-white uppercase" id="idcard-fullname">APPRENANT NON ENREGISTRÉ</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Ville / Province</span>
+                  <span class="font-semibold text-slate-200" id="idcard-city">N'Djamena, Tchad</span>
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Mode de Formation</span>
+                  <span class="font-semibold text-amber-300" id="idcard-mode">En Ligne</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Téléphone Vérifié</span>
+                  <span class="font-mono text-slate-200" id="idcard-phone">+235 -- -- -- --</span>
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Progression</span>
+                  <span class="font-bold text-emerald-400" id="idcard-progress">0% Complété</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer with SVG QR Code -->
+          <div class="pt-4 border-t border-slate-700/70 flex items-center justify-between gap-4">
+            <div class="text-[11px] text-slate-400 space-y-0.5">
+              <p class="text-slate-200 font-semibold">PDG Mahamat Gombo Abakar</p>
+              <p>Powered by <span class="text-amber-400">Gargoura Digital Bank</span></p>
+              <p class="text-[10px] text-emerald-400">Accès à vie • Validité Permanente</p>
+            </div>
+            <!-- Crisp Inline SVG QR Code -->
+            <div class="bg-white p-1.5 rounded-xl shadow">
+              <svg width="56" height="56" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" fill="white"/>
+                <path d="M2 2H12V12H2V2ZM4 4V10H10V4H4ZM6 6H8V8H6V6ZM24 2H34V12H24V2ZM26 4V10H32V4H26ZM28 6H30V8H28V6ZM2 24H12V34H2V24ZM4 26V32H10V26H4ZM6 28H8V30H6V28ZM14 2H18V6H14V2ZM20 4H22V10H20V4ZM14 8H16V14H14V8ZM18 12H22V16H18V12ZM2 14H8V18H2V14ZM10 16H14V20H10V16ZM24 14H28V18H24V14ZM30 16H34V22H30V16ZM16 20H22V24H16V20ZM24 22H28V28H24V22ZM14 26H18V34H14V26ZM20 28H22V34H20V28ZM28 30H34V34H28V30Z" fill="#0B192C"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 6: MON CERTIFICAT / ATTESTATION OFFICIELLE A4         -->
+    <!-- ========================================================= -->
+    <section id="tab-certificat" class="tab-section hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0B192C] border border-slate-800 rounded-2xl p-6 no-print">
+        <div>
+          <h2 class="text-2xl font-extrabold text-white">Attestation Officielle GIAT (Format A4)</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Débloquée automatiquement à 100% de progression (6/6 modules validés). Imprimable en haute qualité et vérifiable par QR Code.</p>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          <button onclick="sendCertificateByEmail()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-envelope-circle-check"></i> Recevoir par Email
+          </button>
+          <button onclick="window.print()" class="px-4 py-2.5 rounded-xl gold-gradient text-slate-950 text-xs font-extrabold flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-print"></i> Imprimer / Sauvegarder PDF A4
+          </button>
+        </div>
+      </div>
+
+      <!-- Lock Notice if < 100% -->
+      <div id="cert-lock-notice" class="bg-amber-950/30 border border-amber-500/40 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-award text-amber-400 text-2xl"></i>
+          <div>
+            <h4 class="font-bold text-sm text-white">Aperçu de votre future Attestation Officielle</h4>
+            <p class="text-xs text-slate-300">Terminez les 6 modules (actuellement <span id="cert-progress-inline" class="font-bold text-amber-400">0%</span>) pour activer la délivrance officielle et l'envoi par email.</p>
+          </div>
+        </div>
+        <button onclick="switchTab('formation')" class="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 text-xs font-extrabold whitespace-nowrap cursor-pointer">
+          Continuer la formation
+        </button>
+      </div>
+
+      <!-- OFFICIAL PRINTABLE A4 CERTIFICATE -->
+      <div id="printable-certificate" class="max-w-4xl mx-auto bg-[#FFFDF7] text-[#0B192C] rounded-2xl p-6 sm:p-10 border-[10px] border-double border-[#0B192C] shadow-2xl relative overflow-hidden">
+        <!-- Decorative Corner Gold Accents -->
+        <div class="chad-bar h-2.5 w-full mb-6 rounded-full"></div>
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b-2 border-[#D4AF37] pb-5 text-center sm:text-left">
+          <div>
+            <p class="text-xs font-extrabold tracking-widest uppercase text-[#002664]">République du Tchad 🇹🇩</p>
+            <p class="text-[11px] font-semibold text-slate-600">Unité • Travail • Progrès</p>
+            <h1 class="font-serif text-xl sm:text-2xl font-extrabold text-[#0B192C] mt-1">GOMBO INTELLIGENCE ARTIFICIELLE TCHAD</h1>
+            <p class="text-xs font-bold text-[#B48A1E] uppercase tracking-wider">Académie Nationale d'Intelligence • Powered by Gargoura Digital Bank</p>
+          </div>
+
+          <div class="flex flex-col items-center sm:items-end">
+            <div class="px-3 py-1 rounded bg-[#0B192C] text-[#D4AF37] font-mono text-xs font-bold" id="cert-serial">
+              N° GIAT-2026-NDJ-0001
+            </div>
+            <span class="text-[11px] text-emerald-700 font-bold mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-shield-check"></i> IDENTITÉ KYC VÉRIFIÉE
+            </span>
+          </div>
+        </div>
+
+        <!-- Main Title -->
+        <div class="text-center my-6 space-y-2">
+          <h2 class="font-serif text-2xl sm:text-4xl font-extrabold tracking-wide text-[#0B192C] uppercase">
+            Attestation Officielle de Réussite
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 italic">
+            Décernée après validation intégrale du programme national de maîtrise de l'Intelligence Artificielle (6 Modules — 18 Heures)
+          </p>
+        </div>
+
+        <!-- Recipient Block with Verified KYC Photo -->
+        <div class="my-6 bg-slate-100/80 border border-slate-300 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-6">
+          <div class="w-28 h-32 rounded-xl border-2 border-[#0B192C] bg-white overflow-hidden flex-shrink-0 flex items-center justify-center shadow">
+            <img id="cert-photo" src="" alt="Photo KYC" class="hidden w-full h-full object-cover" />
+            <i id="cert-photo-placeholder" class="fa-solid fa-user text-4xl text-slate-400"></i>
+          </div>
+
+          <div class="flex-1 text-center sm:text-left space-y-2">
+            <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold">L'Académie Nationale GIAT certifie que :</p>
+            <h3 class="font-serif text-2xl sm:text-3xl font-extrabold text-[#0B192C] uppercase" id="cert-fullname">
+              [NOM & PRÉNOM VÉRIFIÉS KYC]
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              Résidant à <strong id="cert-city">N'Djamena</strong>, a suivi avec succès et validé l'ensemble des évaluations pratiques et théoriques de la formation nationale en Intelligence Artificielle Appliquée.
+            </p>
+            <div class="inline-block px-3 py-1 rounded-lg bg-[#0B192C] text-amber-300 text-xs font-bold" id="cert-mode-mention">
+              Mention : Formation suivie EN LIGNE
+            </div>
+          </div>
+        </div>
+
+        <!-- Modules Summary Pills -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] text-slate-700 my-5">
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 1. Fondamentaux de l'IA</div>
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 2. Mutation des Métiers au Tchad</div>
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 3. Nouveaux Métiers IA Rentables</div>
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 4. Atelier Pratique & Business IA</div>
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 5. IA, Éthique & Valeurs Halal</div>
+          <div class="p-2 rounded bg-white border border-slate-200 font-semibold">✓ 6. Plan d'Action 90 Jours</div>
+        </div>
+
+        <!-- Footer: QR Verification + Official Stamp & PDG Signature -->
+        <div class="pt-6 border-t-2 border-[#D4AF37] flex flex-col sm:flex-row items-center justify-between gap-6">
+          <!-- QR Code Verification -->
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-white border-2 border-[#0B192C] rounded-xl">
+              <svg width="68" height="68" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" fill="white"/>
+                <path d="M2 2H12V12H2V2ZM4 4V10H10V4H4ZM6 6H8V8H6V6ZM24 2H34V12H24V2ZM26 4V10H32V4H26ZM28 6H30V8H28V6ZM2 24H12V34H2V24ZM4 26V32H10V26H4ZM6 28H8V30H6V28ZM14 2H18V6H14V2ZM20 4H22V10H20V4ZM14 8H16V14H14V8ZM18 12H22V16H18V12ZM2 14H8V18H2V14ZM10 16H14V20H10V16ZM24 14H28V18H24V14ZM30 16H34V22H30V16ZM16 20H22V24H16V20ZM24 22H28V28H24V22ZM14 26H18V34H14V26ZM20 28H22V34H20V28ZM28 30H34V34H28V30Z" fill="#0B192C"/>
+              </svg>
+            </div>
+            <div class="text-[11px] text-slate-600 max-w-[190px]">
+              <p class="font-bold text-[#0B192C]">Authenticité Vérifiable</p>
+              <p>Scannez ce QR Code ou vérifiez le numéro sur l'app officielle GIAT Tchad.</p>
+              <p class="font-semibold text-slate-800 mt-1" id="cert-date">Délivré le : 23/11/2026</p>
+            </div>
+          </div>
+
+          <!-- Official Stamp & Signature -->
+          <div class="text-center relative">
+            <!-- Official Circular Stamp SVG -->
+            <div class="inline-flex items-center justify-center relative">
+              <svg width="110" height="110" viewBox="0 0 120 120" class="opacity-90 -rotate-12">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#002664" stroke-width="3"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <text x="60" y="34" text-anchor="middle" fill="#002664" font-size="8" font-weight="bold">RÉPUBLIQUE DU TCHAD</text>
+                <text x="60" y="57" text-anchor="middle" fill="#C8102E" font-size="13" font-weight="900">GIAT OFFICIEL</text>
+                <text x="60" y="71" text-anchor="middle" fill="#002664" font-size="7.5" font-weight="bold">DIRECTION GÉNÉRALE</text>
+                <text x="60" y="88" text-anchor="middle" fill="#002664" font-size="8" font-weight="bold">N'DJAMENA</text>
+              </svg>
+            </div>
+            <div class="-mt-3">
+              <p class="font-serif italic font-bold text-sm text-[#0B192C]">Mahamat Gombo Abakar</p>
+              <p class="text-[11px] font-bold uppercase text-[#B48A1E]">Président Directeur Général — GIAT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 7: ANNUAIRE DES LAURÉATS & ALERTES EMPLOI IA          -->
+    <!-- ========================================================= -->
+    <section id="tab-laureats" class="tab-section hidden space-y-8">
+      <!-- Recruiter Search Header -->
+      <div class="bg-[#0B192C] border border-slate-800 rounded-2xl p-6 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Base Nationale des Talents Vérifiés KYC</span>
+            <h2 class="text-2xl font-extrabold text-white mt-1">Annuaire Officiel des Lauréats GIAT</h2>
+            <p class="text-xs sm:text-sm text-slate-400">Entreprises, ONG et institutions : recrutez des professionnels tchadiens dont l'identité et les compétences IA sont certifiées.</p>
+          </div>
+          <span class="px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold self-start">
+            <i class="fa-solid fa-shield-check mr-1"></i> 100% Profils KYC Vérifiés
+          </span>
+        </div>
+
+        <!-- Filters -->
+        <div class="grid sm:grid-cols-3 gap-3 pt-2">
+          <input type="text" id="filter-graduate-search" oninput="renderGraduates()" placeholder="Rechercher un nom ou compétence..." class="px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400" />
+          <select id="filter-graduate-city" onchange="renderGraduates()" class="px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm">
+            <option value="">Toutes les villes du Tchad</option>
+            <option value="N'Djamena">N'Djamena</option>
+            <option value="Moundou">Moundou</option>
+            <option value="Abéché">Abéché</option>
+            <option value="Sarh">Sarh</option>
+            <option value="Bongor">Bongor</option>
+          </select>
+          <select id="filter-graduate-skill" onchange="renderGraduates()" class="px-3.5 py-2.5 rounded-xl bg-[#07111F] border border-slate-700 text-white text-sm">
+            <option value="">Toutes les spécialités IA</option>
+            <option value="Marketing IA">Marketing & Vente IA</option>
+            <option value="Prompt Engineering">Ingénierie Prompt</option>
+            <option value="Community Manager IA">Community Manager IA</option>
+            <option value="Création Contenu IA">Création Visuelle & Vidéo IA</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Graduates Grid -->
+      <div id="graduates-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- AI Job Alerts Section -->
+      <div class="bg-[#0B192C] border border-amber-500/25 rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-bell text-amber-400"></i> Alertes Emploi & Missions IA (Réservées aux Certifiés GIAT)
+          </h3>
+          <span class="text-xs text-amber-300 font-semibold">Mise à jour hebdomadaire</span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-[#07111F] border border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-bold">CDI / Temps Plein</span>
+              <span class="text-slate-400">N'Djamena</span>
+            </div>
+            <h4 class="font-bold text-sm text-white">Assistant Marketing Digital & IA</h4>
+            <p class="text-xs text-slate-400">Entreprise commerciale à N'Djamena recherche un certifié GIAT pour gérer ses visuels publicitaires et campagnes WhatsApp Business avec l'IA.</p>
+            <button onclick="applyJobAlert('Assistant Marketing Digital & IA')" class="w-full py-2 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer">
+              Postuler avec mon ID GIAT
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#07111F] border border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 font-bold">Mission Freelance</span>
+              <span class="text-slate-400">Moundou / Télétravail</span>
+            </div>
+            <h4 class="font-bold text-sm text-white">Créateur de Contenu & Visuels IA</h4>
+            <p class="text-xs text-slate-400">Agence agro-industrielle recherche un lauréat GIAT basé à Moundou pour créer des affiches promotionnelles et fiches produits.</p>
+            <button onclick="applyJobAlert('Créateur de Contenu & Visuels IA')" class="w-full py-2 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer">
+              Postuler avec mon ID GIAT
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#07111F] border border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold">Partenaire GDB</span>
+              <span class="text-slate-400">Abéché & Sarh</span>
+            </div>
+            <h4 class="font-bold text-sm text-white">Ambassadeur Digital & Formateur Junior</h4>
+            <p class="text-xs text-slate-400">Accompagnement des commerçants locaux dans l'adoption des outils IA et solutions Gargoura Digital Bank.</p>
+            <button onclick="applyJobAlert('Ambassadeur Digital & Formateur Junior')" class="w-full py-2 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold cursor-pointer">
+              Postuler avec mon ID GIAT
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 8: VÉRIFICATEUR PUBLIC DE QR CODE / ATTESTATION        -->
+    <!-- ========================================================= -->
+    <section id="tab-verifier" class="tab-section hidden space-y-6">
+      <div class="max-w-2xl mx-auto bg-[#0B192C] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-2xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto text-2xl">
+            <i class="fa-solid fa-qrcode"></i>
+          </div>
+          <h2 class="text-2xl font-extrabold text-white">Portail de Vérification d'Attestation GIAT</h2>
+          <p class="text-xs sm:text-sm text-slate-400">Saisissez le numéro unique figurant sur l'attestation ou scannez le QR Code pour vérifier son authenticité auprès du registre national GIAT.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input type="text" id="verify-serial-input" placeholder="Ex: GIAT-2026-NDJ-0001" class="flex-1 px-4 py-3 rounded-xl bg-[#07111F] border border-slate-700 text-white font-mono text-sm uppercase focus:outline-none focus:border-amber-400" />
+          <button onclick="verifyCertificateSerial()" class="px-6 py-3 rounded-xl gold-gradient text-slate-950 font-extrabold text-sm cursor-pointer">
+            Vérifier maintenant
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs text-slate-400">
+          <span>Exemples valides à tester :</span>
+          <button onclick="quickVerify('GIAT-2026-NDJ-0001')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-amber-300 font-mono border border-slate-700 cursor-pointer">GIAT-2026-NDJ-0001</button>
+          <button onclick="quickVerify('GIAT-2026-MND-0042')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-amber-300 font-mono border border-slate-700 cursor-pointer">GIAT-2026-MND-0042</button>
+          <button id="quick-verify-user-btn" onclick="quickVerifyUser()" class="hidden px-2.5 py-1 rounded bg-emerald-950/60 hover:bg-emerald-900 text-emerald-300 font-mono border border-emerald-600/40 cursor-pointer">Mon Certificat</button>
+        </div>
+
+        <div id="verify-result-box" class="hidden rounded-2xl p-5 border">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#07111F] border-t border-slate-800/80 py-6 mt-12 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="font-serif font-extrabold text-amber-400">GIAT TCHAD</span>
+        <span>• Académie Nationale d'Intelligence • Par le PDG Mahamat Gombo Abakar</span>
+      </div>
+      <div>
+        Powered by <span class="text-amber-400 font-semibold">Gargoura Digital Bank (GDB)</span> • N'Djamena, Tchad 🇹🇩
+      </div>
+    </div>
+  </footer>
+
+  <!-- PDG DEMO MODE MODAL (For instant testing of the full 4-step workflow) -->
+  <div id="demo-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#0B192C] border border-amber-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-extrabold text-base text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Mode Démo PDG — Simulation Rapide
+        </h3>
+        <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        Testez instantanément n'importe quelle étape du parcours utilisateur GIAT sans avoir à remplir manuellement chaque champ :
+      </p>
+      <div class="space-y-2.5 text-xs">
+        <button onclick="demoStep1Kyc()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-left flex items-center justify-between cursor-pointer">
+          <span>1. Simuler KYC Vérifié GIAT ✅</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button onclick="demoStep2Payment()" class="w-full py-2.5 px-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-left flex items-center justify-between cursor-pointer">
+          <span>2. Simuler Paiement 5 000 FCFA Validé</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button onclick="demoCompleteAll()" class="w-full py-3 px-4 rounded-xl gold-gradient text-slate-950 font-extrabold text-left flex items-center justify-between cursor-pointer">
+          <span>3. Débloquer 100% Formation + Certificat A4</span>
+          <i class="fa-solid fa-award"></i>
+        </button>
+        <button onclick="resetAllState()" class="w-full py-2 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800 text-center cursor-pointer">
+          Réinitialiser le parcours à zéro
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    // =========================================================================
+    // 1. STATE MANAGEMENT (Saved in localStorage for persistence)
+    // =========================================================================
+    const DEFAULT_STATE = {
+      kycVerified: false,
+      otpVerified: false,
+      docUploaded: false,
+      selfieCaptured: false,
+      user: {
+        firstName: '',
+        lastName: '',
+        city: "N'Djamena",
+        district: '',
+        phone: '',
+        email: '',
+        docType: "Carte Nationale d'Identité (CNI)",
+        photoUrl: '',
+        matricule: 'GIAT-2026-NDJ-0089'
+      },
+      paid: false,
+      paymentOperator: 'Moov Money',
+      txId: '',
+      mode: 'EN LIGNE',
+      modeSwitchesLeft: 1,
+      seatsLeft: 11,
+      completedModules: [], // array of module IDs 1..6
+      activeModuleId: 1,
+      courseLang: 'fr',
+      actionPlanChecks: [false, false, false, false, false]
+    };
+
+    let appState = JSON.parse(localStorage.getItem('giat_tchad_state_v1')) || JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+    function saveState() {
+      localStorage.setItem('giat_tchad_state_v1', JSON.stringify(appState));
+      updateGlobalUI();
+    }
+
+    // =========================================================================
+    // 2. CURRICULUM DATA (6 MODULES - 18 HOURS - FR & CHADIAN ARABIC)
+    // =========================================================================
+    const MODULES_DATA = [
+      {
+        id: 1,
+        title: "Comprendre l'IA",
+        duration: "2h 30",
+        subtitle: "C'est quoi, d'où ça vient, pourquoi ça va si vite ?",
+        frSummary: "L'Intelligence Artificielle (IA) est la capacité d'un programme informatique à comprendre, raisonner, rédiger, créer des images et résoudre des problèmes comme un assistant humain ultra-rapide. Depuis l'arrivée de l'IA générative, tout citoyen tchadien équipé d'un simple smartphone peut accéder à la même puissance intellectuelle qu'une multinationale.",
+        arSummary: "الذكاء الاصطناعي (IA) هو برنامج في التلفون ولا الكمبيوتر يقدر يفهم كلامك، يكتب ليك، يصمم ليك صور، ويساعدك في شغلك بسرعة شديدة. اليوم أي زول في تشاد عندو تلفون يقدر يستعمل الذكاء الاصطناعي عشان يطور تجارته وقرايته.",
+        keyPoints: [
+          "Différence entre l'informatique classique et l'IA générative moderne.",
+          "Comment parler à une IA (ChatGPT, Gemini, Claude) sur smartphone.",
+          "Pourquoi l'IA est une révolution comparable à l'arrivée d'Internet et du Mobile Money."
+        ],
+        quiz: {
+          question: "Qu'est-ce qui caractérise l'IA générative moderne accessible sur smartphone ?",
+          options: [
+            "Elle est réservée uniquement aux ingénieurs américains",
+            "Elle peut rédiger, traduire, analyser et créer sur simple demande en langage naturel",
+            "Elle nécessite un superordinateur coûtant des millions"
+          ],
+          correctIndex: 1
+        }
+      },
+      {
+        id: 2,
+        title: "Les Tâches Humaines que l'IA Remplace Déjà au Tchad",
+        duration: "3h 00",
+        subtitle: "20 exemples réels observés au marché, à la banque et à l'école",
+        frSummary: "Au Grand Marché de N'Djamena, à Moundou ou Abéché, les habitudes changent : la saisie de courriers administratifs, la création d'affiches publicitaires basiques, la traduction Français-Arabe, le tri de dossiers bancaires et les résumés de cours sont déjà exécutés en 10 secondes par l'IA.",
+        arSummary: "في السوق الكبير في أنجمينا، في موندو ولا أبشي، الشغل قاعد يتغير : كتابة الجوابات الإدارية، تصميم الإعلانات، الترجمة بين الفرنسي والعربي، وتلخيص الدروس، الذكاء الاصطناعي بيسويها في 10 ثواني بس.",
+        keyPoints: [
+          "Commerce & Marché : Calcul de marges, catalogues produits WhatsApp, réponses clients.",
+          "Banque & Administration : Rédaction de rapports, vérification de documents, service client.",
+          "Éducation & Secrétariat : Résumés de cours, préparation d'exposés, correction orthographique."
+        ],
+        quiz: {
+          question: "Selon la vision GIAT, qui risque d'être remplacé sur le marché du travail ?",
+          options: [
+            "Personne, rien ne va changer",
+            "Celui qui refuse d'apprendre face à celui qui maîtrise l'IA",
+            "Uniquement les informaticiens"
+          ],
+          correctIndex: 1
+        }
+      },
+      {
+        id: 3,
+        title: "Les Nouveaux Métiers IA qui Paient",
+        duration: "3h 30",
+        subtitle: "Ingénieur Prompt, Vendeur IA, Créateur, Community Manager IA",
+        frSummary: "L'IA détruit les tâches répétitives mais crée des métiers très rentables au Tchad et à l'international : Rédacteur de Prompts pour entreprises, Vendeur e-commerce assisté par IA, Créateur d'affiches et vidéos publicitaires pour commerçants, et Community Manager IA.",
+        arSummary: "الذكاء الاصطناعي بيفتح أبواب رزق جديدة في تشاد : تقدر تبقى مصمم إعلانات للتجار، مسير صفحات فيسبوك وتيك توك بالذكاء الاصطناعي، ولا بائع محترف يبيع منتجاته أونلاين بسرعة.",
+        keyPoints: [
+          "Community Manager IA : Gérer 5 pages Facebook/TikTok d'entreprises locales.",
+          "Créateur Publicitaire IA : Vendre des logos, affiches et spots audio aux boutiques.",
+          "Consultant / Prompt Engineer : Aider les PME tchadiennes à automatiser leurs devis."
+        ],
+        quiz: {
+          question: "Lequel de ces métiers peut être exercé dès maintenant depuis le Tchad avec un smartphone ?",
+          options: [
+            "Community Manager & Créateur de visuels publicitaires IA",
+            "Constructeur de satellites spatiaux",
+            "Mineur de silicium industriel"
+          ],
+          correctIndex: 0
+        }
+      },
+      {
+        id: 4,
+        title: "Atelier Pratique : Crée ton CV, ton Affiche ou ton Business Plan",
+        duration: "4h 00",
+        subtitle: "Pratique directe guidée — Produis ton premier livrable professionnel",
+        frSummary: "Passez à l'action immédiatement ! Utilisez le générateur pratique intégré GIAT ci-dessous pour rédiger un CV professionnel tchadien, une affiche commerciale WhatsApp/Facebook ou un mini business plan prêt à présenter.",
+        arSummary: "يلا نطبق عملي طوالي! استعمل الأداة التحت دي عشان تصنع سيرتك الذاتية (CV)، إعلان لتجارتك، ولا خطة مشروع كاملة بالذكاء الاصطناعي في ثواني.",
+        isPracticalWorkshop: true,
+        keyPoints: [
+          "Structurer un prompt clair : Rôle + Contexte Tchadien + Objectif + Format.",
+          "Générer instantanément un CV percutant ou une offre commerciale.",
+          "Adapter le ton pour convaincre un recruteur ou un client à N'Djamena."
+        ],
+        quiz: {
+          question: "Quelle est la règle d'or pour obtenir un excellent résultat avec l'IA ?",
+          options: [
+            "Écrire un seul mot vague sans contexte",
+            "Donner un rôle précis, un contexte clair et le format attendu",
+            "Fermer l'application sans relire"
+          ],
+          correctIndex: 1
+        }
+      },
+      {
+        id: 5,
+        title: "IA, Éthique et Valeurs (Halal & Intégrité)",
+        duration: "2h 30",
+        subtitle: "Comment utiliser l'IA sans tricher, sans haram et dans le respect",
+        frSummary: "La puissance de l'IA exige une conscience morale irréprochable. Chez GIAT, nous enseignons une IA éthique et halal : interdiction formelle d'utiliser l'IA pour l'arnaque, l'usurpation d'identité, les deepfakes trompeurs, la triche aux examens ou la diffamation.",
+        arSummary: "قوة الذكاء الاصطناعي دايرة أخلاق وأمانة. في معهد GIAT بنعلمك تستعمل الذكاء الاصطناعي في الحلال : ممنوع الغش في الامتحانات، ممنوع النصب، وممنوع تزوير الصور أو الأصوات.",
+        keyPoints: [
+          "Honnêteté commerciale : Ne jamais tromper le client sur la qualité réelle d'un produit.",
+          "Respect de la vie privée : Ne jamais manipuler la photo ou la voix d'autrui sans accord.",
+          "Effort intellectuel : L'IA est un assistant pour apprendre, pas un outil pour tricher."
+        ],
+        quiz: {
+          question: "Quelle pratique est strictement interdite par la charte éthique GIAT ?",
+          options: [
+            "Utiliser l'IA pour préparer un business plan honnête",
+            "Créer des faux profils, arnaquer ou usurper l'identité d'autrui",
+            "Traduire un document professionnel en français"
+          ],
+          correctIndex: 1
+        }
+      },
+      {
+        id: 6,
+        title: "Mon Plan d'Action 90 Jours",
+        duration: "2h 30",
+        subtitle: "Comment je gagne mes premiers revenus avec l'IA dès demain",
+        frSummary: "Une formation sans action ne rapporte rien. Voici votre feuille de route sur 90 jours : Jours 1-30 (Maîtrise & Portfolio), Jours 31-60 (Premiers clients locaux à N'Djamena/Provinces), Jours 61-90 (Automatisation & Revenus récurrents).",
+        arSummary: "القراية بلا تطبيق ما بتجيب فايدة. دي خطتك لـ 90 يوم : أول 30 يوم تتقن الأدوات، من 31 لـ 60 يوم تجيب أول زبائن ليك في السوق، ومن 61 لـ 90 يوم تكبر دخلك الشهري.",
+        isActionPlan: true,
+        keyPoints: [
+          "Semaine 1 : Créer 3 exemples de réalisations IA (affiche, CV, texte commercial).",
+          "Semaine 2 : Proposer ses services à 10 commerçants ou PME de son quartier.",
+          "Mois 2 & 3 : Fidéliser ses clients et décrocher des missions via l'Annuaire GIAT."
+        ],
+        quiz: {
+          question: "Quelle est la première action concrète à faire dès demain après votre certification ?",
+          options: [
+            "Attendre sans rien faire pendant 1 an",
+            "Créer un portfolio de 3 réalisations IA et démarcher 10 entreprises ou commerçants",
+            "Oublier son mot de passe"
+          ],
+          correctIndex: 1
+        }
+      }
+    ];
+
+    // =========================================================================
+    // 3. SAMPLE VERIFIED GRADUATES FOR RECRUITER DIRECTORY
+    // =========================================================================
+    const SAMPLE_GRADUATES = [
+      {
+        name: "Amina Mahamat Saleh",
+        city: "N'Djamena",
+        skill: "Marketing IA",
+        matricule: "GIAT-2026-NDJ-0001",
+        mode: "Présentiel N'Djamena",
+        bio: "Spécialiste création d'affiches publicitaires et campagnes WhatsApp Business pour PME."
+      },
+      {
+        name: "Ousmane Djibrine K.",
+        city: "Moundou",
+        skill: "Prompt Engineering",
+        matricule: "GIAT-2026-MND-0042",
+        mode: "En Ligne",
+        bio: "Automatisation de rapports commerciaux, business plans et service client IA."
+      },
+      {
+        name: "Fatimé Abdelkerim",
+        city: "Abéché",
+        skill: "Community Manager IA",
+        matricule: "GIAT-2026-ABC-0019",
+        mode: "En Ligne",
+        bio: "Animation de réseaux sociaux, rédaction bilingue Français/Arabe et stratégie digitale."
+      },
+      {
+        name: "Jean-Baptiste Ngaradoum",
+        city: "Sarh",
+        skill: "Création Contenu IA",
+        matricule: "GIAT-2026-SRH-0027",
+        mode: "En Ligne",
+        bio: "Conception d'identités visuelles, catalogues produits et présentations d'entreprises."
+      },
+      {
+        name: "Haroun Idriss Nour",
+        city: "N'Djamena",
+        skill: "Marketing IA",
+        matricule: "GIAT-2026-NDJ-0054",
+        mode: "Présentiel N'Djamena",
+        bio: "Accompagnement digital des commerçants et intégration des outils IA au quotidien."
+      }
+    ];
+
+    // =========================================================================
+    // 4. NAVIGATION & TOAST NOTIFICATIONS
+    // =========================================================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-950/95 border-emerald-500 text-emerald-200',
+        error: 'bg-red-950/95 border-red-500 text-red-200',
+        warning: 'bg-amber-950/95 border-amber-500 text-amber-200',
+        info: 'bg-[#0B192C]/95 border-amber-400/60 text-white'
+      };
+      const icons = {
+        success: 'fa-circle-check text-emerald-400',
+        error: 'fa-circle-exclamation text-red-400',
+        warning: 'fa-triangle-exclamation text-amber-400',
+        info: 'fa-bell text-amber-400'
+      };
+
+      toast.className = `pointer-events-auto border px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-medium transition-all duration-300 ${colors[type] || colors.info}`;
+      toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-base"></i><span class="flex-1">${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3800);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('bg-amber-500', 'text-slate-950', 'font-bold', 'shadow-md');
+          btn.classList.remove('text-slate-300', 'hover:bg-slate-800/70');
+        } else {
+          btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-bold', 'shadow-md');
+          btn.classList.add('text-slate-300', 'hover:bg-slate-800/70');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Clipboard helper using execCommand fallback for iframe compatibility
+    function copyText(text, successMsg = 'Copié dans le presse-papiers !') {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg, 'success');
+      } catch (e) {
+        showToast('Impossible de copier automatiquement.', 'error');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function copyPosterText() {
+      const posterText = `🇹🇩 GOMBO INTELLIGENCE ARTIFICIELLE TCHAD (GIAT) LANCE SA FORMATION NATIONALE\n\nTu as peur que l'IA te remplace ? Viens la maîtriser.\n\n💰 PRIX : 5 000 FCFA SEULEMENT (Accès à vie + 6 modules)\n💻🏫 En Ligne ou en Présentiel à N'Djamena - Tu choisis\n✅ KYC OBLIGATOIRE - Attestation Officielle avec QR Code envoyée par Email + PDF à imprimer\n\nPaiement :\n• Moov Money : 92 82 52 52\n• Airtel Money : 66 78 75 46\n\nContact : PDG Mahamat Gombo Abakar • Powered by Gargoura Digital Bank`;
+      copyText(posterText, 'Affiche officielle copiée ! Prête à coller sur WhatsApp ou Facebook.');
+    }
+
+    // =========================================================================
+    // 5. STEP 1: KYC WORKFLOW LOGIC
+    // =========================================================================
+    let generatedOtp = '2026';
+
+    function sendOtpCode() {
+      const phone = document.getElementById('kyc-phone').value.trim();
+      if (phone.length < 8) {
+        showToast('Veuillez saisir un numéro tchadien valide à 8 chiffres (ex: 66 78 75 46).', 'warning');
+        return;
+      }
+      generatedOtp = String(Math.floor(1000 + Math.random() * 9000));
+      document.getElementById('otp-box').classList.remove('hidden');
+      document.getElementById('otp-hint').textContent = `SMS envoyé au +235 ${phone} (Code démo : ${generatedOtp})`;
+      showToast(`Code OTP envoyé par SMS au +235 ${phone} : ${generatedOtp}`, 'info');
+    }
+
+    function verifyOtpCode() {
+      const entered = document.getElementById('kyc-otp-input').value.trim();
+      if (entered === generatedOtp || entered === '2026') {
+        appState.otpVerified = true;
+        document.getElementById('otp-box').classList.add('hidden');
+        document.getElementById('otp-verified-msg').classList.remove('hidden');
+        showToast('Numéro de téléphone vérifié par OTP !', 'success');
+      } else {
+        showToast('Code OTP incorrect. Vérifiez le code reçu par SMS.', 'error');
+      }
+    }
+
+    function handleDocUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      appState.docUploaded = true;
+      document.getElementById('doc-upload-label').textContent = file.name;
+      document.getElementById('doc-upload-status').classList.remove('hidden');
+      showToast('Pièce d\'identité téléchargée avec succès.', 'success');
+    }
+
+    function simulateDocUpload() {
+      appState.docUploaded = true;
+      document.getElementById('doc-upload-label').textContent = 'CNI_TCHAD_VERIFIEE.jpg';
+      document.getElementById('doc-upload-status').classList.remove('hidden');
+      showToast('Document CNI simulé chargé avec succès.', 'success');
+    }
+
+    // Generate a clean SVG Portrait Avatar for Liveness Simulation
+    function getGeneratedAvatarDataUri() {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#132743"/>
+            <stop offset="100%" stop-color="#0B192C"/>
+          </linearGradient>
+        </defs>
+        <rect width="240" height="240" fill="url(#bg)"/>
+        <circle cx="120" cy="88" r="42" fill="#D99B66"/>
+        <path d="M52 225 C52 168, 188 168, 188 225 Z" fill="#D4AF37"/>
+        <path d="M78 72 C82 38, 158 38, 162 72 C150 56, 90 56, 78 72 Z" fill="#1E293B"/>
+        <circle cx="105" cy="86" r="4" fill="#0F172A"/>
+        <circle cx="135" cy="86" r="4" fill="#0F172A"/>
+        <path d="M108 106 Q120 116 132 106" stroke="#7C2D12" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <rect x="65" y="198" width="110" height="22" rx="11" fill="#10B981"/>
+        <text x="120" y="213" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold">KYC GIAT LIVE ✓</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    function startLivenessCheck() {
+      const instr = document.getElementById('liveness-instruction');
+      const scanner = document.getElementById('liveness-scanner');
+      scanner.classList.remove('hidden');
+
+      instr.textContent = "Étape 1/3 : Regardez la caméra bien en face...";
+      setTimeout(() => {
+        instr.textContent = "Étape 2/3 : Tournez légèrement la tête à droite...";
+      }, 900);
+      setTimeout(() => {
+        instr.textContent = "Étape 3/3 : Clignez des yeux maintenant...";
+      }, 1800);
+      setTimeout(() => {
+        scanner.classList.add('hidden');
+        const avatarUri = getGeneratedAvatarDataUri();
+        appState.selfieCaptured = true;
+        appState.user.photoUrl = avatarUri;
+
+        document.getElementById('liveness-placeholder').classList.add('hidden');
+        const preview = document.getElementById('selfie-preview');
+        preview.src = avatarUri;
+        preview.classList.remove('hidden');
+
+        instr.className = "text-center p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs font-bold text-emerald-400";
+        instr.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Liveness Check Réussi ! Visage réel authentifié.';
+        showToast('Selfie biométrique en direct validé !', 'success');
+      }, 2700);
+    }
+
+    function handleSelfieUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        appState.selfieCaptured = true;
+        appState.user.photoUrl = e.target.result;
+        document.getElementById('liveness-placeholder').classList.add('hidden');
+        const preview = document.getElementById('selfie-preview');
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+        const instr = document.getElementById('liveness-instruction');
+        instr.className = "text-center p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs font-bold text-emerald-400";
+        instr.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Photo officielle enregistrée.';
+        showToast('Photo KYC enregistrée avec succès.', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function submitKycForm() {
+      const lastName = document.getElementById('kyc-lastname').value.trim();
+      const firstName = document.getElementById('kyc-firstname').value.trim();
+      const city = document.getElementById('kyc-city').value;
+      const district = document.getElementById('kyc-district').value.trim();
+      const phone = document.getElementById('kyc-phone').value.trim();
+      const email = document.getElementById('kyc-email').value.trim();
+      const docType = document.getElementById('kyc-doc-type').value;
+
+      if (!lastName || !firstName || !phone || !email) {
+        showToast('Veuillez renseigner votre Nom, Prénom, Téléphone et Email valide.', 'warning');
+        return;
+      }
+      if (!appState.otpVerified) {
+        showToast('Veuillez vérifier votre numéro de téléphone par code OTP avant de valider.', 'warning');
+        return;
+      }
+      if (!appState.docUploaded) {
+        showToast('Veuillez charger ou simuler votre pièce d\'identité officielle.', 'warning');
+        return;
+      }
+      if (!appState.selfieCaptured) {
+        showToast('Veuillez effectuer le Selfie Liveness Check.', 'warning');
+        return;
+      }
+
+      const cityCode = city.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'X');
+      const randomNum = String(Math.floor(100 + Math.random() * 899)).padStart(4, '0');
+
+      appState.kycVerified = true;
+      appState.user = {
+        firstName,
+        lastName: lastName.toUpperCase(),
+        city,
+        district: district || 'Centre-ville',
+        phone: phone.startsWith('+235') ? phone : `+235 ${phone}`,
+        email,
+        docType,
+        photoUrl: appState.user.photoUrl || getGeneratedAvatarDataUri(),
+        matricule: `GIAT-2026-${cityCode}-${randomNum}`
+      };
+
+      saveState();
+      showToast('Félicitations ! Votre badge "Identité Vérifiée GIAT ✅" est actif.', 'success');
+      setTimeout(() => switchTab('etape2'), 900);
+    }
+
+    // =========================================================================
+    // 6. STEP 2: PAYMENT & MODE SELECTION LOGIC
+    // =========================================================================
+    function selectTrainingMode(mode) {
+      appState.mode = mode;
+      saveState();
+      showToast(`Mode de formation sélectionné : ${mode}`, 'info');
+    }
+
+    function changeModeOnce() {
+      if (appState.modeSwitchesLeft <= 0) {
+        showToast('Vous avez déjà utilisé votre changement gratuit d\'option.', 'warning');
+        return;
+      }
+      appState.mode = appState.mode === 'EN LIGNE' ? "EN PRÉSENTIEL (N'Djamena)" : 'EN LIGNE';
+      appState.modeSwitchesLeft = 0;
+      saveState();
+      showToast(`Option modifiée gratuitement vers : ${appState.mode}`, 'success');
+    }
+
+    function submitPayment() {
+      if (!appState.kycVerified) {
+        showToast('Votre KYC doit être vérifié avant tout paiement.', 'error');
+        return;
+      }
+      const operator = document.getElementById('pay-operator').value;
+      const txId = document.getElementById('pay-tx-id').value.trim().toUpperCase();
+
+      if (txId.length < 5) {
+        showToast('Veuillez saisir l\'ID de transaction Mobile Money (ex: MP261123.A904).', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-payment');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Vérification transaction GIAT...';
+
+      setTimeout(() => {
+        appState.paid = true;
+        appState.paymentOperator = operator;
+        appState.txId = txId;
+        if (appState.mode.includes('PRÉSENTIEL') && appState.seatsLeft > 1) {
+          appState.seatsLeft -= 1;
+        }
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Paiement 5 000 FCFA Confirmé';
+        saveState();
+        showToast('Paiement validé ! Accès à vie aux 6 modules débloqué.', 'success');
+      }, 1100);
+    }
+
+    // =========================================================================
+    // 7. STEP 3 & 4: CLASSROOM, 6 MODULES, PRACTICAL STUDIO & QUIZ
+    // =========================================================================
+    function setCourseLang(lang) {
+      appState.courseLang = lang;
+      saveState();
+    }
+
+    function selectModule(id) {
+      appState.activeModuleId = id;
+      saveState();
+    }
+
+    function renderClassroom() {
+      const listContainer = document.getElementById('modules-list');
+      const panelContainer = document.getElementById('active-module-panel');
+      if (!listContainer || !panelContainer) return;
+
+      // Update language buttons
+      const btnFr = document.getElementById('lang-btn-fr');
+      const btnAr = document.getElementById('lang-btn-ar');
+      if (appState.courseLang === 'fr') {
+        btnFr.className = 'px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold cursor-pointer';
+        btnAr.className = 'px-3 py-1.5 rounded-lg text-slate-300 hover:text-white font-semibold cursor-pointer';
+      } else {
+        btnAr.className = 'px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold cursor-pointer';
+        btnFr.className = 'px-3 py-1.5 rounded-lg text-slate-300 hover:text-white font-semibold cursor-pointer';
+      }
+
+      // Render left module cards
+      listContainer.innerHTML = MODULES_DATA.map(mod => {
+        const isCompleted = appState.completedModules.includes(mod.id);
+        const isActive = appState.activeModuleId === mod.id;
+        return `
+          <div onclick="selectModule(${mod.id})" class="p-4 rounded-2xl border transition cursor-pointer ${isActive ? 'bg-amber-500/10 border-amber-400 shadow-lg' : 'bg-[#0B192C] border-slate-800 hover:border-slate-700'}">
+            <div class="flex items-center justify-between text-xs mb-1">
+              <span class="font-bold ${isActive ? 'text-amber-400' : 'text-slate-400'}">MODULE ${mod.id} • ${mod.duration}</span>
+              ${isCompleted
+                ? '<span class="text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Validé</span>'
+                : '<span class="text-slate-500">En cours</span>'}
+            </div>
+            <h4 class="font-bold text-sm text-white">${mod.title}</h4>
+          </div>
+        `;
+      }).join('');
+
+      // Render active module content
+      const mod = MODULES_DATA.find(m => m.id === appState.activeModuleId) || MODULES_DATA[0];
+      const isCompleted = appState.completedModules.includes(mod.id);
+
+      let extraInteractiveHtml = '';
+
+      // Module 4: Practical AI Generator Workshop
+      if (mod.isPracticalWorkshop) {
+        extraInteractiveHtml = `
+          <div class="p-5 rounded-2xl bg-[#07111F] border border-amber-500/30 space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Studio Pratique IA GIAT (Générateur Instantané)
+              </h4>
+              <span class="text-[11px] text-slate-400">Atelier Module 4</span>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-300 mb-1">Que voulez-vous créer aujourd'hui ?</label>
+                <select id="studio-type" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs">
+                  <option value="affiche">Affiche Commerciale WhatsApp / Facebook</option>
+                  <option value="cv">CV Professionnel Adapté au Marché Tchadien</option>
+                  <option value="business">Mini Business Plan Rentable (Tchad)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-300 mb-1">Votre activité / domaine :</label>
+                <input type="text" id="studio-topic" placeholder="Ex: Vente de parfums à N'Djamena, Transit..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs" />
+              </div>
+            </div>
+            <button type="button" onclick="runPracticalGenerator()" class="px-4 py-2.5 rounded-xl gold-gradient text-slate-950 font-extrabold text-xs cursor-pointer">
+              Générer mon Livrable avec l'IA GIAT
+            </button>
+            <div id="studio-output" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 whitespace-pre-line leading-relaxed"></div>
+          </div>
+        `;
+      }
+
+      // Module 6: 90-Day Action Plan Checklist
+      if (mod.isActionPlan) {
+        const tasks = [
+          "Jour 1-7 : Créer mon portfolio de 3 exemples IA (Affiche, CV, Texte commercial)",
+          "Jour 8-21 : Démarcher 10 boutiques, pharmacies ou PME de ma ville",
+          "Jour 22-45 : Encaisser mes premiers revenus IA (5 000 à 25 000 FCFA / prestation)",
+          "Jour 46-75 : Activer mon profil dans l'Annuaire des Lauréats GIAT",
+          "Jour 76-90 : Former un proche et postuler aux Alertes Emploi IA GIAT"
+        ];
+        extraInteractiveHtml = `
+          <div class="p-5 rounded-2xl bg-[#07111F] border border-emerald-500/30 space-y-3">
+            <h4 class="font-bold text-sm text-emerald-400 flex items-center gap-2">
+              <i class="fa-solid fa-list-check"></i> Ma Checklist Personnelle 90 Jours
+            </h4>
+            <div class="space-y-2">
+              ${tasks.map((task, idx) => `
+                <label class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 cursor-pointer text-xs text-slate-200">
+                  <input type="checkbox" ${appState.actionPlanChecks[idx] ? 'checked' : ''} onchange="toggleActionTask(${idx})" class="accent-emerald-500 w-4 h-4" />
+                  <span>${task}</span>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      panelContainer.innerHTML = `
+        <div class="border-b border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold text-amber-400 uppercase">Module ${mod.id} sur 6 • Durée : ${mod.duration}</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-0.5">${mod.title}</h3>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">${mod.subtitle}</p>
+          </div>
+          ${isCompleted
+            ? '<span class="px-3 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-bold self-start"><i class="fa-solid fa-circle-check mr-1"></i> Module Validé</span>'
+            : ''}
+        </div>
+
+        <!-- Audio / Lesson Summary Box -->
+        <div class="p-5 rounded-2xl bg-[#07111F] border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-2">
+              <i class="fa-solid fa-headphones"></i>
+              ${appState.courseLang === 'fr' ? 'Synthèse Pédagogique (Français)' : 'شرح بالدارجة التشادية (Arabe Tchadien)'}
+            </span>
+            <button onclick="simulateAudioPlay()" class="px-3 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 text-xs font-semibold cursor-pointer">
+              <i class="fa-solid fa-volume-high mr-1"></i> Écouter l'audio (5 min)
+            </button>
+          </div>
+          <p class="text-sm text-slate-200 leading-relaxed ${appState.courseLang === 'ar' ? 'text-right font-medium text-base' : ''}">
+            ${appState.courseLang === 'fr' ? mod.frSummary : mod.arSummary}
+          </p>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Points clés à maîtriser :</h4>
+          <ul class="space-y-2">
+            ${mod.keyPoints.map(pt => `
+              <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+                <i class="fa-solid fa-star text-amber-400 mt-0.5 text-xs"></i>
+                <span>${pt}</span>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+
+        ${extraInteractiveHtml}
+
+        <!-- Module Validation Quiz -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-[#102542] to-[#07111F] border border-slate-700 space-y-4">
+          <h4 class="font-bold text-sm text-white flex items-center gap-2">
+            <i class="fa-solid fa-circle-question text-amber-400"></i> Quiz de Validation du Module ${mod.id}
+          </h4>
+          <p class="text-xs sm:text-sm font-semibold text-amber-200">${mod.quiz.question}</p>
+          <div class="space-y-2">
+            ${mod.quiz.options.map((opt, i) => `
+              <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 cursor-pointer text-xs sm:text-sm text-slate-200">
+                <input type="radio" name="mod-quiz-${mod.id}" value="${i}" ${isCompleted && i === mod.quiz.correctIndex ? 'checked' : ''} class="accent-amber-500" />
+                <span>${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <button onclick="validateModuleQuiz(${mod.id}, ${mod.quiz.correctIndex})" class="px-5 py-2.5 rounded-xl gold-gradient text-slate-950 font-extrabold text-xs sm:text-sm cursor-pointer">
+              Valider le Module ${mod.id}
+            </button>
+            ${mod.id < 6
+              ? `<button onclick="selectModule(${mod.id + 1})" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold cursor-pointer">Module suivant →</button>`
+              : `<button onclick="switchTab('certificat')" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold cursor-pointer">Voir mon Attestation Officielle 🏆</button>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    function simulateAudioPlay() {
+      showToast(`Lecture audio lancée (${appState.courseLang === 'fr' ? 'Voix Française GIAT' : 'Voix Arabe Tchadien GIAT'})...`, 'info');
+    }
+
+    function runPracticalGenerator() {
+      const type = document.getElementById('studio-type').value;
+      const topic = document.getElementById('studio-topic').value.trim() || "Commerce & Services à N'Djamena";
+      const out = document.getElementById('studio-output');
+      const fullName = `${appState.user.firstName || 'Apprenant'} ${appState.user.lastName || 'GIAT'}`.trim();
+
+      let result = '';
+      if (type === 'affiche') {
+        result = `🔥 OFFRE SPÉCIALE — ${topic.toUpperCase()} 🔥\n\nVous cherchez la qualité au meilleur prix à ${appState.user.city} ?\n✅ Service rapide et garanti\n✅ Paiement facile par Moov Money & Airtel Money\n✅ Livraison disponible dans tous les quartiers !\n\n📞 Commandez maintenant sur WhatsApp : ${appState.user.phone || '+235 66 XX XX XX'}\n✨ Création réalisée avec l'IA — Certifié GIAT Tchad`;
+      } else if (type === 'cv') {
+        result = `📄 CURRICULUM VITAE PROFESSIONNEL\nNom : ${fullName}\nVille : ${appState.user.city}, République du Tchad\nCertification : Lauréat Officiel GIAT — Maîtrise de l'Intelligence Artificielle\n\nCOMPÉTENCES CLÉS :\n• Rédaction administrative & commerciale assistée par IA\n• Création de contenus marketing digitaux et gestion réseaux sociaux\n• Maîtrise des outils bureautiques et Mobile Money\n\nOBJECTIF : Apporter productivité et innovation digitale au sein de votre structure.`;
+      } else {
+        result = `📊 MINI BUSINESS PLAN — ${topic.toUpperCase()}\n\n1. Cible : Clients particuliers et PME à ${appState.user.city}.\n2. Capital de démarrage estimé : 50 000 à 150 000 FCFA.\n3. Stratégie IA GIAT : Création quotidienne de visuels attractifs et prospection ciblée sur WhatsApp & Facebook.\n4. Rentabilité visée : Retour sur investissement dès le 1er mois d'activité.`;
+      }
+
+      out.textContent = result;
+      out.classList.remove('hidden');
+      showToast('Livrable IA généré avec succès !', 'success');
+    }
+
+    function toggleActionTask(idx) {
+      appState.actionPlanChecks[idx] = !appState.actionPlanChecks[idx];
+      saveState();
+    }
+
+    function validateModuleQuiz(modId, correctIndex) {
+      const selected = document.querySelector(`input[name="mod-quiz-${modId}"]:checked`);
+      if (!selected) {
+        showToast('Veuillez sélectionner une réponse au quiz avant de valider.', 'warning');
+        return;
+      }
+      if (parseInt(selected.value, 10) !== correctIndex) {
+        showToast('Réponse incorrecte. Relisez la synthèse du module et réessayez !', 'error');
+        return;
+      }
+
+      if (!appState.completedModules.includes(modId)) {
+        appState.completedModules.push(modId);
+        saveState();
+      }
+
+      if (appState.completedModules.length === 6) {
+        showToast('🎉 FÉLICITATIONS ! Formation 100% terminée. Votre Attestation Officielle GIAT est prête !', 'success');
+      } else {
+        showToast(`Module ${modId} validé avec succès ! (${appState.completedModules.length}/6)`, 'success');
+      }
+    }
+
+    // =========================================================================
+    // 8. GRADUATES DIRECTORY & QR VERIFICATION PORTAL
+    // =========================================================================
+    function renderGraduates() {
+      const grid = document.getElementById('graduates-grid');
+      if (!grid) return;
+
+      const query = (document.getElementById('filter-graduate-search')?.value || '').toLowerCase();
+      const city = document.getElementById('filter-graduate-city')?.value || '';
+      const skill = document.getElementById('filter-graduate-skill')?.value || '';
+
+      // Include current user at top if 100% certified
+      let allList = [...SAMPLE_GRADUATES];
+      if (appState.kycVerified && appState.completedModules.length === 6) {
+        allList.unshift({
+          name: `${appState.user.firstName} ${appState.user.lastName}`,
+          city: appState.user.city,
+          skill: "Marketing IA & Prompt",
+          matricule: appState.user.matricule,
+          mode: appState.mode,
+          bio: "Nouveau lauréat certifié GIAT Tchad avec identité KYC vérifiée.",
+          isCurrentUser: true
+        });
+      }
+
+      const filtered = allList.filter(g => {
+        const matchQuery = g.name.toLowerCase().includes(query) || g.skill.toLowerCase().includes(query) || g.bio.toLowerCase().includes(query);
+        const matchCity = !city || g.city === city;
+        const matchSkill = !skill || g.skill.toLowerCase().includes(skill.toLowerCase());
+        return matchQuery && matchCity && matchSkill;
+      });
+
+      grid.innerHTML = filtered.map(g => `
+        <div class="p-5 rounded-2xl bg-[#0B192C] border ${g.isCurrentUser ? 'border-amber-400' : 'border-slate-800'} flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold">
+                Identité Vérifiée GIAT ✅
+              </span>
+              <span class="text-[11px] font-mono text-slate-400">${g.matricule}</span>
+            </div>
+            <h4 class="font-extrabold text-base text-white">${g.name}</h4>
+            <div class="flex items-center gap-2 text-xs text-amber-300 font-semibold">
+              <span>📍 ${g.city}</span>
+              <span>•</span>
+              <span>${g.skill}</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">${g.bio}</p>
+          </div>
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-slate-400">${g.mode}</span>
+            <button onclick="showToast('Demande de contact transmise au lauréat ${g.name}.', 'success')" class="px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold cursor-pointer">
+              Contacter
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function applyJobAlert(jobTitle) {
+      if (!appState.kycVerified || appState.completedModules.length < 6) {
+        showToast('Ces offres sont réservées aux apprenants certifiés GIAT (100% des 6 modules).', 'warning');
+        return;
+      }
+      showToast(`Candidature envoyée pour "${jobTitle}" avec votre ID ${appState.user.matricule} !`, 'success');
+    }
+
+    function quickVerify(code) {
+      document.getElementById('verify-serial-input').value = code;
+      verifyCertificateSerial();
+    }
+
+    function quickVerifyUser() {
+      document.getElementById('verify-serial-input').value = appState.user.matricule;
+      verifyCertificateSerial();
+    }
+
+    function verifyCertificateSerial() {
+      const code = document.getElementById('verify-serial-input').value.trim().toUpperCase();
+      const box = document.getElementById('verify-result-box');
+      if (!code) {
+        showToast('Veuillez saisir un numéro d\'attestation.', 'warning');
+        return;
+      }
+
+      box.classList.remove('hidden');
+
+      // Check against current user or sample graduates
+      if (appState.kycVerified && appState.completedModules.length === 6 && code === appState.user.matricule) {
+        box.className = 'rounded-2xl p-5 border bg-emerald-950/40 border-emerald-500/50 space-y-2 text-xs sm:text-sm';
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-emerald-400 font-extrabold text-base">
+            <i class="fa-solid fa-circle-check"></i> ATTESTATION OFFICIELLE AUTHENTIQUE ✅
+          </div>
+          <p class="text-slate-200"><strong>Titulaire :</strong> ${appState.user.firstName} ${appState.user.lastName}</p>
+          <p class="text-slate-200"><strong>Numéro :</strong> <span class="font-mono text-amber-300">${appState.user.matricule}</span></p>
+          <p class="text-slate-200"><strong>Ville :</strong> ${appState.user.city} • <strong>Mode :</strong> ${appState.mode}</p>
+          <p class="text-emerald-300 text-xs pt-1">Signé numériquement par le PDG Mahamat Gombo Abakar — GIAT Tchad.</p>
+        `;
+        return;
+      }
+
+      const found = SAMPLE_GRADUATES.find(g => g.matricule === code);
+      if (found) {
+        box.className = 'rounded-2xl p-5 border bg-emerald-950/40 border-emerald-500/50 space-y-2 text-xs sm:text-sm';
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-emerald-400 font-extrabold text-base">
+            <i class="fa-solid fa-circle-check"></i> ATTESTATION OFFICIELLE AUTHENTIQUE ✅
+          </div>
+          <p class="text-slate-200"><strong>Titulaire :</strong> ${found.name}</p>
+          <p class="text-slate-200"><strong>Numéro :</strong> <span class="font-mono text-amber-300">${found.matricule}</span></p>
+          <p class="text-slate-200"><strong>Ville :</strong> ${found.city} • <strong>Mode :</strong> ${found.mode}</p>
+          <p class="text-emerald-300 text-xs pt-1">Signé numériquement par le PDG Mahamat Gombo Abakar — GIAT Tchad.</p>
+        `;
+      } else {
+        box.className = 'rounded-2xl p-5 border bg-red-950/40 border-red-500/50 space-y-1 text-xs sm:text-sm';
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-red-400 font-extrabold text-base">
+            <i class="fa-solid fa-triangle-exclamation"></i> NUMÉRO INTROUVABLE OU NON CERTIFIÉ
+          </div>
+          <p class="text-slate-300">Le numéro <span class="font-mono font-bold">${code}</span> ne correspond à aucune attestation délivrée par l'Académie Nationale GIAT.</p>
+        `;
+      }
+    }
+
+    function sendCertificateByEmail() {
+      if (appState.completedModules.length < 6) {
+        showToast('Terminez d\'abord les 6 modules pour recevoir votre attestation officielle par email.', 'warning');
+        return;
+      }
+      const targetEmail = appState.user.email || 'votre adresse email KYC';
+      showToast(`Attestation officielle PDF haute qualité envoyée automatiquement à ${targetEmail} !`, 'success');
+    }
+
+    // =========================================================================
+    // 9. PDG DEMO MODE (FAST SIMULATION FOR PRESENTATION)
+    // =========================================================================
+    function openDemoModal() {
+      document.getElementById('demo-modal').classList.remove('hidden');
+    }
+    function closeDemoModal() {
+      document.getElementById('demo-modal').classList.add('hidden');
+    }
+
+    function demoStep1Kyc() {
+      appState.otpVerified = true;
+      appState.docUploaded = true;
+      appState.selfieCaptured = true;
+      appState.kycVerified = true;
+      appState.user = {
+        firstName: 'Ibrahim',
+        lastName: 'MAHAMAT NOUR',
+        city: "N'Djamena",
+        district: 'Moursal',
+        phone: '+235 66 45 89 12',
+        email: 'ibrahim.nour@giat-tchad.td',
+        docType: "Carte Nationale d'Identité (CNI)",
+        photoUrl: getGeneratedAvatarDataUri(),
+        matricule: 'GIAT-2026-NDJ-0104'
+      };
+      saveState();
+      closeDemoModal();
+      switchTab('etape2');
+      showToast('Mode Démo : KYC Vérifié GIAT ✅ activé !', 'success');
+    }
+
+    function demoStep2Payment() {
+      if (!appState.kycVerified) demoStep1Kyc();
+      appState.paid = true;
+      appState.paymentOperator = 'Moov Money';
+      appState.txId = 'MP261123.GIAT889';
+      saveState();
+      closeDemoModal();
+      switchTab('formation');
+      showToast('Mode Démo : Paiement 5 000 FCFA validé & 6 modules débloqués !', 'success');
+    }
+
+    function demoCompleteAll() {
+      if (!appState.kycVerified) {
+        appState.otpVerified = true;
+        appState.docUploaded = true;
+        appState.selfieCaptured = true;
+        appState.kycVerified = true;
+        appState.user = {
+          firstName: 'Ibrahim',
+          lastName: 'MAHAMAT NOUR',
+          city: "N'Djamena",
+          district: 'Moursal',
+          phone: '+235 66 45 89 12',
+          email: 'ibrahim.nour@giat-tchad.td',
+          docType: "Carte Nationale d'Identité (CNI)",
+          photoUrl: getGeneratedAvatarDataUri(),
+          matricule: 'GIAT-2026-NDJ-0104'
+        };
+      }
+      appState.paid = true;
+      appState.txId = 'MP261123.GIAT889';
+      appState.completedModules = [1, 2, 3, 4, 5, 6];
+      saveState();
+      closeDemoModal();
+      switchTab('certificat');
+      showToast('Mode Démo : 100% Formation validée & Attestation Officielle A4 générée !', 'success');
+    }
+
+    function resetAllState() {
+      localStorage.removeItem('giat_tchad_state_v1');
+      appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      saveState();
+      closeDemoModal();
+      switchTab('accueil');
+      showToast('Application réinitialisée à l\'état initial.', 'info');
+    }
+
+    // =========================================================================
+    // 10. GLOBAL UI SYNCHRONIZATION
+    // =========================================================================
+    function updateGlobalUI() {
+      const progressPct = Math.round((appState.completedModules.length / 6) * 100);
+
+      // Header Status Bar
+      const kycBadge = document.getElementById('header-kyc-badge');
+      if (appState.kycVerified) {
+        kycBadge.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold';
+        kycBadge.innerHTML = '<span>Identité Vérifiée GIAT ✅</span>';
+      } else {
+        kycBadge.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/25 font-medium';
+        kycBadge.innerHTML = '<i class="fa-solid fa-shield-halved"></i><span>KYC : En attente</span>';
+      }
+
+      const accessBadge = document.getElementById('header-access-badge');
+      if (appState.paid) {
+        accessBadge.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30 font-semibold';
+        accessBadge.innerHTML = `<i class="fa-solid fa-unlock text-emerald-400"></i><span>Accès Actif (${appState.mode.includes('LIGNE') ? 'En Ligne' : 'Présentiel'})</span>`;
+      } else {
+        accessBadge.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 font-medium';
+        accessBadge.innerHTML = '<i class="fa-solid fa-lock text-slate-400"></i><span>Accès : Verrouillé (5 000 FCFA)</span>';
+      }
+
+      document.getElementById('header-progress-bar').style.width = `${progressPct}%`;
+      document.getElementById('header-progress-text').textContent = `${progressPct}%`;
+
+      // Home Roadmap Status
+      document.getElementById('home-step1-status').textContent = appState.kycVerified ? 'Vérifié ✅' : 'À faire →';
+      document.getElementById('home-step2-status').textContent = appState.paid ? 'Payé (5 000 FCFA) ✅' : (appState.kycVerified ? 'Disponible →' : 'Verrouillé');
+      document.getElementById('home-step3-status').textContent = `${appState.completedModules.length} / 6 Modules`;
+      document.getElementById('home-step4-status').textContent = progressPct === 100 ? 'Débloqué 🏆' : 'PDF + Email';
+
+      // Step 1 UI sync
+      if (appState.kycVerified) {
+        const s1Pill = document.getElementById('step1-status-pill');
+        s1Pill.className = 'px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-xs font-bold flex items-center gap-2 self-start';
+        s1Pill.innerHTML = '<i class="fa-solid fa-circle-check"></i> Identité Vérifiée GIAT ✅';
+        document.getElementById('kyc-lastname').value = appState.user.lastName;
+        document.getElementById('kyc-firstname').value = appState.user.firstName;
+        document.getElementById('kyc-city').value = appState.user.city;
+        document.getElementById('kyc-district').value = appState.user.district;
+        document.getElementById('kyc-phone').value = appState.user.phone;
+        document.getElementById('kyc-email').value = appState.user.email;
+      }
+
+      // Step 2 Lock/Unlock
+      const e2Locked = document.getElementById('etape2-locked-banner');
+      const e2Content = document.getElementById('etape2-content');
+      if (appState.kycVerified) {
+        e2Locked.classList.add('hidden');
+        e2Content.classList.remove('hidden');
+      } else {
+        e2Locked.classList.remove('hidden');
+        e2Content.classList.add('hidden');
+      }
+
+      // Training Mode Cards Styling
+      const cardOnline = document.getElementById('mode-card-online');
+      const cardOnsite = document.getElementById('mode-card-onsite');
+      const checkOnline = document.getElementById('check-online');
+      const checkOnsite = document.getElementById('check-onsite');
+
+      if (appState.mode.includes('LIGNE')) {
+        cardOnline.className = 'p-5 rounded-2xl border-2 border-amber-400 bg-amber-500/5 cursor-pointer transition relative';
+        cardOnsite.className = 'p-5 rounded-2xl border-2 border-slate-800 bg-[#07111F] hover:border-slate-700 cursor-pointer transition relative';
+        checkOnline.className = 'fa-solid fa-circle-check text-amber-400 text-lg';
+        checkOnsite.className = 'fa-regular fa-circle text-slate-600 text-lg';
+      } else {
+        cardOnsite.className = 'p-5 rounded-2xl border-2 border-amber-400 bg-amber-500/5 cursor-pointer transition relative';
+        cardOnline.className = 'p-5 rounded-2xl border-2 border-slate-800 bg-[#07111F] hover:border-slate-700 cursor-pointer transition relative';
+        checkOnsite.className = 'fa-solid fa-circle-check text-amber-400 text-lg';
+        checkOnline.className = 'fa-regular fa-circle text-slate-600 text-lg';
+      }
+
+      document.getElementById('seats-left').textContent = appState.seatsLeft;
+      document.getElementById('mode-switch-count').textContent = `${appState.modeSwitchesLeft} fois restante`;
+
+      if (appState.paid) {
+        document.getElementById('payment-receipt-box').classList.remove('hidden');
+        document.getElementById('receipt-ref-badge').textContent = appState.txId || 'VALIDÉ';
+      } else {
+        document.getElementById('payment-receipt-box').classList.add('hidden');
+      }
+
+      // Step 3-4 Classroom Lock/Unlock
+      const fLocked = document.getElementById('formation-locked-banner');
+      const fContent = document.getElementById('formation-content');
+      if (appState.paid) {
+        fLocked.classList.add('hidden');
+        fContent.classList.remove('hidden');
+        document.getElementById('classroom-mode-badge').textContent = `Mode : ${appState.mode}`;
+        renderClassroom();
+      } else {
+        fLocked.classList.remove('hidden');
+        fContent.classList.add('hidden');
+      }
+
+      // Digital ID Card Sync
+      const fullNameDisplay = appState.kycVerified
+        ? `${appState.user.firstName} ${appState.user.lastName}`
+        : 'APPRENANT NON ENREGISTRÉ';
+
+      document.getElementById('idcard-fullname').textContent = fullNameDisplay;
+      document.getElementById('idcard-city').textContent = `${appState.user.city}, Tchad`;
+      document.getElementById('idcard-mode').textContent = appState.mode;
+      document.getElementById('idcard-phone').textContent = appState.user.phone || '+235 -- -- -- --';
+      document.getElementById('idcard-progress').textContent = `${progressPct}% Complété`;
+      document.getElementById('idcard-matricule').textContent = appState.user.matricule;
+
+      const cardKycBadge = document.getElementById('card-kyc-status');
+      if (appState.kycVerified) {
+        cardKycBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold';
+        cardKycBadge.textContent = 'Identité Vérifiée GIAT ✅';
+      } else {
+        cardKycBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[11px] font-bold';
+        cardKycBadge.textContent = 'KYC En attente';
+      }
+
+      if (appState.user.photoUrl) {
+        document.getElementById('idcard-photo').src = appState.user.photoUrl;
+        document.getElementById('idcard-photo').classList.remove('hidden');
+        document.getElementById('idcard-placeholder').classList.add('hidden');
+
+        document.getElementById('cert-photo').src = appState.user.photoUrl;
+        document.getElementById('cert-photo').classList.remove('hidden');
+        document.getElementById('cert-photo-placeholder').classList.add('hidden');
+      }
+
+      // Certificate Sync
+      document.getElementById('cert-progress-inline').textContent = `${progressPct}%`;
+      document.getElementById('cert-serial').textContent = `N° ${appState.user.matricule}`;
+      document.getElementById('cert-fullname').textContent = appState.kycVerified ? fullNameDisplay : '[COMPLÉTEZ VOTRE KYC POUR AFFICHER VOTRE NOM]';
+      document.getElementById('cert-city').textContent = appState.user.city;
+      document.getElementById('cert-mode-mention').textContent = `Mention : Formation suivie ${appState.mode}`;
+
+      const lockNotice = document.getElementById('cert-lock-notice');
+      if (progressPct === 100) {
+        lockNotice.classList.add('hidden');
+        document.getElementById('quick-verify-user-btn').classList.remove('hidden');
+      } else {
+        lockNotice.classList.remove('hidden');
+      }
+
+      renderGraduates();
+    }
+
+    // Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      updateGlobalUI();
+      switchTab('accueil');
+    });
+  </script>
+</body>
+</html>
+```
