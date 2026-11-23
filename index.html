@@ -28,9 +28,8 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useMemo } = React;
+    const { useState, useEffect, useMemo, useRef } = React;
 
-    // Fallback SVG emblème GIAT si logo.png n'est pas encore déposé dans le dépôt
     const FALLBACK_LOGO_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
         <defs>
@@ -61,6 +60,60 @@
       );
     }
 
+    const INITIAL_ANNOUNCEMENTS = [
+      {
+        id: "ANN-2026-01",
+        category: "Général",
+        pinned: true,
+        date: "2026-11-24",
+        author: "PDG Mahamat Gombo Abakar",
+        title: {
+          fr: "Lancement Officiel de la Campagne Nationale GIAT — 100 000 Tchadiens Formés",
+          ar: "الإطلاق الرسمي للحملة الوطنية GIAT — تدريب 100,000 تشادي",
+          en: "Official Launch of GIAT National Campaign — 100,000 Chadians Trained"
+        },
+        body: {
+          fr: "Bienvenue à toutes et à tous dans l'Académie Nationale Gombo Intelligence Artificielle Tchad (GIAT). Complétez votre KYC (Recto & Verso), réglez les 5 000 FCFA uniques via Moov ou Airtel Money et suivez les 6 modules en version écrite ou vocale pour obtenir votre attestation officielle avec QR Code.",
+          ar: "مرحباً بالجميع في الأكاديمية الوطنية للذكاء الاصطناعي في تشاد (GIAT). أكمل التحقق KYC (الوجه الأمامي والخلفي)، ادفع 5,000 فرنك عبر Moov أو Airtel Money وتابع الوحدات الست نصياً أو صوتياً للحصول على شهادتك الرسمية برمز QR.",
+          en: "Welcome to the National Academy Gombo Intelligence Artificielle Tchad (GIAT). Complete your KYC (front & back), pay the one-time 5,000 FCFA via Moov or Airtel Money, and complete all 6 modules via text or audio to unlock your QR-verified certificate."
+        }
+      },
+      {
+        id: "ANN-2026-02",
+        category: "Présentiel N'Djamena",
+        pinned: false,
+        date: "2026-11-22",
+        author: "Direction Pédagogique GIAT",
+        title: {
+          fr: "Sessions Présentielles à N'Djamena : Places Limitées à 30 Apprenants",
+          ar: "الدورات الحضورية في انجمينا: المقاعد محدودة بـ 30 متدرباً",
+          en: "In-Person Sessions in N'Djamena: Limited to 30 Learners per Cohort"
+        },
+        body: {
+          fr: "Les ateliers intensifs du week-end (Samedi et Dimanche, 8h-15h) à N'Djamena incluent l'accompagnement direct avec le PDG et les formateurs GIAT ainsi qu'un ordinateur mis à disposition. Validez votre KYC et votre paiement de 5 000 FCFA pour réserver votre place.",
+          ar: "تشمل الورش المكثفة في عطلة نهاية الأسبوع (السبت والأحد من 8:00 إلى 15:00) في انجمينا إشرافاً مباشراً من المدير العام والمدربين مع توفير حاسوب للتدريب العملي. أكمل KYC والدفع لحجز مقعدك.",
+          en: "Weekend intensive sessions (Saturday & Sunday, 8am-3pm) in N'Djamena feature hands-on coaching with the CEO and GIAT trainers plus a workstation provided. Complete KYC and your 5,000 FCFA payment to reserve a seat."
+        }
+      },
+      {
+        id: "ANN-2026-03",
+        category: "Opportunités IA",
+        pinned: false,
+        date: "2026-11-20",
+        author: "Pôle Talents & Entreprises GIAT",
+        title: {
+          fr: "Annuaire des Lauréats : Connexion avec les Boutiques, ONG et Entreprises",
+          ar: "دليل الخريجين: الربط مع المتاجر والمنظمات والشركات",
+          en: "Graduate Directory: Connecting Certified Talents with Shops, NGOs & Firms"
+        },
+        body: {
+          fr: "Chaque lauréat certifié GIAT figure dans l'Annuaire Officiel avec son numéro d'attestation vérifiable par QR Code. Préparez dès le Module 4 votre CV, vos affiches et votre plan d'action 90 jours.",
+          ar: "يُدرج كل خريج معتمد في الدليل الرسمي برقم شهادة قابل للتحقق عبر رمز QR. جهّز من الوحدة الرابعة سيرتك الذاتية وإعلاناتك وخطة عملك لـ 90 يوماً.",
+          en: "Every certified GIAT graduate is listed in the Official Directory with a QR-verifiable certificate ID. Build your CV, promo posters, and 90-day action plan starting in Module 4."
+        }
+      }
+    ];
+
     const UI_TEXT = {
       fr: {
         brandSub: "PDG Mahamat Gombo Abakar • Powered by GDB",
@@ -68,31 +121,32 @@
         sbConnected: "Supabase Connecté",
         adminBtn: "Admin PDG",
         navHome: "Accueil",
+        navAnn: "Annonces",
         navKyc: "1. KYC",
         navPay: "2. Paiement 5000F",
-        navCourses: "3. Cours",
+        navCourses: "3. Cours & Audio",
         navCard: "Ma Carte",
         navCert: "Attestation",
         navDir: "Lauréats & QR",
         heroBadge: "Académie Nationale d'Intelligence • Tchad",
         heroSlogan: "« L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »",
-        heroDesc: "Objectif National : 1200 Tchadiens formés en 12 mois avec identité vérifiée (KYC), formation pratique en Français, Arabe et Anglais, et Attestation Officielle vérifiable par QR Code.",
+        heroDesc: "Objectif National : 100 000 Tchadiens formés en 12 mois avec identité vérifiée (KYC recto/verso), formation écrite et vocale en Français, Arabe et Anglais, et Attestation Officielle vérifiable par QR Code.",
         ctaStart: "Démarrer mon inscription KYC",
-        ctaAdmin: "Ouvrir Tableau de Bord Admin PDG",
+        ctaAnn: "Voir les Annonces Officielles",
         syncTitle: "Déjà inscrit ? Synchronisez votre dossier",
         syncSub: "Entrez votre numéro +235 ou votre email pour récupérer votre badge KYC, votre accès cours ou votre attestation.",
         syncPlaceholder: "Ex: 92825252 ou email",
         syncBtn: "Charger",
-        step1Title: "KYC Numérique Obligatoire",
-        step1Desc: "Nom civil, pièce d'identité, selfie en direct et vérification OTP SMS.",
+        step1Title: "KYC Recto / Verso Obligatoire",
+        step1Desc: "Nom civil, pièce d'identité recto & verso, selfie en direct et OTP SMS.",
         step2Title: "Paiement 5 000 FCFA",
         step2Desc: "Moov Money (92 82 52 52) ou Airtel Money (66 78 75 46). Accès à vie.",
         step3Title: "En Ligne ou Présentiel",
         step3Desc: "100% en ligne 24h/24 ou 2 jours intensifs à N'Djamena (30 places).",
-        step4Title: "6 Modules + Attestation",
-        step4Desc: "18h de formation pratique + Attestation PDF A4 officielle avec QR Code.",
+        step4Title: "6 Modules Audio + Attestation",
+        step4Desc: "18h de formation écrite & vocale + Attestation PDF A4 avec QR Code.",
         openArrow: "Ouvrir →",
-        kycHeader: "Inscription & KYC Numérique Obligatoire",
+        kycHeader: "Inscription & KYC Numérique Obligatoire (Recto / Verso)",
         kycFullName: "Nom complet + Prénom (exactement comme sur la pièce) *",
         kycPhone: "Numéro de téléphone (+235) *",
         kycSendOtp: "Envoyer OTP",
@@ -100,19 +154,26 @@
         kycEmail: "Email valide (pour recevoir l'attestation PDF) *",
         kycCity: "Ville *",
         kycDistrict: "Quartier / Commune",
-        kycIdType: "Type et photo de la pièce d'identité (CNI / Passeport / Carte d'électeur)",
+        kycIdType: "Type de pièce d'identité (CNI / Passeport / Carte d'électeur)",
+        kycIdFront: "Photo de la pièce d'identité — RECTO (Face avant) *",
+        kycIdBack: "Photo de la pièce d'identité — VERSO (Face arrière) *",
         kycLiveness: "Selfie en direct (Liveness Check)",
         kycLivenessBtn: "Lancer vérification visage",
         kycSubmit: "Soumettre mon dossier KYC GIAT →",
         payHeader: "Choix de la Formation & Paiement Mobile Money",
         optOnlineTitle: "OPTION A : 100% EN LIGNE 💻",
-        optOnlineDesc: "Vidéos courtes, cours détaillés en Français, Arabe & Anglais, quiz et support WhatsApp.",
+        optOnlineDesc: "Cours écrits & vocaux en Français, Arabe & Anglais, quiz et support WhatsApp.",
         optPresTitle: "OPTION B : PRÉSENTIEL N'DJAMENA 🏫",
         optPresDesc: "2 jours intensifs (Samedi & Dimanche, 8h-15h) avec le PDG et formateurs. Ordinateur fourni.",
         payOperator: "Opérateur utilisé",
         payTxId: "ID / Référence de la transaction (5 000 FCFA) *",
         paySubmit: "Confirmer mon paiement de 5 000 FCFA →",
         progressLabel: "Ma Progression GIAT (6 Modules • 18 Heures)",
+        audioTitle: "Version Vocale du Cours (Audio)",
+        audioPlay: "Écouter le cours",
+        audioPause: "Pause",
+        audioResume: "Reprendre",
+        audioStop: "Arrêter",
         lessonIntro: "Cours Détaillé & Explications :",
         examplesTitle: "Exemples Concrets & Prompts Prêts à Copier :",
         keyPointsTitle: "Points Clés à Retenir :",
@@ -130,6 +191,11 @@
         verifyBtn: "Vérifier le certificat",
         dirTitle: "Annuaire National des Lauréats Vérifiés GIAT",
         dirDesc: "Base de données de talents IA certifiés au Tchad recrutables par les entreprises.",
+        annPageTitle: "Annonces Officielles — Communauté GIAT TCHAD",
+        annPageSub: "Informations officielles, sessions à N'Djamena, mises à jour KYC/Paiement et opportunités IA.",
+        notifTitle: "Notifications GIAT",
+        notifMarkAll: "Tout lire",
+        notifEmpty: "Aucune notification pour le moment.",
         adminTitle: "Accès Administrateur PDG",
         adminUnlockBtn: "Déverrouiller le Tableau de Bord"
       },
@@ -139,31 +205,32 @@
         sbConnected: "متصل بـ Supabase",
         adminBtn: "إدارة المدير العام",
         navHome: "الرئيسية",
+        navAnn: "الإعلانات",
         navKyc: "١. التحقق KYC",
         navPay: "٢. الدفع 5000F",
-        navCourses: "٣. الدروس",
+        navCourses: "٣. الدروس والصوت",
         navCard: "بطاقتي",
         navCert: "الشهادة",
         navDir: "الخريجون و QR",
         heroBadge: "الأكاديمية الوطنية للذكاء الاصطناعي • تشاد",
         heroSlogan: "« الذكاء الاصطناعي لن يستبدلك. الشخص الذي يتقن الذكاء الاصطناعي هو من سيستبدلك. تدرب مع GIAT. »",
-        heroDesc: "الهدف الوطني: تدريب 100,000 تشادي في 12 شهراً بهوية موثقة (KYC)، وتدريب عملي بالفرنسية والعربية والإنجليزية، وشهادة رسمية قابلة للتحقق عبر رمز QR.",
+        heroDesc: "الهدف الوطني: تدريب 100,000 تشادي في 12 شهراً بهوية موثقة (KYC الوجه الأمامي والخلفي)، ودروس نصية وصوتية بالفرنسية والعربية والإنجليزية، وشهادة رسمية قابلة للتحقق عبر رمز QR.",
         ctaStart: "ابدأ التسجيل والتحقق KYC",
-        ctaAdmin: "فتح لوحة تحكم المدير العام",
+        ctaAnn: "الإعلانات الرسمية",
         syncTitle: "مسجل مسبقاً؟ قم بمزامنة ملفك",
         syncSub: "أدخل رقم هاتفك +235 أو بريدك الإلكتروني لاسترجاع شارة KYC أو الدروس أو شهادتك.",
         syncPlaceholder: "مثال: 92825252 أو البريد الإلكتروني",
         syncBtn: "تحميل",
-        step1Title: "التحقق الرقمي الإلزامي KYC",
-        step1Desc: "الاسم الكامل، بطاقة الهوية، صورة سيلفي مباشرة والتحقق عبر رمز SMS.",
+        step1Title: "التحقق KYC (الوجه الأمامي والخلفي)",
+        step1Desc: "الاسم الكامل، صورة الهوية وجهاً وقفى، سيلفي مباشر ورمز SMS.",
         step2Title: "الدفع 5,000 فرنك أفريقي",
         step2Desc: "Moov Money (92 82 52 52) أو Airtel Money (66 78 75 46). وصول مدى الحياة.",
         step3Title: "عن بُعد أو حضورياً",
         step3Desc: "100% عبر الإنترنت 24/24 أو يومان مكثفان في انجمينا (30 مقعداً).",
-        step4Title: "6 وحدات + شهادة رسمية",
-        step4Desc: "18 ساعة تدريب عملي + شهادة PDF A4 رسمية مزودة برمز QR.",
+        step4Title: "6 وحدات صوتية + شهادة",
+        step4Desc: "18 ساعة تدريب نصي وصوتي + شهادة PDF A4 رسمية مزودة برمز QR.",
         openArrow: "فتح ←",
-        kycHeader: "التسجيل والتحقق الرقمي الإلزامي (KYC)",
+        kycHeader: "التسجيل والتحقق الرقمي KYC (الوجه الأمامي والخلفي)",
         kycFullName: "الاسم الكامل (مطابق تماماً لبطاقة الهوية) *",
         kycPhone: "رقم الهاتف (+235) *",
         kycSendOtp: "إرسال الرمز",
@@ -171,19 +238,26 @@
         kycEmail: "بريد إلكتروني صحيح (لاستلام الشهادة PDF) *",
         kycCity: "المدينة *",
         kycDistrict: "الحي / البلدية",
-        kycIdType: "نوع وصورة وثيقة الهوية (بطاقة وطنية / جواز سفر / بطاقة ناخب)",
+        kycIdType: "نوع وثيقة الهوية (بطاقة وطنية / جواز سفر / بطاقة ناخب)",
+        kycIdFront: "صورة وثيقة الهوية — الوجه الأمامي (RECTO) *",
+        kycIdBack: "صورة وثيقة الهوية — الوجه الخلفي (VERSO) *",
         kycLiveness: "صورة سيلفي مباشرة (فحص الحيوية)",
         kycLivenessBtn: "بدء التحقق من الوجه",
         kycSubmit: "إرسال ملف KYC الخاص بي إلى GIAT ←",
         payHeader: "اختيار نظام التدريب والدفع عبر الهاتف",
         optOnlineTitle: "الخيار أ: 100% عبر الإنترنت 💻",
-        optOnlineDesc: "دروس مفصلة بالفرنسية والعربية والإنجليزية، اختبارات ودعم عبر واتساب.",
+        optOnlineDesc: "دروس نصية وصوتية بالفرنسية والعربية والإنجليزية، اختبارات ودعم واتساب.",
         optPresTitle: "الخيار ب: حضوري في انجمينا 🏫",
         optPresDesc: "يومان مكثفان (السبت والأحد 8:00 - 15:00) مع المدير العام والمدربين. الحاسوب متوفر.",
         payOperator: "شركة الدفع المستخدمة",
         payTxId: "رقم / مرجع المعاملة (5,000 فرنك) *",
         paySubmit: "تأكيد دفعي بمبلغ 5,000 فرنك ←",
         progressLabel: "تقدمي في GIAT (6 وحدات • 18 ساعة)",
+        audioTitle: "النسخة الصوتية للدرس",
+        audioPlay: "استمع للدرس",
+        audioPause: "إيقاف مؤقت",
+        audioResume: "متابعة الاستماع",
+        audioStop: "إيقاف",
         lessonIntro: "الشرح المفصل للدرس:",
         examplesTitle: "أمثلة واقعية وأوامر (Prompts) جاهزة للنسخ:",
         keyPointsTitle: "أهم النقاط المستفادة:",
@@ -201,6 +275,11 @@
         verifyBtn: "التحقق من الشهادة",
         dirTitle: "الدليل الوطني للخريجين المعتمدين في GIAT",
         dirDesc: "قاعدة بيانات كفاءات الذكاء الاصطناعي المعتمدين في تشاد للتوظيف.",
+        annPageTitle: "الإعلانات الرسمية — مجتمع GIAT تشاد",
+        annPageSub: "أخبار رسمية، دورات انجمينا، تحديثات التحقق والدفع وفرص الذكاء الاصطناعي.",
+        notifTitle: "إشعارات GIAT",
+        notifMarkAll: "قراءة الكل",
+        notifEmpty: "لا توجد إشعارات حالياً.",
         adminTitle: "دخول لوحة تحكم المدير العام",
         adminUnlockBtn: "فتح لوحة التحكم"
       },
@@ -210,31 +289,32 @@
         sbConnected: "Supabase Connected",
         adminBtn: "CEO Admin",
         navHome: "Home",
+        navAnn: "Announcements",
         navKyc: "1. KYC",
         navPay: "2. Pay 5000F",
-        navCourses: "3. Courses",
+        navCourses: "3. Courses & Audio",
         navCard: "My Card",
         navCert: "Certificate",
         navDir: "Graduates & QR",
         heroBadge: "National Academy of Artificial Intelligence • Chad",
         heroSlogan: "\"AI will not replace you. Someone who masters AI will replace you. Train with GIAT.\"",
-        heroDesc: "National Mission: Train 100,000 Chadians in 12 months with verified identity (KYC), practical training in French, Arabic & English, and an Official QR-verified Certificate.",
+        heroDesc: "National Mission: Train 100,000 Chadians in 12 months with verified identity (front & back KYC), text & audio lessons in French, Arabic & English, and an Official QR-verified Certificate.",
         ctaStart: "Start KYC Registration",
-        ctaAdmin: "Open CEO Admin Dashboard",
+        ctaAnn: "Official Announcements",
         syncTitle: "Already registered? Sync your profile",
         syncSub: "Enter your +235 phone number or email to restore your KYC badge, course access, or certificate.",
         syncPlaceholder: "Ex: 92825252 or email",
         syncBtn: "Load",
-        step1Title: "Mandatory Digital KYC",
-        step1Desc: "Legal full name, ID document, live selfie check, and SMS OTP verification.",
+        step1Title: "Front & Back ID KYC Required",
+        step1Desc: "Legal name, front & back ID photos, live selfie check, and SMS OTP.",
         step2Title: "5,000 FCFA Payment",
         step2Desc: "Moov Money (92 82 52 52) or Airtel Money (66 78 75 46). Lifetime access.",
         step3Title: "Online or In-Person",
         step3Desc: "100% online 24/7 or 2 intensive days in N'Djamena (30 seats limit).",
-        step4Title: "6 Modules + Certificate",
-        step4Desc: "18 hours of hands-on training + Official A4 PDF Certificate with QR Code.",
+        step4Title: "6 Audio Modules + Certificate",
+        step4Desc: "18 hours of text & audio lessons + Official A4 PDF Certificate with QR Code.",
         openArrow: "Open →",
-        kycHeader: "Registration & Mandatory Digital KYC",
+        kycHeader: "Registration & Mandatory Digital KYC (Front & Back ID)",
         kycFullName: "Full Legal Name (exactly as shown on your ID) *",
         kycPhone: "Phone Number (+235) *",
         kycSendOtp: "Send OTP",
@@ -242,19 +322,26 @@
         kycEmail: "Valid Email (to receive PDF certificate) *",
         kycCity: "City *",
         kycDistrict: "Neighborhood / District",
-        kycIdType: "ID Document Type & Photo (National ID / Passport / Voter Card)",
+        kycIdType: "ID Document Type (National ID / Passport / Voter Card)",
+        kycIdFront: "ID Document Photo — FRONT (Recto) *",
+        kycIdBack: "ID Document Photo — BACK (Verso) *",
         kycLiveness: "Live Selfie (Liveness Check)",
         kycLivenessBtn: "Run Face Verification",
         kycSubmit: "Submit my GIAT KYC File →",
         payHeader: "Training Format & Mobile Money Payment",
         optOnlineTitle: "OPTION A: 100% ONLINE 💻",
-        optOnlineDesc: "Detailed modules in French, Arabic & English, quizzes, and WhatsApp support.",
+        optOnlineDesc: "Text & audio lessons in French, Arabic & English, quizzes, and WhatsApp support.",
         optPresTitle: "OPTION B: IN-PERSON N'DJAMENA 🏫",
         optPresDesc: "2 intensive days (Saturday & Sunday, 8am-3pm) with the CEO and trainers. Laptop provided.",
         payOperator: "Mobile Money Provider",
         payTxId: "Transaction ID / Reference (5,000 FCFA) *",
         paySubmit: "Confirm my 5,000 FCFA Payment →",
         progressLabel: "My GIAT Progress (6 Modules • 18 Hours)",
+        audioTitle: "Audio Lesson Player",
+        audioPlay: "Listen to Lesson",
+        audioPause: "Pause",
+        audioResume: "Resume",
+        audioStop: "Stop",
         lessonIntro: "Detailed Lesson & Core Concepts:",
         examplesTitle: "Concrete Real-World Examples & Copyable Prompts:",
         keyPointsTitle: "Key Takeaways:",
@@ -272,6 +359,11 @@
         verifyBtn: "Verify Certificate",
         dirTitle: "National Directory of Verified GIAT Graduates",
         dirDesc: "Database of certified AI talents in Chad ready to be hired by companies.",
+        annPageTitle: "Official Announcements — GIAT CHAD Community",
+        annPageSub: "Official notices, N'Djamena cohorts, KYC/payment updates, and AI opportunities.",
+        notifTitle: "GIAT Notifications",
+        notifMarkAll: "Mark all read",
+        notifEmpty: "No notifications yet.",
         adminTitle: "CEO Administrator Access",
         adminUnlockBtn: "Unlock Admin Dashboard"
       }
@@ -288,7 +380,7 @@
         },
         lesson: {
           fr: "L'Intelligence Artificielle (IA) n'est pas de la magie : c'est un ensemble de programmes capables d'analyser des millions d'exemples pour comprendre un texte, traduire une langue, rédiger un document, créer une image ou résoudre un problème en quelques secondes. Contrairement à un logiciel classique (qui exécute uniquement des règles fixes), l'IA générative (ChatGPT, Gemini, Claude) comprend votre intention et produit une réponse sur mesure.",
-          ar: "الذكاء الاصطناعي ليس سحراً: إنه مجموعة من البرامج القادرة على تحليل ملايين الأمثلة لفهم النصوص، ترجمة اللغات، كتابة المستندات، تصميم الصور وحل المشكلات في ثوانٍ معدودة. على عكس البرامج التقليدية، يفهم الذكاء الاصطناعي التوليدي (مثل ChatGPT و Gemini) قصدك وينتج لك محتوى مخصصاً بدقة.",
+          ar: "الذكاء الاصطناعي ليس سحراً: إنه مجموعة من البرامج القادرة على تحليل ملايين الأمثلة لفهم النصوص، ترجمة اللغات، كتابة المستندات، تصميم الصور وحل المشكلات في ثوانٍ معدودة. على عكس البرامج التقليدية، يفهم الذكاء الاصطناعي التوليدي قصدك وينتج لك محتوى مخصصاً بدقة.",
           en: "Artificial Intelligence (AI) is not magic: it is software trained on millions of examples to understand language, translate, write documents, design visuals, and solve problems in seconds. Unlike traditional software that follows rigid rules, generative AI (ChatGPT, Gemini, Claude) understands your intent and creates tailored outputs."
         },
         examples: {
@@ -883,7 +975,8 @@
       city: "N'Djamena",
       district: "",
       idType: "Carte Nationale d'Identité (CNI)",
-      idPhoto: "",
+      idPhotoFront: "",
+      idPhotoBack: "",
       selfiePhoto: "",
       otpVerified: false,
       kycStatus: "none",
@@ -920,14 +1013,14 @@
     }
 
     function App() {
-      const [lang, setLang] = useState("fr"); // fr | ar | en
+      const [lang, setLang] = useState("fr");
       const t = UI_TEXT[lang] || UI_TEXT.fr;
       const isRtl = lang === "ar";
 
       const [activeTab, setActiveTab] = useState("home");
       const [user, setUser] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_user_v3");
+          const saved = localStorage.getItem("giat_user_v4");
           return saved ? { ...DEFAULT_USER, ...JSON.parse(saved) } : DEFAULT_USER;
         } catch {
           return DEFAULT_USER;
@@ -936,12 +1029,58 @@
 
       const [allCandidates, setAllCandidates] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_all_candidates_v3");
+          const saved = localStorage.getItem("giat_all_candidates_v4");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
         }
       });
+
+      const [announcements, setAnnouncements] = useState(() => {
+        try {
+          const saved = localStorage.getItem("giat_announcements_v1");
+          return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : INITIAL_ANNOUNCEMENTS;
+        } catch {
+          return INITIAL_ANNOUNCEMENTS;
+        }
+      });
+
+      const [annFilter, setAnnFilter] = useState("all");
+      const [newAnnTitle, setNewAnnTitle] = useState("");
+      const [newAnnBody, setNewAnnBody] = useState("");
+      const [newAnnCat, setNewAnnCat] = useState("Général");
+
+      // Notifications bell state
+      const [notifications, setNotifications] = useState(() => {
+        try {
+          const saved = localStorage.getItem("giat_notifications_v1");
+          return saved
+            ? JSON.parse(saved)
+            : [
+                {
+                  id: "N-1",
+                  text: "Bienvenue sur GIAT TCHAD — 100 000 Tchadiens formés en 12 mois.",
+                  time: "Aujourd'hui",
+                  read: false,
+                  tab: "announcements"
+                },
+                {
+                  id: "N-2",
+                  text: "Nouvelle annonce officielle publiée sur la communauté GIAT.",
+                  time: "Aujourd'hui",
+                  read: false,
+                  tab: "announcements"
+                }
+              ];
+        } catch {
+          return [];
+        }
+      });
+      const [notifOpen, setNotifOpen] = useState(false);
+
+      // Voice lesson state
+      const [voiceState, setVoiceState] = useState("idle"); // idle | playing | paused
+      const [voiceRate, setVoiceRate] = useState(1);
 
       const [sbConfig, setSbConfig] = useState(() => {
         try {
@@ -961,7 +1100,6 @@
       const [pinInput, setPinInput] = useState("");
       const [pinError, setPinError] = useState("");
       const [inspectedCandidate, setInspectedCandidate] = useState(null);
-      const [adminFilter, setAdminFilter] = useState("all");
 
       const [otpSent, setOtpSent] = useState(false);
       const [otpCode, setOtpCode] = useState("");
@@ -979,9 +1117,64 @@
       const [verifyResult, setVerifyResult] = useState(null);
       const [lookupContact, setLookupContact] = useState("");
 
-      const notify = (msg) => {
+      const notify = (msg, targetTab = null) => {
         setToast(msg);
         setTimeout(() => setToast(""), 4000);
+        const nowTime = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+        setNotifications((prev) => [
+          {
+            id: `N-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            text: msg,
+            time: nowTime,
+            read: false,
+            tab: targetTab
+          },
+          ...prev.slice(0, 29)
+        ]);
+      };
+
+      const unreadCount = useMemo(
+        () => notifications.filter((n) => !n.read).length,
+        [notifications]
+      );
+
+      // Stop voice when changing tab or module
+      const stopVoice = () => {
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        setVoiceState("idle");
+      };
+
+      useEffect(() => {
+        stopVoice();
+      }, [activeTab, selectedModule, lang]);
+
+      const handlePlayVoice = (textToRead) => {
+        if (!window.speechSynthesis) {
+          notify("Synthèse vocale non supportée sur ce navigateur.");
+          return;
+        }
+        if (voiceState === "paused") {
+          window.speechSynthesis.resume();
+          setVoiceState("playing");
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(textToRead);
+        utter.lang = lang === "ar" ? "ar-SA" : lang === "en" ? "en-US" : "fr-FR";
+        utter.rate = voiceRate;
+        utter.onend = () => setVoiceState("idle");
+        utter.onerror = () => setVoiceState("idle");
+        setVoiceState("playing");
+        window.speechSynthesis.speak(utter);
+      };
+
+      const handlePauseVoice = () => {
+        if (window.speechSynthesis && voiceState === "playing") {
+          window.speechSynthesis.pause();
+          setVoiceState("paused");
+        }
       };
 
       const supabaseClient = useMemo(() => {
@@ -994,12 +1187,20 @@
       }, [sbConfig.url, sbConfig.anonKey]);
 
       useEffect(() => {
-        localStorage.setItem("giat_user_v3", JSON.stringify(user));
+        localStorage.setItem("giat_user_v4", JSON.stringify(user));
       }, [user]);
 
       useEffect(() => {
-        localStorage.setItem("giat_all_candidates_v3", JSON.stringify(allCandidates));
+        localStorage.setItem("giat_all_candidates_v4", JSON.stringify(allCandidates));
       }, [allCandidates]);
+
+      useEffect(() => {
+        localStorage.setItem("giat_announcements_v1", JSON.stringify(announcements));
+      }, [announcements]);
+
+      useEffect(() => {
+        localStorage.setItem("giat_notifications_v1", JSON.stringify(notifications));
+      }, [notifications]);
 
       useEffect(() => {
         localStorage.setItem("giat_supabase_cfg", JSON.stringify(sbConfig));
@@ -1108,7 +1309,33 @@
         if (inspectedCandidate && inspectedCandidate.id === candidateId && updatedTarget) {
           setInspectedCandidate(updatedTarget);
         }
-        notify("Dossier mis à jour ✅");
+        notify("Dossier mis à jour ✅", "admin");
+      };
+
+      const handlePublishAnnouncement = (e) => {
+        e.preventDefault();
+        if (!newAnnTitle.trim() || !newAnnBody.trim()) return;
+        const item = {
+          id: `ANN-${Date.now()}`,
+          category: newAnnCat,
+          pinned: false,
+          date: new Date().toISOString().slice(0, 10),
+          author: "PDG Mahamat Gombo Abakar",
+          title: {
+            fr: newAnnTitle.trim(),
+            ar: newAnnTitle.trim(),
+            en: newAnnTitle.trim()
+          },
+          body: {
+            fr: newAnnBody.trim(),
+            ar: newAnnBody.trim(),
+            en: newAnnBody.trim()
+          }
+        };
+        setAnnouncements((prev) => [item, ...prev]);
+        setNewAnnTitle("");
+        setNewAnnBody("");
+        notify(`Nouvelle annonce publiée : ${item.title.fr}`, "announcements");
       };
 
       const handleLookupProfile = async () => {
@@ -1122,7 +1349,7 @@
         );
         if (found) {
           setUser(found);
-          notify(`OK : ${found.fullName}`);
+          notify(`Dossier chargé : ${found.fullName}`);
         } else {
           notify("Aucun dossier trouvé.");
         }
@@ -1138,13 +1365,22 @@
           notify("Validez d'abord le code OTP SMS.");
           return;
         }
+        if (!user.idPhotoFront || !user.idPhotoBack) {
+          notify("Veuillez insérer les photos RECTO et VERSO de la pièce d'identité.");
+          return;
+        }
         if (!livenessDone && !user.selfiePhoto) {
           notify("Effectuez la vérification selfie Liveness.");
           return;
         }
         const status = sbConnected ? "pending" : "verified";
         await persistCandidate({ ...user, kycStatus: status });
-        notify(status === "verified" ? "Identité Vérifiée GIAT ✅" : "KYC envoyé à l'Admin GIAT ⏳");
+        notify(
+          status === "verified"
+            ? "Identité Vérifiée GIAT ✅ (Recto/Verso validés)"
+            : "Dossier KYC Recto/Verso envoyé à l'Admin GIAT ⏳",
+          "kyc"
+        );
         setActiveTab("payment");
       };
 
@@ -1156,7 +1392,12 @@
         }
         const pStatus = sbConnected ? "pending" : "paid";
         await persistCandidate({ ...user, paymentStatus: pStatus });
-        notify(pStatus === "paid" ? "Paiement 5 000 FCFA validé ✅" : "Paiement transmis ⏳");
+        notify(
+          pStatus === "paid"
+            ? "Paiement 5 000 FCFA validé ✅ Accès aux cours débloqué."
+            : "Paiement 5 000 FCFA transmis à l'Admin ⏳",
+          "payment"
+        );
         if (pStatus === "paid") setActiveTab("courses");
       };
 
@@ -1164,7 +1405,7 @@
         const currentMod = MODULES_DATA.find((m) => m.id === modId);
         const qObj = currentMod.quiz[lang] || currentMod.quiz.fr;
         if (quizChoice !== qObj.answer) {
-          notify("Réponse incorrecte. Relisez les exemples et réessayez !");
+          notify("Réponse incorrecte. Relisez ou écoutez la leçon et réessayez !");
           return;
         }
         const updatedList = Array.from(new Set([...(user.completedModules || []), modId]));
@@ -1187,10 +1428,10 @@
 
         setQuizChoice(null);
         if (updatedList.length === MODULES_DATA.length) {
-          notify("Attestation Officielle GIAT débloquée 🎓 !");
+          notify(`Félicitations ! Attestation ${certNumber} débloquée 🎓`, "cert");
           setActiveTab("cert");
         } else {
-          notify(`Module ${modId} validé ✅`);
+          notify(`Module ${modId} validé (${updatedList.length}/6) ✅`, "courses");
           setSelectedModule(Math.min(6, modId + 1));
         }
       };
@@ -1321,7 +1562,7 @@ with check (true);`;
             </div>
           )}
 
-          {/* Top Navigation Bar with logo.png + Language Switcher */}
+          {/* Top Navigation Bar */}
           <header className="no-print sticky top-0 z-40 bg-[#002664] text-white shadow-lg border-b-2 border-[#FECB00]">
             <div className="max-w-6xl mx-auto px-3 py-2.5 flex flex-wrap items-center justify-between gap-2">
               <div
@@ -1339,8 +1580,8 @@ with check (true);`;
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                {/* Global 3-Language Switcher (FR / AR / EN) */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 relative">
+                {/* Language Switcher */}
                 <div className="flex rounded-lg bg-[#001b47] p-0.5 border border-white/20 text-[11px] font-extrabold">
                   {[
                     { code: "fr", label: "FR" },
@@ -1359,6 +1600,71 @@ with check (true);`;
                       {item.label}
                     </button>
                   ))}
+                </div>
+
+                {/* Notification Bell */}
+                <div className="relative">
+                  <button
+                    onClick={() => setNotifOpen((prev) => !prev)}
+                    title={t.notifTitle}
+                    className="relative px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/25 text-sm font-bold transition"
+                  >
+                    <span>🔔</span>
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#C60C30] text-white text-[10px] font-extrabold flex items-center justify-center">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
+
+                  {notifOpen && (
+                    <div className="absolute end-0 mt-2 w-80 max-w-[90vw] bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-4 z-50 space-y-3">
+                      <div className="flex items-center justify-between border-b pb-2">
+                        <span className="font-extrabold text-xs uppercase text-[#002664]">
+                          🔔 {t.notifTitle} ({unreadCount})
+                        </span>
+                        <button
+                          onClick={() =>
+                            setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+                          }
+                          className="text-[11px] font-bold text-blue-700 hover:underline"
+                        >
+                          {t.notifMarkAll}
+                        </button>
+                      </div>
+
+                      <div className="max-h-64 overflow-y-auto space-y-2">
+                        {notifications.length === 0 ? (
+                          <div className="text-xs text-slate-500 py-4 text-center">
+                            {t.notifEmpty}
+                          </div>
+                        ) : (
+                          notifications.map((n) => (
+                            <div
+                              key={n.id}
+                              onClick={() => {
+                                setNotifications((prev) =>
+                                  prev.map((item) =>
+                                    item.id === n.id ? { ...item, read: true } : item
+                                  )
+                                );
+                                if (n.tab) setActiveTab(n.tab);
+                                setNotifOpen(false);
+                              }}
+                              className={`p-2.5 rounded-xl border text-xs cursor-pointer transition ${
+                                n.read
+                                  ? "bg-slate-50 border-slate-100 text-slate-600"
+                                  : "bg-amber-50/80 border-amber-300 text-slate-900 font-semibold"
+                              }`}
+                            >
+                              <div>{n.text}</div>
+                              <div className="text-[10px] text-slate-400 mt-1">{n.time}</div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
@@ -1395,6 +1701,7 @@ with check (true);`;
               <div className="max-w-6xl mx-auto px-2 py-1.5 flex items-center gap-1 text-xs font-semibold whitespace-nowrap">
                 {[
                   { id: "home", label: `🏠 ${t.navHome}` },
+                  { id: "announcements", label: `📢 ${t.navAnn} (${announcements.length})` },
                   { id: "kyc", label: `${t.navKyc} ${isKycOk ? "✅" : ""}` },
                   { id: "payment", label: `${t.navPay} ${isPaidOk ? "✅" : ""}` },
                   { id: "courses", label: `${t.navCourses} (${progressPct}%)` },
@@ -1448,10 +1755,10 @@ with check (true);`;
                       🚀 {t.ctaStart}
                     </button>
                     <button
-                      onClick={() => setActiveTab("admin")}
+                      onClick={() => setActiveTab("announcements")}
                       className="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/30 transition"
                     >
-                      🔐 {t.ctaAdmin}
+                      📢 {t.ctaAnn}
                     </button>
                   </div>
                 </section>
@@ -1535,7 +1842,99 @@ with check (true);`;
               </div>
             )}
 
-            {/* ==================== STEP 1: KYC ==================== */}
+            {/* ==================== OFFICIAL ANNOUNCEMENTS PAGE ==================== */}
+            {activeTab === "announcements" && (
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-[#002664] to-[#0f172a] text-white rounded-2xl p-6 shadow-md border border-amber-400/30">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="text-xs font-extrabold text-[#FECB00] uppercase">
+                        GIAT TCHAD • COMMUNIQUÉS & INFOS
+                      </div>
+                      <h2 className="text-xl sm:text-2xl font-extrabold mt-1">{t.annPageTitle}</h2>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1">{t.annPageSub}</p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab("admin")}
+                      className="px-4 py-2.5 rounded-xl bg-[#FECB00] text-[#002664] font-extrabold text-xs shrink-0"
+                    >
+                      + Publier une annonce (Admin)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Category Filters */}
+                <div className="flex flex-wrap gap-2">
+                  {["all", "Général", "Présentiel N'Djamena", "Opportunités IA"].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setAnnFilter(cat)}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
+                        annFilter === cat
+                          ? "bg-[#002664] text-white"
+                          : "bg-white border border-slate-200 text-slate-700 hover:border-[#002664]"
+                      }`}
+                    >
+                      {cat === "all" ? `Toutes (${announcements.length})` : cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Announcements List */}
+                <div className="space-y-4">
+                  {announcements
+                    .filter((a) => annFilter === "all" || a.category === annFilter)
+                    .map((ann) => (
+                      <article
+                        key={ann.id}
+                        className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                          <div className="flex items-center gap-2">
+                            <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#002664] font-extrabold">
+                              {ann.category}
+                            </span>
+                            {ann.pinned && (
+                              <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold">
+                                📌 À la une
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-slate-400 font-medium">
+                            {ann.date} • {ann.author}
+                          </span>
+                        </div>
+
+                        <h3 className="text-lg font-extrabold text-slate-900">
+                          {ann.title[lang] || ann.title.fr}
+                        </h3>
+
+                        <p className="text-sm text-slate-700 leading-relaxed">
+                          {ann.body[lang] || ann.body.fr}
+                        </p>
+
+                        <div className="pt-2 flex items-center justify-between border-t border-slate-100 text-xs">
+                          <span className="text-slate-400 font-mono">Réf : {ann.id}</span>
+                          <button
+                            onClick={() => {
+                              const shareText = `📢 GIAT TCHAD — ${ann.title[lang] || ann.title.fr}\n${
+                                ann.body[lang] || ann.body.fr
+                              }`;
+                              navigator.clipboard?.writeText(shareText);
+                              notify("Annonce copiée pour partage WhatsApp ✅");
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 font-bold hover:bg-emerald-100"
+                          >
+                            📤 Copier pour WhatsApp
+                          </button>
+                        </div>
+                      </article>
+                    ))}
+                </div>
+              </div>
+            )}
+
+            {/* ==================== STEP 1: KYC (RECTO + VERSO) ==================== */}
             {activeTab === "kyc" && (
               <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
@@ -1580,7 +1979,7 @@ with check (true);`;
                           type="button"
                           onClick={() => {
                             setOtpSent(true);
-                            notify("OTP SMS : 2356");
+                            notify("Code OTP SMS : 2356");
                           }}
                           className="px-3 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold whitespace-nowrap"
                         >
@@ -1601,7 +2000,7 @@ with check (true);`;
                             onClick={() => {
                               if (otpCode.trim().length >= 4) {
                                 setUser({ ...user, otpVerified: true });
-                                notify("OTP ✅");
+                                notify("Numéro vérifié par OTP ✅");
                               }
                             }}
                             className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold"
@@ -1674,26 +2073,70 @@ with check (true);`;
                     <select
                       value={user.idType}
                       onChange={(e) => setUser({ ...user, idType: e.target.value })}
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white mb-2"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white"
                     >
                       <option>Carte Nationale d'Identité (CNI)</option>
                       <option>Passeport Biométrique</option>
                       <option>Carte d'Électeur</option>
                     </select>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (e) => {
-                        const b64 = await compressImage(e.target.files[0]);
-                        setUser({ ...user, idPhoto: b64 });
-                      }}
-                      className="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-blue-50 file:text-[#002664] file:font-bold"
-                    />
-                    {user.idPhoto && (
-                      <img src={user.idPhoto} alt="ID" className="mt-2 h-24 rounded-lg border object-cover" />
-                    )}
                   </div>
 
+                  {/* RECTO & VERSO ID Upload */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-3.5 rounded-xl bg-blue-50/50 border border-blue-200 space-y-2">
+                      <label className="block text-xs font-extrabold text-[#002664]">
+                        {t.kycIdFront}
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const b64 = await compressImage(e.target.files[0]);
+                          setUser({ ...user, idPhotoFront: b64 });
+                        }}
+                        className="w-full text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:bg-[#002664] file:text-white file:font-bold"
+                      />
+                      {user.idPhotoFront ? (
+                        <img
+                          src={user.idPhotoFront}
+                          alt="Recto ID"
+                          className="h-28 w-full rounded-lg border object-cover bg-white"
+                        />
+                      ) : (
+                        <div className="h-20 rounded-lg border border-dashed border-blue-300 flex items-center justify-center text-[11px] text-blue-700 font-semibold">
+                          RECTO non ajouté
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-amber-50/50 border border-amber-200 space-y-2">
+                      <label className="block text-xs font-extrabold text-amber-950">
+                        {t.kycIdBack}
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const b64 = await compressImage(e.target.files[0]);
+                          setUser({ ...user, idPhotoBack: b64 });
+                        }}
+                        className="w-full text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:font-bold"
+                      />
+                      {user.idPhotoBack ? (
+                        <img
+                          src={user.idPhotoBack}
+                          alt="Verso ID"
+                          className="h-28 w-full rounded-lg border object-cover bg-white"
+                        />
+                      ) : (
+                        <div className="h-20 rounded-lg border border-dashed border-amber-300 flex items-center justify-center text-[11px] text-amber-800 font-semibold">
+                          VERSO non ajouté
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Live Selfie Liveness */}
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-bold text-slate-800">{t.kycLiveness}</span>
@@ -1701,7 +2144,7 @@ with check (true);`;
                         type="button"
                         onClick={() => {
                           setLivenessDone(true);
-                          notify("Liveness ✅");
+                          notify("Contrôle Liveness ✅");
                         }}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
                           livenessDone ? "bg-emerald-600 text-white" : "bg-[#002664] text-white"
@@ -1847,7 +2290,7 @@ with check (true);`;
               </div>
             )}
 
-            {/* ==================== STEP 4: EXPANDED 6 MODULES ==================== */}
+            {/* ==================== STEP 4: 6 MODULES + AUDIO PLAYER ==================== */}
             {activeTab === "courses" && (
               <div className="space-y-5">
                 <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
@@ -1889,7 +2332,7 @@ with check (true);`;
                             </div>
                             <div className="font-bold text-xs sm:text-sm">{modTitle}</div>
                           </div>
-                          <span className="text-sm">{done ? "✅" : "📘"}</span>
+                          <span className="text-sm">{done ? "✅" : "🎧"}</span>
                         </button>
                       );
                     })}
@@ -1904,6 +2347,8 @@ with check (true);`;
                     const modPoints = mod.keyPoints[lang] || mod.keyPoints.fr;
                     const modQuiz = mod.quiz[lang] || mod.quiz.fr;
 
+                    const fullAudioScript = `${modTitle}. ${modLesson}. ${t.keyPointsTitle} ${modPoints.join(". ")}`;
+
                     return (
                       <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-5">
                         <div>
@@ -1911,6 +2356,70 @@ with check (true);`;
                             MODULE {mod.id} / 6 • {mod.duration}
                           </span>
                           <h3 className="text-xl font-extrabold text-slate-900 mt-0.5">{modTitle}</h3>
+                        </div>
+
+                        {/* Audio Lesson Bar */}
+                        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#002664] to-[#0f172a] text-white space-y-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <div className="text-xs font-extrabold text-[#FECB00] uppercase">
+                              🎧 {t.audioTitle} ({lang.toUpperCase()})
+                            </div>
+                            <div className="flex items-center gap-1 text-[11px]">
+                              <span className="text-slate-300">Vitesse :</span>
+                              {[0.85, 1, 1.2].map((r) => (
+                                <button
+                                  key={r}
+                                  type="button"
+                                  onClick={() => setVoiceRate(r)}
+                                  className={`px-2 py-0.5 rounded font-bold ${
+                                    voiceRate === r
+                                      ? "bg-[#FECB00] text-[#002664]"
+                                      : "bg-white/10 text-slate-200"
+                                  }`}
+                                >
+                                  {r}x
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2">
+                            {voiceState !== "playing" ? (
+                              <button
+                                type="button"
+                                onClick={() => handlePlayVoice(fullAudioScript)}
+                                className="px-4 py-2 rounded-xl bg-[#FECB00] hover:bg-amber-400 text-[#002664] font-extrabold text-xs"
+                              >
+                                🔊 {voiceState === "paused" ? t.audioResume : t.audioPlay}
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={handlePauseVoice}
+                                className="px-4 py-2 rounded-xl bg-amber-200 text-slate-950 font-extrabold text-xs"
+                              >
+                                ⏸️ {t.audioPause}
+                              </button>
+                            )}
+
+                            {voiceState !== "idle" && (
+                              <button
+                                type="button"
+                                onClick={stopVoice}
+                                className="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs"
+                              >
+                                ⏹️ {t.audioStop}
+                              </button>
+                            )}
+
+                            <span className="text-[11px] text-slate-300 ms-auto">
+                              {voiceState === "playing"
+                                ? "🎙️ Lecture vocale en cours..."
+                                : voiceState === "paused"
+                                ? "⏸️ En pause"
+                                : "Prêt à écouter"}
+                            </span>
+                          </div>
                         </div>
 
                         {/* Detailed Lesson */}
@@ -1921,7 +2430,7 @@ with check (true);`;
                           <p className="text-sm text-slate-800 leading-relaxed">{modLesson}</p>
                         </div>
 
-                        {/* Concrete Real-World Examples & Copyable Prompts */}
+                        {/* Concrete Real-World Examples */}
                         <div className="space-y-3">
                           <h4 className="font-extrabold text-sm text-slate-900">{t.examplesTitle}</h4>
                           {modExamples.map((ex, idx) => (
@@ -1959,7 +2468,7 @@ with check (true);`;
                           </ul>
                         </div>
 
-                        {/* Interactive Studio in Module 4 */}
+                        {/* Studio in Module 4 */}
                         {mod.id === 4 && (
                           <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-3">
                             <div className="font-extrabold text-sm text-[#002664]">
@@ -2330,6 +2839,48 @@ with check (true);`;
                       </div>
                     </div>
 
+                    {/* Publish Official Announcement Form */}
+                    <form
+                      onSubmit={handlePublishAnnouncement}
+                      className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-extrabold text-sm text-[#002664] uppercase">
+                          📢 Publier une Annonce Officielle à la Communauté GIAT
+                        </h3>
+                        <select
+                          value={newAnnCat}
+                          onChange={(e) => setNewAnnCat(e.target.value)}
+                          className="px-3 py-1.5 rounded-lg border text-xs font-bold bg-slate-50"
+                        >
+                          <option>Général</option>
+                          <option>Présentiel N'Djamena</option>
+                          <option>Opportunités IA</option>
+                        </select>
+                      </div>
+                      <input
+                        type="text"
+                        value={newAnnTitle}
+                        onChange={(e) => setNewAnnTitle(e.target.value)}
+                        placeholder="Titre de l'annonce officielle..."
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs"
+                      />
+                      <textarea
+                        rows="2"
+                        value={newAnnBody}
+                        onChange={(e) => setNewAnnBody(e.target.value)}
+                        placeholder="Message destiné aux apprenants et à la communauté GIAT TCHAD..."
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs"
+                      />
+                      <button
+                        type="submit"
+                        className="px-4 py-2 rounded-xl bg-[#002664] hover:bg-blue-900 text-white font-extrabold text-xs"
+                      >
+                        Publier l'annonce & notifier
+                      </button>
+                    </form>
+
+                    {/* KPI Cards */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                       {[
                         { label: "Total", val: stats.total, color: "text-slate-900" },
@@ -2346,6 +2897,7 @@ with check (true);`;
                       ))}
                     </div>
 
+                    {/* Candidates Table */}
                     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
                       <table className="w-full text-start border-collapse text-xs">
                         <thead>
@@ -2412,13 +2964,13 @@ with check (true);`;
             )}
           </main>
 
-          {/* Inspect Candidate Modal */}
+          {/* Inspect Candidate Modal (Recto + Verso + Selfie) */}
           {inspectedCandidate && (
             <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-              <div className="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+              <div className="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between border-b pb-3">
                   <h3 className="font-extrabold text-lg text-slate-900">
-                    {inspectedCandidate.fullName}
+                    {inspectedCandidate.fullName} — ({inspectedCandidate.idType})
                   </h3>
                   <button
                     onClick={() => setInspectedCandidate(null)}
@@ -2427,17 +2979,35 @@ with check (true);`;
                     ✕
                   </button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                   <div>
-                    <div className="font-bold mb-1">ID ({inspectedCandidate.idType})</div>
-                    {inspectedCandidate.idPhoto && (
-                      <img src={inspectedCandidate.idPhoto} alt="ID" className="w-full h-48 object-contain border rounded-xl" />
+                    <div className="font-bold mb-1">Pièce — RECTO</div>
+                    {inspectedCandidate.idPhotoFront ? (
+                      <img src={inspectedCandidate.idPhotoFront} alt="Recto" className="w-full h-44 object-contain border rounded-xl" />
+                    ) : (
+                      <div className="h-32 border rounded-xl flex items-center justify-center text-slate-400">
+                        Recto absent
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-bold mb-1">Pièce — VERSO</div>
+                    {inspectedCandidate.idPhotoBack ? (
+                      <img src={inspectedCandidate.idPhotoBack} alt="Verso" className="w-full h-44 object-contain border rounded-xl" />
+                    ) : (
+                      <div className="h-32 border rounded-xl flex items-center justify-center text-slate-400">
+                        Verso absent
+                      </div>
                     )}
                   </div>
                   <div>
                     <div className="font-bold mb-1">Selfie Liveness</div>
-                    {inspectedCandidate.selfiePhoto && (
-                      <img src={inspectedCandidate.selfiePhoto} alt="Selfie" className="w-full h-48 object-contain border rounded-xl" />
+                    {inspectedCandidate.selfiePhoto ? (
+                      <img src={inspectedCandidate.selfiePhoto} alt="Selfie" className="w-full h-44 object-contain border rounded-xl" />
+                    ) : (
+                      <div className="h-32 border rounded-xl flex items-center justify-center text-slate-400">
+                        Selfie absent
+                      </div>
                     )}
                   </div>
                 </div>
@@ -2537,7 +3107,11 @@ with check (true);`;
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <button onClick={() => setShowSbModal(true)} className="text-amber-400 hover:underline font-bold">
+                <button onClick={() => setActiveTab("announcements")} className="text-amber-400 hover:underline font-bold">
+                  📢 {t.navAnn}
+                </button>
+                <span>•</span>
+                <button onClick={() => setShowSbModal(true)} className="text-slate-300 hover:underline font-bold">
                   Supabase
                 </button>
                 <span>•</span>
