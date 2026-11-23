@@ -10,8 +10,8 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Cairo:wght@500;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif; background-color: #f8fafc; color: #0f172a; }
     .font-serif-cert { font-family: 'Playfair Display', serif; }
     @media print {
       body * { visibility: hidden; }
@@ -30,131 +30,804 @@
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
+    // Fallback SVG emblème GIAT si logo.png n'est pas encore déposé dans le dépôt
+    const FALLBACK_LOGO_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#002664"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" rx="26" fill="url(#g)" stroke="#FECB00" stroke-width="5"/>
+        <circle cx="60" cy="42" r="16" fill="none" stroke="#FECB00" stroke-width="4"/>
+        <path d="M36 42h8M76 42h8M60 18v8M60 58v8" stroke="#C60C30" stroke-width="4" stroke-linecap="round"/>
+        <text x="60" y="92" text-anchor="middle" fill="#FECB00" font-family="Arial, sans-serif" font-weight="900" font-size="26">GIAT</text>
+        <text x="60" y="107" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="700" font-size="9" letter-spacing="2">TCHAD • IA</text>
+      </svg>
+    `);
+
+    function GiatLogo({ className = "w-11 h-11" }) {
+      const [src, setSrc] = useState("./logo.png");
+      return (
+        <img
+          src={src}
+          alt="Logo GIAT Tchad"
+          onError={() => {
+            if (src !== FALLBACK_LOGO_SVG) setSrc(FALLBACK_LOGO_SVG);
+          }}
+          className={`${className} rounded-xl object-contain bg-white/95 p-0.5 shadow-md border border-[#FECB00]`}
+        />
+      );
+    }
+
+    const UI_TEXT = {
+      fr: {
+        brandSub: "PDG Mahamat Gombo Abakar • Powered by GDB",
+        localMode: "Mode Local",
+        sbConnected: "Supabase Connecté",
+        adminBtn: "Admin PDG",
+        navHome: "Accueil",
+        navKyc: "1. KYC",
+        navPay: "2. Paiement 5000F",
+        navCourses: "3. Cours",
+        navCard: "Ma Carte",
+        navCert: "Attestation",
+        navDir: "Lauréats & QR",
+        heroBadge: "Académie Nationale d'Intelligence • Tchad",
+        heroSlogan: "« L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »",
+        heroDesc: "Objectif National : 100 000 Tchadiens formés en 12 mois avec identité vérifiée (KYC), formation pratique en Français, Arabe et Anglais, et Attestation Officielle vérifiable par QR Code.",
+        ctaStart: "Démarrer mon inscription KYC",
+        ctaAdmin: "Ouvrir Tableau de Bord Admin PDG",
+        syncTitle: "Déjà inscrit ? Synchronisez votre dossier",
+        syncSub: "Entrez votre numéro +235 ou votre email pour récupérer votre badge KYC, votre accès cours ou votre attestation.",
+        syncPlaceholder: "Ex: 92825252 ou email",
+        syncBtn: "Charger",
+        step1Title: "KYC Numérique Obligatoire",
+        step1Desc: "Nom civil, pièce d'identité, selfie en direct et vérification OTP SMS.",
+        step2Title: "Paiement 5 000 FCFA",
+        step2Desc: "Moov Money (92 82 52 52) ou Airtel Money (66 78 75 46). Accès à vie.",
+        step3Title: "En Ligne ou Présentiel",
+        step3Desc: "100% en ligne 24h/24 ou 2 jours intensifs à N'Djamena (30 places).",
+        step4Title: "6 Modules + Attestation",
+        step4Desc: "18h de formation pratique + Attestation PDF A4 officielle avec QR Code.",
+        openArrow: "Ouvrir →",
+        kycHeader: "Inscription & KYC Numérique Obligatoire",
+        kycFullName: "Nom complet + Prénom (exactement comme sur la pièce) *",
+        kycPhone: "Numéro de téléphone (+235) *",
+        kycSendOtp: "Envoyer OTP",
+        kycValidateOtp: "Valider OTP",
+        kycEmail: "Email valide (pour recevoir l'attestation PDF) *",
+        kycCity: "Ville *",
+        kycDistrict: "Quartier / Commune",
+        kycIdType: "Type et photo de la pièce d'identité (CNI / Passeport / Carte d'électeur)",
+        kycLiveness: "Selfie en direct (Liveness Check)",
+        kycLivenessBtn: "Lancer vérification visage",
+        kycSubmit: "Soumettre mon dossier KYC GIAT →",
+        payHeader: "Choix de la Formation & Paiement Mobile Money",
+        optOnlineTitle: "OPTION A : 100% EN LIGNE 💻",
+        optOnlineDesc: "Vidéos courtes, cours détaillés en Français, Arabe & Anglais, quiz et support WhatsApp.",
+        optPresTitle: "OPTION B : PRÉSENTIEL N'DJAMENA 🏫",
+        optPresDesc: "2 jours intensifs (Samedi & Dimanche, 8h-15h) avec le PDG et formateurs. Ordinateur fourni.",
+        payOperator: "Opérateur utilisé",
+        payTxId: "ID / Référence de la transaction (5 000 FCFA) *",
+        paySubmit: "Confirmer mon paiement de 5 000 FCFA →",
+        progressLabel: "Ma Progression GIAT (6 Modules • 18 Heures)",
+        lessonIntro: "Cours Détaillé & Explications :",
+        examplesTitle: "Exemples Concrets & Prompts Prêts à Copier :",
+        keyPointsTitle: "Points Clés à Retenir :",
+        quizTitle: "Quiz de Validation :",
+        validateModuleBtn: "Valider ce module →",
+        unlockRequiredBtn: "Débloquez le KYC & Paiement pour valider",
+        cardTitle: "CARTE D'APPRENANT OFFICIELLE",
+        certHeader: "Mon Attestation Officielle GIAT (Format A4)",
+        certPrintBtn: "Imprimer / Télécharger PDF A4",
+        certCountry: "RÉPUBLIQUE DU TCHAD",
+        certAcademy: "Académie Nationale d'Intelligence Artificielle",
+        certMainTitle: "ATTESTATION DE RÉUSSITE",
+        verifyTitle: "Vérificateur d'Authenticité d'Attestation GIAT",
+        verifyDesc: "Entreprises et recruteurs : saisissez le numéro inscrit sur une attestation (ex : GIAT-2026-NDJ-0001).",
+        verifyBtn: "Vérifier le certificat",
+        dirTitle: "Annuaire National des Lauréats Vérifiés GIAT",
+        dirDesc: "Base de données de talents IA certifiés au Tchad recrutables par les entreprises.",
+        adminTitle: "Accès Administrateur PDG",
+        adminUnlockBtn: "Déverrouiller le Tableau de Bord"
+      },
+      ar: {
+        brandSub: "الرئيس المدير العام محمد قومبو أبكر • بدعم من GDB",
+        localMode: "الوضع المحلي",
+        sbConnected: "متصل بـ Supabase",
+        adminBtn: "إدارة المدير العام",
+        navHome: "الرئيسية",
+        navKyc: "١. التحقق KYC",
+        navPay: "٢. الدفع 5000F",
+        navCourses: "٣. الدروس",
+        navCard: "بطاقتي",
+        navCert: "الشهادة",
+        navDir: "الخريجون و QR",
+        heroBadge: "الأكاديمية الوطنية للذكاء الاصطناعي • تشاد",
+        heroSlogan: "« الذكاء الاصطناعي لن يستبدلك. الشخص الذي يتقن الذكاء الاصطناعي هو من سيستبدلك. تدرب مع GIAT. »",
+        heroDesc: "الهدف الوطني: تدريب 100,000 تشادي في 12 شهراً بهوية موثقة (KYC)، وتدريب عملي بالفرنسية والعربية والإنجليزية، وشهادة رسمية قابلة للتحقق عبر رمز QR.",
+        ctaStart: "ابدأ التسجيل والتحقق KYC",
+        ctaAdmin: "فتح لوحة تحكم المدير العام",
+        syncTitle: "مسجل مسبقاً؟ قم بمزامنة ملفك",
+        syncSub: "أدخل رقم هاتفك +235 أو بريدك الإلكتروني لاسترجاع شارة KYC أو الدروس أو شهادتك.",
+        syncPlaceholder: "مثال: 92825252 أو البريد الإلكتروني",
+        syncBtn: "تحميل",
+        step1Title: "التحقق الرقمي الإلزامي KYC",
+        step1Desc: "الاسم الكامل، بطاقة الهوية، صورة سيلفي مباشرة والتحقق عبر رمز SMS.",
+        step2Title: "الدفع 5,000 فرنك أفريقي",
+        step2Desc: "Moov Money (92 82 52 52) أو Airtel Money (66 78 75 46). وصول مدى الحياة.",
+        step3Title: "عن بُعد أو حضورياً",
+        step3Desc: "100% عبر الإنترنت 24/24 أو يومان مكثفان في انجمينا (30 مقعداً).",
+        step4Title: "6 وحدات + شهادة رسمية",
+        step4Desc: "18 ساعة تدريب عملي + شهادة PDF A4 رسمية مزودة برمز QR.",
+        openArrow: "فتح ←",
+        kycHeader: "التسجيل والتحقق الرقمي الإلزامي (KYC)",
+        kycFullName: "الاسم الكامل (مطابق تماماً لبطاقة الهوية) *",
+        kycPhone: "رقم الهاتف (+235) *",
+        kycSendOtp: "إرسال الرمز",
+        kycValidateOtp: "تأكيد الرمز",
+        kycEmail: "بريد إلكتروني صحيح (لاستلام الشهادة PDF) *",
+        kycCity: "المدينة *",
+        kycDistrict: "الحي / البلدية",
+        kycIdType: "نوع وصورة وثيقة الهوية (بطاقة وطنية / جواز سفر / بطاقة ناخب)",
+        kycLiveness: "صورة سيلفي مباشرة (فحص الحيوية)",
+        kycLivenessBtn: "بدء التحقق من الوجه",
+        kycSubmit: "إرسال ملف KYC الخاص بي إلى GIAT ←",
+        payHeader: "اختيار نظام التدريب والدفع عبر الهاتف",
+        optOnlineTitle: "الخيار أ: 100% عبر الإنترنت 💻",
+        optOnlineDesc: "دروس مفصلة بالفرنسية والعربية والإنجليزية، اختبارات ودعم عبر واتساب.",
+        optPresTitle: "الخيار ب: حضوري في انجمينا 🏫",
+        optPresDesc: "يومان مكثفان (السبت والأحد 8:00 - 15:00) مع المدير العام والمدربين. الحاسوب متوفر.",
+        payOperator: "شركة الدفع المستخدمة",
+        payTxId: "رقم / مرجع المعاملة (5,000 فرنك) *",
+        paySubmit: "تأكيد دفعي بمبلغ 5,000 فرنك ←",
+        progressLabel: "تقدمي في GIAT (6 وحدات • 18 ساعة)",
+        lessonIntro: "الشرح المفصل للدرس:",
+        examplesTitle: "أمثلة واقعية وأوامر (Prompts) جاهزة للنسخ:",
+        keyPointsTitle: "أهم النقاط المستفادة:",
+        quizTitle: "اختبار التقييم:",
+        validateModuleBtn: "اعتماد هذه الوحدة ←",
+        unlockRequiredBtn: "أكمل KYC والدفع لفتح الاعتماد",
+        cardTitle: "بطاقة المتدرب الرسمية",
+        certHeader: "شهادتي الرسمية من GIAT (حجم A4)",
+        certPrintBtn: "طباعة / تحميل PDF A4",
+        certCountry: "جمهورية تشاد",
+        certAcademy: "الأكاديمية الوطنية للذكاء الاصطناعي",
+        certMainTitle: "شهادة إتمام ونجاح",
+        verifyTitle: "التحقق من صحة شهادة GIAT",
+        verifyDesc: "للشركات وأصحاب العمل: أدخل الرقم المسجل على الشهادة (مثال: GIAT-2026-NDJ-0001).",
+        verifyBtn: "التحقق من الشهادة",
+        dirTitle: "الدليل الوطني للخريجين المعتمدين في GIAT",
+        dirDesc: "قاعدة بيانات كفاءات الذكاء الاصطناعي المعتمدين في تشاد للتوظيف.",
+        adminTitle: "دخول لوحة تحكم المدير العام",
+        adminUnlockBtn: "فتح لوحة التحكم"
+      },
+      en: {
+        brandSub: "CEO Mahamat Gombo Abakar • Powered by GDB",
+        localMode: "Local Mode",
+        sbConnected: "Supabase Connected",
+        adminBtn: "CEO Admin",
+        navHome: "Home",
+        navKyc: "1. KYC",
+        navPay: "2. Pay 5000F",
+        navCourses: "3. Courses",
+        navCard: "My Card",
+        navCert: "Certificate",
+        navDir: "Graduates & QR",
+        heroBadge: "National Academy of Artificial Intelligence • Chad",
+        heroSlogan: "\"AI will not replace you. Someone who masters AI will replace you. Train with GIAT.\"",
+        heroDesc: "National Mission: Train 100,000 Chadians in 12 months with verified identity (KYC), practical training in French, Arabic & English, and an Official QR-verified Certificate.",
+        ctaStart: "Start KYC Registration",
+        ctaAdmin: "Open CEO Admin Dashboard",
+        syncTitle: "Already registered? Sync your profile",
+        syncSub: "Enter your +235 phone number or email to restore your KYC badge, course access, or certificate.",
+        syncPlaceholder: "Ex: 92825252 or email",
+        syncBtn: "Load",
+        step1Title: "Mandatory Digital KYC",
+        step1Desc: "Legal full name, ID document, live selfie check, and SMS OTP verification.",
+        step2Title: "5,000 FCFA Payment",
+        step2Desc: "Moov Money (92 82 52 52) or Airtel Money (66 78 75 46). Lifetime access.",
+        step3Title: "Online or In-Person",
+        step3Desc: "100% online 24/7 or 2 intensive days in N'Djamena (30 seats limit).",
+        step4Title: "6 Modules + Certificate",
+        step4Desc: "18 hours of hands-on training + Official A4 PDF Certificate with QR Code.",
+        openArrow: "Open →",
+        kycHeader: "Registration & Mandatory Digital KYC",
+        kycFullName: "Full Legal Name (exactly as shown on your ID) *",
+        kycPhone: "Phone Number (+235) *",
+        kycSendOtp: "Send OTP",
+        kycValidateOtp: "Verify OTP",
+        kycEmail: "Valid Email (to receive PDF certificate) *",
+        kycCity: "City *",
+        kycDistrict: "Neighborhood / District",
+        kycIdType: "ID Document Type & Photo (National ID / Passport / Voter Card)",
+        kycLiveness: "Live Selfie (Liveness Check)",
+        kycLivenessBtn: "Run Face Verification",
+        kycSubmit: "Submit my GIAT KYC File →",
+        payHeader: "Training Format & Mobile Money Payment",
+        optOnlineTitle: "OPTION A: 100% ONLINE 💻",
+        optOnlineDesc: "Detailed modules in French, Arabic & English, quizzes, and WhatsApp support.",
+        optPresTitle: "OPTION B: IN-PERSON N'DJAMENA 🏫",
+        optPresDesc: "2 intensive days (Saturday & Sunday, 8am-3pm) with the CEO and trainers. Laptop provided.",
+        payOperator: "Mobile Money Provider",
+        payTxId: "Transaction ID / Reference (5,000 FCFA) *",
+        paySubmit: "Confirm my 5,000 FCFA Payment →",
+        progressLabel: "My GIAT Progress (6 Modules • 18 Hours)",
+        lessonIntro: "Detailed Lesson & Core Concepts:",
+        examplesTitle: "Concrete Real-World Examples & Copyable Prompts:",
+        keyPointsTitle: "Key Takeaways:",
+        quizTitle: "Validation Quiz:",
+        validateModuleBtn: "Complete this Module →",
+        unlockRequiredBtn: "Complete KYC & Payment to Unlock",
+        cardTitle: "OFFICIAL STUDENT ID CARD",
+        certHeader: "My Official GIAT Certificate (A4 Format)",
+        certPrintBtn: "Print / Download A4 PDF",
+        certCountry: "REPUBLIC OF CHAD",
+        certAcademy: "National Academy of Artificial Intelligence",
+        certMainTitle: "CERTIFICATE OF ACHIEVEMENT",
+        verifyTitle: "GIAT Certificate Authenticity Verifier",
+        verifyDesc: "Employers & institutions: enter the certificate number (e.g., GIAT-2026-NDJ-0001) to verify authenticity.",
+        verifyBtn: "Verify Certificate",
+        dirTitle: "National Directory of Verified GIAT Graduates",
+        dirDesc: "Database of certified AI talents in Chad ready to be hired by companies.",
+        adminTitle: "CEO Administrator Access",
+        adminUnlockBtn: "Unlock Admin Dashboard"
+      }
+    };
+
     const MODULES_DATA = [
       {
         id: 1,
-        title: "Comprendre l'IA",
         duration: "2h 30",
-        descFr: "C'est quoi l'Intelligence Artificielle, d'où elle vient, comment elle fonctionne et pourquoi elle transforme le monde si vite.",
-        descAr: "شنو هو الذكاء الاصطناعي، من وين جا، وكيف يشتغل ويغير العالم بسرعة كبيرة.",
-        keyPoints: [
-          "Différence entre informatique classique et IA générative (ChatGPT, Gemini, Claude).",
-          "Comment parler à une IA (l'art du Prompt structuré).",
-          "Pourquoi le Tchad doit former 100 000 talents dès maintenant."
-        ],
-        quiz: {
-          question: "Quelle est la meilleure façon d'obtenir une réponse précise d'une IA ?",
-          options: [
-            "Écrire un seul mot vague",
-            "Donner un rôle, un contexte précis et le format attendu",
-            "Attendre qu'elle devine notre métier"
+        title: {
+          fr: "Comprendre l'IA en profondeur",
+          ar: "فهم الذكاء الاصطناعي بعمق",
+          en: "Understanding AI in Depth"
+        },
+        lesson: {
+          fr: "L'Intelligence Artificielle (IA) n'est pas de la magie : c'est un ensemble de programmes capables d'analyser des millions d'exemples pour comprendre un texte, traduire une langue, rédiger un document, créer une image ou résoudre un problème en quelques secondes. Contrairement à un logiciel classique (qui exécute uniquement des règles fixes), l'IA générative (ChatGPT, Gemini, Claude) comprend votre intention et produit une réponse sur mesure.",
+          ar: "الذكاء الاصطناعي ليس سحراً: إنه مجموعة من البرامج القادرة على تحليل ملايين الأمثلة لفهم النصوص، ترجمة اللغات، كتابة المستندات، تصميم الصور وحل المشكلات في ثوانٍ معدودة. على عكس البرامج التقليدية، يفهم الذكاء الاصطناعي التوليدي (مثل ChatGPT و Gemini) قصدك وينتج لك محتوى مخصصاً بدقة.",
+          en: "Artificial Intelligence (AI) is not magic: it is software trained on millions of examples to understand language, translate, write documents, design visuals, and solve problems in seconds. Unlike traditional software that follows rigid rules, generative AI (ChatGPT, Gemini, Claude) understands your intent and creates tailored outputs."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Exemple 1 — La méthode R.C.F. (Rôle + Contexte + Format)",
+              prompt: "Agis comme un conseiller commercial expert à N'Djamena. Rédige un message WhatsApp court et convaincant pour annoncer l'arrivée d'un nouveau stock de tissus Bazin de qualité supérieure avec livraison à domicile."
+            },
+            {
+              title: "Exemple 2 — Traduction et reformulation administrative",
+              prompt: "Corrige les fautes de français de cette lettre officielle destinée à une banque tchadienne et rends le ton plus professionnel : [coller votre brouillon]."
+            }
           ],
-          answer: 1
+          ar: [
+            {
+              title: "مثال ١ — قاعدة (الدور + السياق + الشكل المطلوب)",
+              prompt: "تصرف كخبير تسويق في انجمينا. اكتب رسالة واتساب قصيرة ومقنعة للإعلان عن وصول تشكيلة جديدة من الأقمشة الفاخرة مع خدمة التوصيل للمنازل."
+            },
+            {
+              title: "مثال ٢ — صياغة وترجمة المراسلات الإدارية",
+              prompt: "صحح الأخطاء اللغوية في هذه الرسالة الرسمية الموجهة إلى بنك في تشاد واجعل أسلوبها مهنياً واحترافياً: [ضع مسودتك هنا]."
+            }
+          ],
+          en: [
+            {
+              title: "Example 1 — The R.C.F. Formula (Role + Context + Format)",
+              prompt: "Act as an expert sales advisor in N'Djamena. Write a short, persuasive WhatsApp message announcing a new arrival of premium Bazin fabrics with home delivery."
+            },
+            {
+              title: "Example 2 — Administrative proofreading & polishing",
+              prompt: "Fix grammar mistakes in this official letter addressed to a Chadian bank and make the tone executive and polite: [paste draft]."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Un 'Prompt' est l'instruction que vous donnez à l'IA : plus il est précis, meilleur est le résultat.",
+            "L'IA est un copilote : elle vous fait gagner 80 % de temps sur la rédaction et la réflexion.",
+            "L'objectif GIAT est de démocratiser cet outil auprès de 100 000 Tchadiens."
+          ],
+          ar: [
+            "الأمر (Prompt) هو التعليمات التي تعطيها للذكاء الاصطناعي: كلما كان أدق كانت النتيجة أفضل.",
+            "الذكاء الاصطناعي مساعد شخصي يوفر عليك 80% من وقت الكتابة والتفكير.",
+            "هدف GIAT هو تمكين 100,000 تشادي من هذه الأدوات."
+          ],
+          en: [
+            "A 'Prompt' is your instruction to AI: the clearer your context, the stronger the result.",
+            "AI acts as your copilot, saving up to 80% of drafting and brainstorming time.",
+            "GIAT's mission is to equip 100,000 Chadians with practical AI fluency."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Quelle structure de prompt donne les meilleurs résultats avec une IA ?",
+            options: [
+              "Écrire un seul mot sans contexte",
+              "Préciser le Rôle, le Contexte local et le Format attendu",
+              "Copier un texte au hasard"
+            ],
+            answer: 1
+          },
+          ar: {
+            question: "ما هي أفضل طريقة لكتابة أمر (Prompt) للحصول على نتيجة دقيقة من الذكاء الاصطناعي؟",
+            options: [
+              "كتابة كلمة واحدة غامضة",
+              "تحديد الدور والسياق المحلي والشكل المطلوب للنتيجة",
+              "الانتظار دون كتابة أي تفاصيل"
+            ],
+            answer: 1
+          },
+          en: {
+            question: "Which prompt structure produces the highest quality results from AI?",
+            options: [
+              "Typing a single vague word",
+              "Specifying Role, local Context, and desired Format",
+              "Leaving the input blank"
+            ],
+            answer: 1
+          }
         }
       },
       {
         id: 2,
-        title: "Les Tâches Humaines que l'IA Remplace Déjà au Tchad",
         duration: "3h 00",
-        descFr: "20 exemples réels filmés au marché de N'Djamena, à la banque, dans les administrations et à l'école.",
-        descAr: "٢٠ مثال حقيقي من السوق في انجمينا، البنوك، الإدارات والمدارس.",
-        keyPoints: [
-          "Saisie de rapports, traduction Français-Arabe, rédaction administrative.",
-          "Service client automatisé sur WhatsApp Business pour commerçants.",
-          "Création d'affiches publicitaires et montages vidéo sans studio."
-        ],
-        quiz: {
-          question: "Selon la devise officielle GIAT, qui va remplacer celui qui ne maîtrise pas l'IA ?",
-          options: [
-            "Un robot physique",
-            "Celui qui maîtrise l'IA",
-            "Personne, rien ne change"
+        title: {
+          fr: "Les Tâches Humaines que l'IA Remplace Déjà au Tchad",
+          ar: "المهام البشرية التي بدأ الذكاء الاصطناعي يستبدلها في تشاد",
+          en: "Human Tasks AI Is Already Replacing in Chad"
+        },
+        lesson: {
+          fr: "Au marché central de N'Djamena, dans les agences bancaires, les cabinets comptables, les ONG et les écoles, l'IA accomplit déjà en 30 secondes ce qui prenait autrefois une journée entière : saisie de rapports, synthèse de réunions, traduction Français-Arabe, réponses aux clients sur WhatsApp et création d'affiches publicitaires.",
+          ar: "في السوق المركزي بانجمينا، وفي البنوك ومكاتب المحاسبة والمنظمات والمدارس، ينجز الذكاء الاصطناعي في 30 ثانية ما كان يستغرق يوماً كاملاً: كتابة التقارير، تلخيص الاجتماعات، الترجمة بين الفرنسية والعربية، الرد على الزبائن في واتساب وتصميم الإعلانات.",
+          en: "Across N'Djamena's central market, banks, accounting firms, NGOs, and schools, AI already finishes in 30 seconds what used to take a full workday: report drafting, meeting summaries, French-Arabic translation, WhatsApp customer replies, and ad poster design."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Cas Réel 1 — Boutique / Commerce à N'Djamena ou Moundou",
+              prompt: "Voici la liste de mes ventes du jour : [2 sacs de riz à 22 000 F, 5 bidons d'huile à 6 500 F, 10 cartons de savon à 4 000 F]. Calcule le chiffre d'affaires total et prépare un bilan clair pour mon cahier de caisse."
+            },
+            {
+              title: "Cas Réel 2 — ONG & Administration",
+              prompt: "Résume ce rapport de mission de 5 pages en 6 points clés actionnables pour le directeur national, avec un tableau des recommandations."
+            }
           ],
-          answer: 1
+          ar: [
+            {
+              title: "حالة واقعية ١ — متجر في انجمينا أو موندو",
+              prompt: "إليك قائمة مبيعات اليوم: [كيسا أرز بـ 22,000 فرنك، 5 عبوات زيت بـ 6,500 فرنك، 10 كراتين صابون بـ 4,000 فرنك]. احسب إجمالي المبيعات وأعد ملخصاً واضحاً لدفتر الصندوق."
+            },
+            {
+              title: "حالة واقعية ٢ — المنظمات والإدارات",
+              prompt: "لخص تقرير المهمة الميدانية هذا في 6 نقاط رئيسية قابلة للتنفيذ مع جدول للتوصيات."
+            }
+          ],
+          en: [
+            {
+              title: "Real Case 1 — Retail Shop in N'Djamena or Moundou",
+              prompt: "Here are today's sales: [2 bags of rice at 22,000 F, 5 oil cans at 6,500 F, 10 soap cartons at 4,000 F]. Calculate total revenue and format a clean cashbook summary."
+            },
+            {
+              title: "Real Case 2 — NGOs & Administration",
+              prompt: "Summarize this 5-page field mission report into 6 actionable bullet points for the country director with a recommendations table."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Les tâches répétitives de bureau (saisie, classement, traduction) sont automatisées à 90 %.",
+            "Les commerçants qui utilisent l'IA répondent 5 fois plus vite aux clients sur WhatsApp.",
+            "Ceux qui maîtrisent l'IA deviennent indispensables auprès des employeurs."
+          ],
+          ar: [
+            "المهام المكتبية المتكررة (الكتابة، الترجمة، التلخيص) أصبحت مؤتمتة بنسبة 90%.",
+            "التجار الذين يستخدمون الذكاء الاصطناعي يردون على زبائنهم أسرع بـ 5 مرات.",
+            "إتقان الذكاء الاصطناعي يجعلك موظفاً لا غنى عنه."
+          ],
+          en: [
+            "Repetitive office tasks (typing, summarizing, translating) are up to 90% automated.",
+            "Merchants using AI reply 5x faster to customer inquiries on WhatsApp.",
+            "Employees who master AI become indispensable to employers."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Quel avantage concret l'IA apporte-t-elle immédiatement à un commerçant tchadien ?",
+            options: [
+              "Calculer sa caisse, rédiger ses offres WhatsApp et créer ses affiches en quelques minutes",
+              "Remplacer complètement ses marchandises",
+              "Fermer sa boutique plus tôt sans vendre"
+            ],
+            answer: 0
+          },
+          ar: {
+            question: "ما هي الفائدة الفورية التي يقدمها الذكاء الاصطناعي للتاجر التشادي؟",
+            options: [
+              "حساب المبيعات، كتابة عروض واتساب وتصميم الإعلانات في دقائق معدودة",
+              "إغلاق المتجر دون بيع",
+              "لا يقدم أي فائدة"
+            ],
+            answer: 0
+          },
+          en: {
+            question: "What immediate benefit does AI bring to a Chadian merchant?",
+            options: [
+              "Calculating daily sales, writing WhatsApp promos, and designing ads in minutes",
+              "Closing the shop without selling",
+              "None at all"
+            ],
+            answer: 0
+          }
         }
       },
       {
         id: 3,
-        title: "Les Nouveaux Métiers IA qui Paient",
         duration: "3h 00",
-        descFr: "Prompt Engineer, Vendeur IA, Créateur de contenu, Community Manager IA et Consultant digital.",
-        descAr: "مهن الذكاء الاصطناعي الجديدة اللي تدخل قروش: مصمم إعلانات، مسوق رقمي، ومستشار.",
-        keyPoints: [
-          "Vendre des services de création de visuels et textes aux entreprises locales.",
-          "Gérer les pages Facebook/TikTok de 5 boutiques grâce à l'IA.",
-          "Fixer ses tarifs en FCFA et encaisser via Moov / Airtel Money."
-        ],
-        quiz: {
-          question: "Quel métier IA permet de gérer plusieurs pages de boutiques tchadiennes rapidement ?",
-          options: [
-            "Community Manager IA",
-            "Mécanicien diesel",
-            "Gardien de nuit"
+        title: {
+          fr: "Les Nouveaux Métiers IA qui Paient au Tchad",
+          ar: "مهن الذكاء الاصطناعي الجديدة المربحة في تشاد",
+          en: "New High-Paying AI Careers in Chad"
+        },
+        lesson: {
+          fr: "Vous n'avez pas besoin d'être ingénieur informatique pour gagner votre vie avec l'IA. Dès la fin de votre formation GIAT, vous pouvez proposer 4 services très demandés aux entreprises, boutiques, restaurants, cliniques et écoles de votre ville et encaisser vos prestations via Moov Money ou Airtel Money.",
+          ar: "لست بحاجة لأن تكون مهندس برمجيات لكسب المال من الذكاء الاصطناعي. فور انتهاء تدريب GIAT، يمكنك تقديم 4 خدمات مطلوبة بشدة للشركات والمتاجر والمطاعم والعيادات والمدارس وتحصيل أرباحك عبر Moov Money أو Airtel Money.",
+          en: "You do not need a computer science degree to earn money with AI. Right after your GIAT training, you can offer 4 high-demand services to local businesses, shops, restaurants, clinics, and schools, collecting payments via Moov Money or Airtel Money."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Métier 1 — Community Manager IA (15 000 à 35 000 FCFA / mois par boutique)",
+              prompt: "Crée un calendrier de 8 publications Facebook et TikTok pour un restaurant à N'Djamena spécialisé dans les grillades et jus naturels, avec des accroches engageantes."
+            },
+            {
+              title: "Métier 2 — Rédacteur de CV & Dossiers Pro (2 000 à 5 000 FCFA / client)",
+              prompt: "Transforme ces informations brutes en un CV moderne et percutant pour un poste de logisticien dans une ONG humanitaire au Tchad : [informations du candidat]."
+            }
           ],
-          answer: 0
+          ar: [
+            {
+              title: "المهنة ١ — مدير صفحات تواصل بالذكاء الاصطناعي (15,000 إلى 35,000 فرنك شهرياً لكل متجر)",
+              prompt: "أنشئ جدولاً من 8 منشورات فيسبوك وتيك توك لمطعم في انجمينا متخصص في المشويات والعصائر الطبيعية بعبارات جذابة."
+            },
+            {
+              title: "المهنة ٢ — مصمم سير ذاتية وملفات مهنية (2,000 إلى 5,000 فرنك لكل عميل)",
+              prompt: "حوّل هذه المعلومات البسيطة إلى سيرة ذاتية احترافية لوظيفة لوجستي في منظمة إنسانية في تشاد: [معلومات المرشح]."
+            }
+          ],
+          en: [
+            {
+              title: "Career 1 — AI Social Media Manager (15,000–35,000 FCFA/month per shop)",
+              prompt: "Create an 8-post Facebook and TikTok content calendar for a grill & fresh juice restaurant in N'Djamena with engaging hooks."
+            },
+            {
+              title: "Career 2 — Executive CV & Proposal Writer (2,000–5,000 FCFA/client)",
+              prompt: "Turn these raw notes into a sharp, modern CV for a Logistics Officer role at a humanitarian NGO in Chad: [candidate info]."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Community Manager IA : gérez la communication digitale de 5 commerces en 1 heure par jour.",
+            "Créateur de visuels & voix-off publicitaires pour WhatsApp et TikTok.",
+            "Consultant Formateur IA auprès des associations et petites entreprises locales."
+          ],
+          ar: [
+            "مدير صفحات بالذكاء الاصطناعي: أدر تسويق 5 متاجر في ساعة واحدة يومياً.",
+            "مصمم إعلانات وفيديوهات ترويجية لواتساب وتيك توك.",
+            "مستشار ومدرب ذكاء اصطناعي للجمعيات والشركات الصغيرة."
+          ],
+          en: [
+            "AI Social Media Manager: manage digital marketing for 5 local shops in 1 hour/day.",
+            "Ad visual & promo script creator for WhatsApp and TikTok.",
+            "AI Productivity Consultant for local NGOs, schools, and SMEs."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Comment un lauréat GIAT peut-il générer des revenus dès sa première semaine ?",
+            options: [
+              "En proposant la création de CV, d'affiches et la gestion de pages Facebook/WhatsApp aux commerçants",
+              "En attendant uniquement un recrutement à l'étranger",
+              "En gardant ses compétences secrètes"
+            ],
+            answer: 0
+          },
+          ar: {
+            question: "كيف يمكن لخريج GIAT تحقيق دخل منذ الأسبوع الأول؟",
+            options: [
+              "تقديم خدمات تصميم السير الذاتية والإعلانات وإدارة صفحات المتاجر",
+              "إخفاء مهاراته وعدم العمل",
+              "الانتظار لسنوات"
+            ],
+            answer: 0
+          },
+          en: {
+            question: "How can a GIAT graduate start earning income in week one?",
+            options: [
+              "Offering CV writing, ad creation, and Facebook/WhatsApp page management to local businesses",
+              "Keeping skills secret",
+              "Waiting for years"
+            ],
+            answer: 0
+          }
         }
       },
       {
         id: 4,
-        title: "Atelier Pratique",
         duration: "4h 00",
-        descFr: "Tu crées ton CV professionnel, ton affiche publicitaire, ta boutique et ton business plan avec l'IA.",
-        descAr: "تطبيق عملي: تصنع سيرتك الذاتية، إعلانك التجاري، وخطة مشروعك بالذكاء الاصطناعي.",
-        keyPoints: [
-          "Génération d'un CV moderne prêt à envoyer aux recruteurs.",
-          "Rédaction d'une offre commerciale irrésistible pour WhatsApp.",
-          "Structuration d'un mini business plan chiffré en FCFA."
-        ],
-        quiz: {
-          question: "Que produit-on concrètement durant l'Atelier Pratique du Module 4 ?",
-          options: [
-            "Uniquement de la théorie historique",
-            "Un CV, une affiche, une offre boutique et un business plan",
-            "Un moteur de voiture"
+        title: {
+          fr: "Atelier Pratique : CV, Affiche, Boutique & Business Plan",
+          ar: "ورشة تطبيقية: السيرة الذاتية، الإعلان، المتجر وخطة المشروع",
+          en: "Hands-On Workshop: CV, Ad Poster, Shop & Business Plan"
+        },
+        lesson: {
+          fr: "Place à la pratique directe ! Dans ce module central de 4 heures, vous utilisez le Studio Pratique GIAT ci-dessous pour générer vos 4 livrables professionnels complets : votre CV prêt à l'emploi, votre affiche commerciale WhatsApp, la fiche de présentation de votre boutique et votre mini business plan chiffré en FCFA.",
+          ar: "حان وقت التطبيق العملي المباشر! في هذه الوحدة الأساسية (4 ساعات)، ستستخدم استوديو GIAT العملي أدناه لإنتاج 4 ملفات احترافية كاملة: سيرتك الذاتية، إعلانك التجاري لواتساب، تعريف متجرك، وخطة مشروعك المصغرة بالفرنك الأفريقي.",
+          en: "Time for hands-on execution! In this core 4-hour workshop, use the GIAT Practical Studio below to generate your 4 complete professional deliverables: your job-ready CV, WhatsApp promo ad, shop pitch, and mini business plan budgeted in FCFA."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Modèle de Business Plan Express (Capital 100 000 FCFA)",
+              prompt: "Construis un business plan simple pour démarrer une activité de vente d'accessoires solaires et téléphones à Abéché avec 100 000 FCFA de capital, incluant coûts, marge et stratégie WhatsApp."
+            },
+            {
+              title: "Modèle d'Affiche / Texte de Vente Irrésistible",
+              prompt: "Rédige une annonce courte avec émojis pour vendre des chaussures de sport importées à Sarh, avec prix promotionnel et appel à l'action direct."
+            }
           ],
-          answer: 1
+          ar: [
+            {
+              title: "نموذج خطة مشروع سريعة (رأس مال 100,000 فرنك)",
+              prompt: "ضع خطة عمل مبسطة لبدء بيع إكسسوارات الطاقة الشمسية والهواتف في أبشي برأس مال 100,000 فرنك مع حساب التكاليف والأرباح واستراتيجية واتساب."
+            },
+            {
+              title: "نموذج إعلان بيع جذاب",
+              prompt: "اكتب إعلاناً قصيراً مع رموز تعبيرية لبيع أحذية رياضية في سار بسعر ترويجي ونداء واضح للشراء."
+            }
+          ],
+          en: [
+            {
+              title: "Express Business Plan Template (100,000 FCFA Capital)",
+              prompt: "Build a simple business plan to start selling solar accessories and phones in Abéché with 100,000 FCFA capital, including costs, margins, and WhatsApp strategy."
+            },
+            {
+              title: "High-Converting Promo Ad Template",
+              prompt: "Write a short ad with emojis to sell imported sneakers in Sarh with a limited-time promo price and clear call to action."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Ne partez jamais d'une page blanche : générez une base structurée en 10 secondes puis personnalisez-la.",
+            "Adaptez toujours les prix en FCFA et les quartiers de livraison à votre ville.",
+            "Sauvegardez vos textes dans un dossier téléphone prêt à être envoyé aux clients."
+          ],
+          ar: [
+            "لا تبدأ أبداً من صفحة فارغة: أنشئ مسودة منظمة في 10 ثوانٍ ثم عدّلها.",
+            "اجعل الأسعار دائماً بالفرنك الأفريقي وأضف أحياء التوصيل في مدينتك.",
+            "احفظ نصوصك الجاهزة في هاتفك لإرسالها للزبائن فوراً."
+          ],
+          en: [
+            "Never start from a blank page: generate a structured draft in 10 seconds and customize it.",
+            "Always localize prices in FCFA and delivery neighborhoods for your city.",
+            "Save your ready-to-use templates on your phone to send to clients instantly."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Quels sont les 4 livrables créés durant l'Atelier Pratique GIAT ?",
+            options: [
+              "Un CV, une affiche publicitaire, une présentation boutique et un business plan",
+              "Uniquement une chanson",
+              "Uniquement un calcul mathématique"
+            ],
+            answer: 0
+          },
+          ar: {
+            question: "ما هي المخرجات الأربعة التي يتم إنشاؤها في ورشة GIAT التطبيقية؟",
+            options: [
+              "سيرة ذاتية، إعلان تجاري، تعريف متجر وخطة مشروع",
+              "أغنية فقط",
+              "معادلة حسابية فقط"
+            ],
+            answer: 0
+          },
+          en: {
+            question: "What are the 4 deliverables created during the GIAT Hands-On Workshop?",
+            options: [
+              "A CV, a promo ad, a shop pitch, and a business plan",
+              "Only a song",
+              "Only a math equation"
+            ],
+            answer: 0
+          }
         }
       },
       {
         id: 5,
-        title: "IA, Éthique et Halal",
         duration: "2h 30",
-        descFr: "Comment utiliser l'IA avec honnêteté, sans tricher, sans fraude et dans le respect des valeurs éthiques.",
-        descAr: "كيف تستعمل الذكاء الاصطناعي بأمانة، بدون غش أو احتيال، وباحترام القيم والأخلاق.",
-        keyPoints: [
-          "Interdiction stricte des faux documents, deepfakes trompeurs et arnaques.",
-          "Vérification des informations (l'IA peut parfois inventer des faits).",
-          "Protection des données personnelles et respect de la propriété intellectuelle."
-        ],
-        quiz: {
-          question: "Pourquoi doit-on toujours relire et vérifier ce que produit une IA ?",
-          options: [
-            "Parce que l'IA peut parfois faire des erreurs ou inventer des détails",
-            "Parce que l'IA écrit toujours à l'envers",
-            "Ce n'est jamais nécessaire"
+        title: {
+          fr: "IA, Éthique, Vérification et Usage Halal",
+          ar: "الذكاء الاصطناعي، الأخلاق، التحقق والاستخدام الحلال",
+          en: "AI, Ethics, Fact-Checking & Halal Usage"
+        },
+        lesson: {
+          fr: "La puissance de l'IA exige une responsabilité morale irréprochable. Chez GIAT, nous formons des professionnels intègres : l'IA doit servir à créer de la valeur honnête, éduquer et développer le pays — jamais à falsifier des documents, tromper des clients (deepfakes, fausses preuves de paiement) ou plagier sans réfléchir.",
+          ar: "قوة الذكاء الاصطناعي تتطلب مسؤولية أخلاقية عالية. في GIAT نُعد محترفين أمناء: يُستخدم الذكاء الاصطناعي لخلق قيمة حلال وصادقة وتطوير البلاد — وليس لتزوير الوثائق أو خداع الناس أو الغش.",
+          en: "AI power requires uncompromising moral integrity. At GIAT, we train trustworthy professionals: AI must be used to create honest, halal value and develop our nation — never to forge documents, deceive customers (deepfakes, fake payment receipts), or plagiarize blindly."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Règle d'Or 1 — Vérifier les faits avant de publier",
+              prompt: "Vérifie chaque chiffre et date de ce texte et indique-moi quelles informations nécessitent une vérification officielle avant publication."
+            },
+            {
+              title: "Règle d'Or 2 — Protection des données sensibles",
+              prompt: "Ne partagez jamais le numéro de CNI, les mots de passe ou les codes secrets Mobile Money d'un client dans un prompt public."
+            }
           ],
-          answer: 0
+          ar: [
+            {
+              title: "القاعدة الذهبية ١ — التحقق من المعلومات قبل النشر",
+              prompt: "راجع كل رقم وتاريخ في هذا النص وحدد لي المعلومات التي تحتاج إلى تأكيد رسمي قبل النشر."
+            },
+            {
+              title: "القاعدة الذهبية ٢ — حماية البيانات الشخصية",
+              prompt: "لا تشارك أبداً رقم البطاقة الوطنية أو كلمات المرور أو رموز الدفع السرية في أي محادثة ذكاء اصطناعي."
+            }
+          ],
+          en: [
+            {
+              title: "Golden Rule 1 — Fact-check before publishing",
+              prompt: "Review every number and date in this text and flag which claims require official verification before publishing."
+            },
+            {
+              title: "Golden Rule 2 — Protect sensitive personal data",
+              prompt: "Never paste national ID numbers, passwords, or Mobile Money PIN codes into public AI prompts."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Toute tentative de fraude ou falsification entraîne la révocation immédiate du certificat GIAT.",
+            "Relisez toujours les textes générés : vous restez responsable de ce que vous signez.",
+            "Utilisez l'IA pour apprendre et comprendre, pas pour tricher aux examens."
+          ],
+          ar: [
+            "أي محاولة غش أو تزوير تؤدي إلى إلغاء شهادة GIAT فوراً.",
+            "راجع دائماً النصوص الناتجة: أنت المسؤول الأول عما تنشره وتوقعه.",
+            "استخدم الذكاء الاصطناعي للفهم والتعلم وليس للغش في الامتحانات."
+          ],
+          en: [
+            "Any fraud or forgery results in immediate revocation of the GIAT certificate.",
+            "Always review AI-generated outputs: you remain accountable for what you publish.",
+            "Use AI to learn and master concepts, never to cheat on exams."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Quelle pratique est strictement interdite par la charte éthique GIAT ?",
+            options: [
+              "Utiliser l'IA pour falsifier un document ou tromper un client",
+              "Utiliser l'IA pour traduire un cours en arabe ou en anglais",
+              "Utiliser l'IA pour préparer un business plan honnête"
+            ],
+            answer: 0
+          },
+          ar: {
+            question: "ما هو السلوك الممنوع تماماً وفق ميثاق أخلاقيات GIAT؟",
+            options: [
+              "استخدام الذكاء الاصطناعي لتزوير وثيقة أو خداع زبون",
+              "ترجمة درس إلى العربية أو الإنجليزية",
+              "إعداد خطة مشروع صادقة"
+            ],
+            answer: 0
+          },
+          en: {
+            question: "Which practice is strictly forbidden under the GIAT Ethics Charter?",
+            options: [
+              "Using AI to forge documents or deceive customers",
+              "Using AI to translate lessons into Arabic or English",
+              "Using AI to draft an honest business plan"
+            ],
+            answer: 0
+          }
         }
       },
       {
         id: 6,
-        title: "Mon Plan d'Action 90 Jours",
         duration: "3h 00",
-        descFr: "Feuille de route concrète étape par étape pour générer des revenus et se démarquer avec l'IA dès demain.",
-        descAr: "خطة عمل ٩٠ يوم خطوة بخطوة باش تبدأ تربح وتنجح بالذكاء الاصطناعي من بكرة.",
-        keyPoints: [
-          "Jours 1 à 30 : Maîtrise des outils et création de son portfolio.",
-          "Jours 31 à 60 : Prospection de 20 commerçants, ONG ou entreprises au Tchad.",
-          "Jours 61 à 90 : Fidélisation clients et inscription dans l'Annuaire Officiel GIAT."
-        ],
-        quiz: {
-          question: "Quel est l'objectif principal du Plan d'Action 90 Jours ?",
-          options: [
-            "Attendre 5 ans avant d'agir",
-            "Passer immédiatement à la pratique et monétiser ses compétences IA",
-            "Supprimer tous ses comptes"
+        title: {
+          fr: "Mon Plan d'Action 90 Jours pour Gagner avec l'IA",
+          ar: "خطة عملي لـ 90 يوماً للربح من الذكاء الاصطناعي",
+          en: "My 90-Day Action Plan to Earn with AI"
+        },
+        lesson: {
+          fr: "Le savoir sans action ne rapporte rien. Ce dernier module transforme votre certificat GIAT en revenus concrets grâce à un calendrier précis sur 90 jours : 30 jours pour bâtir vos 5 meilleurs exemples (portfolio), 30 jours pour démarcher 30 commerçants ou entreprises locales, et 30 jours pour fidéliser vos clients récurrents.",
+          ar: "المعرفة بدون تطبيق لا تحقق دخلاً. تحوّل هذه الوحدة الأخيرة شهادتك من GIAT إلى أرباح ملموسة عبر خطة 90 يوماً: 30 يوماً لبناء 5 نماذج أعمال قوية، 30 يوماً للتواصل مع 30 تاجراً أو شركة محلية، و30 يوماً لتثبيت زبائن دائمين.",
+          en: "Knowledge without execution yields zero return. This final module turns your GIAT certificate into real income through a structured 90-day roadmap: 30 days to build 5 portfolio samples, 30 days to pitch 30 local merchants or companies, and 30 days to lock in recurring clients."
+        },
+        examples: {
+          fr: [
+            {
+              title: "Message de Prospection WhatsApp / Visite Terrain (Jours 31-60)",
+              prompt: "Bonjour [Nom du gérant], je suis certifié par l'Académie Nationale GIAT (N° [Votre ID]). J'ai préparé gratuitement 2 exemples d'affiches et de messages WhatsApp pour augmenter les ventes de votre boutique cette semaine. Puis-je vous les montrer ?"
+            },
+            {
+              title: "Offre Pack Mensuel Boutique (25 000 FCFA / mois)",
+              prompt: "Inclus : 8 visuels publicitaires + textes WhatsApp + réponse catalogue client + bilan mensuel des ventes."
+            }
           ],
-          answer: 1
+          ar: [
+            {
+              title: "رسالة عرض خدمات للتجار والشركات (الأيام 31-60)",
+              prompt: "السلام عليكم [اسم صاحب المتجر]، أنا خريج معتمد من الأكاديمية الوطنية GIAT. أعددت لك مجاناً نموذجين لإعلانات واتساب لزيادة مبيعات متجرك هذا الأسبوع. هل يمكنني إرسالهما لك؟"
+            },
+            {
+              title: "باقة شهرية للمتاجر (25,000 فرنك شهرياً)",
+              prompt: "تشمل: 8 تصاميم إعلانية + نصوص واتساب تسويقية + تنظيم كتالوج المنتجات + ملخص شهري للمبيعات."
+            }
+          ],
+          en: [
+            {
+              title: "WhatsApp / Field Outreach Script (Days 31–60)",
+              prompt: "Hello [Manager Name], I am a certified graduate of GIAT National Academy (ID [Your ID]). I created 2 free sample promo ads and WhatsApp scripts to boost your shop's sales this week. May I share them with you?"
+            },
+            {
+              title: "Monthly Shop Retainer Package (25,000 FCFA/month)",
+              prompt: "Includes: 8 promo visuals + WhatsApp sales copy + product catalog setup + monthly sales summary."
+            }
+          ]
+        },
+        keyPoints: {
+          fr: [
+            "Jours 1-30 : Créez 5 démonstrations concrètes (CV, affiche restaurant, catalogue boutique).",
+            "Jours 31-60 : Présentez votre Attestation GIAT avec QR Code à 1 commerce par jour.",
+            "Jours 61-90 : Transformez vos premiers clients en abonnements mensuels réguliers."
+          ],
+          ar: [
+            "الأيام 1-30: أنشئ 5 نماذج عملية جاهزة (سيرة ذاتية، إعلان مطعم، كتالوج متجر).",
+            "الأيام 31-60: اعرض شهادتك الرسمية المزودة برمز QR على متجر واحد يومياً.",
+            "الأيام 61-90: حوّل عملاءك الأوائل إلى اشتراكات شهرية ثابتة."
+          ],
+          en: [
+            "Days 1–30: Build 5 concrete demo samples (CV, restaurant ad, shop catalog).",
+            "Days 31–60: Show your QR-verified GIAT Certificate to 1 local business per day.",
+            "Days 61–90: Convert early clients into recurring monthly retainers."
+          ]
+        },
+        quiz: {
+          fr: {
+            question: "Quelle est la stratégie recommandée durant les jours 31 à 60 du Plan 90 Jours ?",
+            options: [
+              "Montrer des exemples concrets et son certificat GIAT à 1 commerce ou entreprise par jour",
+              "Attendre sans contacter personne",
+              "Supprimer son portfolio"
+            ],
+            answer: 0
+          },
+          ar: {
+            question: "ما هي الاستراتيجية الموصى بها خلال الأيام 31 إلى 60 من خطة 90 يوماً؟",
+            options: [
+              "عرض نماذج عملية وشهادة GIAT على متجر أو شركة واحدة يومياً",
+              "الانتظار دون التواصل مع أي شخص",
+              "حذف نماذج الأعمال"
+            ],
+            answer: 0
+          },
+          en: {
+            question: "What is the recommended strategy during Days 31–60 of the 90-Day Plan?",
+            options: [
+              "Pitching concrete samples and your GIAT certificate to 1 business per day",
+              "Waiting without contacting anyone",
+              "Deleting your portfolio"
+            ],
+            answer: 0
+          }
         }
       }
     ];
@@ -213,11 +886,11 @@
       idPhoto: "",
       selfiePhoto: "",
       otpVerified: false,
-      kycStatus: "none", // none | pending | verified | rejected
-      paymentStatus: "none", // none | pending | paid
+      kycStatus: "none",
+      paymentStatus: "none",
       paymentMethod: "Moov Money",
       txId: "",
-      mode: "online", // online | presential
+      mode: "online",
       modeChangesLeft: 1,
       completedModules: [],
       certNumber: "",
@@ -247,10 +920,14 @@
     }
 
     function App() {
-      const [activeTab, setActiveTab] = useState("home"); // home | kyc | payment | courses | card | cert | directory | admin
+      const [lang, setLang] = useState("fr"); // fr | ar | en
+      const t = UI_TEXT[lang] || UI_TEXT.fr;
+      const isRtl = lang === "ar";
+
+      const [activeTab, setActiveTab] = useState("home");
       const [user, setUser] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_user_v2");
+          const saved = localStorage.getItem("giat_user_v3");
           return saved ? { ...DEFAULT_USER, ...JSON.parse(saved) } : DEFAULT_USER;
         } catch {
           return DEFAULT_USER;
@@ -259,7 +936,7 @@
 
       const [allCandidates, setAllCandidates] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_all_candidates_v2");
+          const saved = localStorage.getItem("giat_all_candidates_v3");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
@@ -280,33 +957,26 @@
       const [sbError, setSbError] = useState("");
       const [showSbModal, setShowSbModal] = useState(false);
 
-      // Admin state
       const [adminUnlocked, setAdminUnlocked] = useState(false);
       const [pinInput, setPinInput] = useState("");
       const [pinError, setPinError] = useState("");
       const [inspectedCandidate, setInspectedCandidate] = useState(null);
       const [adminFilter, setAdminFilter] = useState("all");
 
-      // OTP & KYC helper state
       const [otpSent, setOtpSent] = useState(false);
       const [otpCode, setOtpCode] = useState("");
       const [livenessDone, setLivenessDone] = useState(false);
       const [toast, setToast] = useState("");
 
-      // Course & AI Studio state
       const [selectedModule, setSelectedModule] = useState(1);
-      const [lang, setLang] = useState("fr");
       const [quizChoice, setQuizChoice] = useState(null);
       const [studioType, setStudioType] = useState("cv");
       const [studioInput, setStudioInput] = useState("");
       const [studioOutput, setStudioOutput] = useState("");
 
-      // Directory & QR Verify state
       const [dirSearch, setDirSearch] = useState("");
       const [verifyCode, setVerifyCode] = useState("");
       const [verifyResult, setVerifyResult] = useState(null);
-
-      // Sync lookup on home
       const [lookupContact, setLookupContact] = useState("");
 
       const notify = (msg) => {
@@ -324,11 +994,11 @@
       }, [sbConfig.url, sbConfig.anonKey]);
 
       useEffect(() => {
-        localStorage.setItem("giat_user_v2", JSON.stringify(user));
+        localStorage.setItem("giat_user_v3", JSON.stringify(user));
       }, [user]);
 
       useEffect(() => {
-        localStorage.setItem("giat_all_candidates_v2", JSON.stringify(allCandidates));
+        localStorage.setItem("giat_all_candidates_v3", JSON.stringify(allCandidates));
       }, [allCandidates]);
 
       useEffect(() => {
@@ -358,10 +1028,10 @@
               if (freshSelf) setUser(freshSelf);
             }
           }
-          if (!silent) notify("Synchronisation Supabase réussie !");
+          if (!silent) notify("Supabase synchronisé ✅");
         } catch (err) {
           setSbConnected(false);
-          setSbError(err.message || "Erreur de connexion Supabase");
+          setSbError(err.message || "Erreur Supabase");
         } finally {
           if (!silent) setSbSyncing(false);
         }
@@ -438,7 +1108,7 @@
         if (inspectedCandidate && inspectedCandidate.id === candidateId && updatedTarget) {
           setInspectedCandidate(updatedTarget);
         }
-        notify("Dossier mis à jour et synchronisé !");
+        notify("Dossier mis à jour ✅");
       };
 
       const handleLookupProfile = async () => {
@@ -452,62 +1122,49 @@
         );
         if (found) {
           setUser(found);
-          notify(`Dossier retrouvé : ${found.fullName}`);
+          notify(`OK : ${found.fullName}`);
         } else {
-          notify("Aucun dossier trouvé avec ce numéro ou email.");
+          notify("Aucun dossier trouvé.");
         }
       };
 
       const handleSubmitKyc = async (e) => {
         e.preventDefault();
         if (!user.fullName || !user.phone || !user.email) {
-          notify("Veuillez remplir votre nom complet, téléphone et email.");
+          notify("Nom, téléphone et email obligatoires.");
           return;
         }
         if (!user.otpVerified) {
-          notify("Veuillez valider le code OTP SMS d'abord.");
+          notify("Validez d'abord le code OTP SMS.");
           return;
         }
         if (!livenessDone && !user.selfiePhoto) {
-          notify("Veuillez effectuer le contrôle selfie en direct (Liveness).");
+          notify("Effectuez la vérification selfie Liveness.");
           return;
         }
         const status = sbConnected ? "pending" : "verified";
-        await persistCandidate({
-          ...user,
-          kycStatus: status
-        });
-        notify(
-          status === "verified"
-            ? "Identité Vérifiée GIAT ✅ ! Passez au paiement de 5 000 FCFA."
-            : "Dossier KYC envoyé à l'équipe GIAT ! Validation rapide en cours."
-        );
+        await persistCandidate({ ...user, kycStatus: status });
+        notify(status === "verified" ? "Identité Vérifiée GIAT ✅" : "KYC envoyé à l'Admin GIAT ⏳");
         setActiveTab("payment");
       };
 
       const handleSubmitPayment = async (e) => {
         e.preventDefault();
         if (!user.txId.trim()) {
-          notify("Veuillez saisir l'ID de transaction Moov ou Airtel Money.");
+          notify("Saisissez l'ID de transaction.");
           return;
         }
         const pStatus = sbConnected ? "pending" : "paid";
-        await persistCandidate({
-          ...user,
-          paymentStatus: pStatus
-        });
-        notify(
-          pStatus === "paid"
-            ? "Paiement 5 000 FCFA validé ! Accès aux 6 modules débloqué."
-            : "Preuve de paiement transmise ! L'équipe GIAT valide en moins de 15 min."
-        );
+        await persistCandidate({ ...user, paymentStatus: pStatus });
+        notify(pStatus === "paid" ? "Paiement 5 000 FCFA validé ✅" : "Paiement transmis ⏳");
         if (pStatus === "paid") setActiveTab("courses");
       };
 
       const handleCompleteModule = async (modId) => {
         const currentMod = MODULES_DATA.find((m) => m.id === modId);
-        if (quizChoice !== currentMod.quiz.answer) {
-          notify("Mauvaise réponse au quiz. Relisez les points clés et réessayez !");
+        const qObj = currentMod.quiz[lang] || currentMod.quiz.fr;
+        if (quizChoice !== qObj.answer) {
+          notify("Réponse incorrecte. Relisez les exemples et réessayez !");
           return;
         }
         const updatedList = Array.from(new Set([...(user.completedModules || []), modId]));
@@ -530,10 +1187,10 @@
 
         setQuizChoice(null);
         if (updatedList.length === MODULES_DATA.length) {
-          notify("Félicitations ! Votre Attestation Officielle GIAT est prête !");
+          notify("Attestation Officielle GIAT débloquée 🎓 !");
           setActiveTab("cert");
         } else {
-          notify(`Module ${modId} validé ! Passez au suivant.`);
+          notify(`Module ${modId} validé ✅`);
           setSelectedModule(Math.min(6, modId + 1));
         }
       };
@@ -541,19 +1198,49 @@
       const generateStudioContent = () => {
         const name = user.fullName || "Apprenant GIAT";
         const city = user.city || "N'Djamena";
-        const topic = studioInput.trim() || "Commerce général & services digitaux";
-        if (studioType === "cv") {
-          setStudioOutput(
-            `CURRICULUM VITAE PROFESSIONNEL — ${name.toUpperCase()}\nLocalisation : ${city}, Tchad | Badge : Certifié GIAT IA ✅\n\nPROFIL :\nProfessionnel formé par l'Académie Nationale Gombo Intelligence Artificielle Tchad (GIAT). Maîtrise des outils d'IA générative appliqués à la productivité, au marketing digital et au service client.\n\nCOMPÉTENCES CLÉS :\n• Rédaction assistée par IA (rapports, offres commerciales, courriers)\n• Création de visuels et campagnes publicitaires WhatsApp / Facebook\n• Automatisation des réponses clients et gestion de boutique\n\nOBJECTIF : ${topic}`
-          );
-        } else if (studioType === "affiche") {
-          setStudioOutput(
-            `🔥 OFFRE SPÉCIALE À ${city.toUpperCase()} 🔥\n\n${topic.toUpperCase()}\n\n✅ Qualité garantie & service rapide\n✅ Commande simple par WhatsApp\n✅ Livraison disponible dans tous les quartiers de ${city}\n\n📞 Contactez ${name} dès aujourd'hui pour profiter de la promotion !`
-          );
+        const topic = studioInput.trim() || "Commerce & Services Digitaux";
+        if (lang === "ar") {
+          if (studioType === "cv") {
+            setStudioOutput(
+              `السيرة الذاتية الاحترافية — ${name}\nالمدينة: ${city}، تشاد | شارة: خريج معتمد GIAT ✅\n\nالملف الشخصي:\nمحترف مدرب في الأكاديمية الوطنية للذكاء الاصطناعي (GIAT). إتقان أدوات الذكاء الاصطناعي في الإنتاجية والتسويق الرقمي وخدمة العملاء.\n\nالهدف المهني: ${topic}`
+            );
+          } else if (studioType === "affiche") {
+            setStudioOutput(
+              `🔥 عرض خاص في ${city} 🔥\n\n${topic}\n\n✅ جودة مضمونة وخدمة سريعة\n✅ اطلب الآن عبر واتساب\n✅ توصيل متوفر لجميع أحياء ${city}\n\n📞 تواصل مع ${name} اليوم للاستفادة من العرض!`
+            );
+          } else {
+            setStudioOutput(
+              `خطة عمل مصغرة بالذكاء الاصطناعي — المشروع: ${topic}\nصاحب المشروع: ${name} (${city})\n\n1. الحل: استخدام الذكاء الاصطناعي لتقليل التكاليف بنسبة 70%.\n2. رأس المال المقترح: 50,000 إلى 150,000 فرنك أفريقي.\n3. قنوات البيع: واتساب للأعمال وفيسبوك.`
+            );
+          }
+        } else if (lang === "en") {
+          if (studioType === "cv") {
+            setStudioOutput(
+              `EXECUTIVE CURRICULUM VITAE — ${name.toUpperCase()}\nLocation: ${city}, Chad | Badge: GIAT Certified AI Talent ✅\n\nSUMMARY:\nCertified professional trained by Gombo Intelligence Artificielle Tchad (GIAT). Skilled in generative AI tools for business productivity, digital marketing, and customer automation.\n\nTARGET ROLE: ${topic}`
+            );
+          } else if (studioType === "affiche") {
+            setStudioOutput(
+              `🔥 SPECIAL OFFER IN ${city.toUpperCase()} 🔥\n\n${topic.toUpperCase()}\n\n✅ Guaranteed quality & fast delivery\n✅ Easy ordering via WhatsApp\n✅ Available across all neighborhoods of ${city}\n\n📞 Contact ${name} today!`
+            );
+          } else {
+            setStudioOutput(
+              `EXPRESS AI BUSINESS PLAN — PROJECT: ${topic.toUpperCase()}\nFounder: ${name} (${city})\n\n1. VALUE PROPOSITION: Leverage AI to cut operational costs by 70%.\n2. ESTIMATED STARTUP CAPITAL: 50,000 to 150,000 FCFA.\n3. SALES CHANNELS: WhatsApp Business, Facebook Marketplace & GIAT Network.`
+            );
+          }
         } else {
-          setStudioOutput(
-            `MINI BUSINESS PLAN IA — PROJET : ${topic.toUpperCase()}\nPromoteur : ${name} (${city})\n\n1. PROBLÈME RÉSOLU : Besoin de rapidité et de visibilité digitale sur le marché local.\n2. SOLUTION : Utilisation de l'IA pour réduire les coûts de production de 70 %.\n3. CAPITAL DE DÉPART ESTIMÉ : 50 000 à 150 000 FCFA.\n4. CANAUX DE VENTE : WhatsApp Business, Facebook Marketplace et réseau GIAT.\n5. OBJECTIF MOIS 1 : 15 clients payants.`
-          );
+          if (studioType === "cv") {
+            setStudioOutput(
+              `CURRICULUM VITAE PROFESSIONNEL — ${name.toUpperCase()}\nLocalisation : ${city}, Tchad | Badge : Certifié GIAT IA ✅\n\nPROFIL :\nProfessionnel formé par l'Académie Nationale Gombo Intelligence Artificielle Tchad (GIAT). Maîtrise des outils d'IA générative appliqués à la productivité, au marketing digital et au service client.\n\nOBJECTIF : ${topic}`
+            );
+          } else if (studioType === "affiche") {
+            setStudioOutput(
+              `🔥 OFFRE SPÉCIALE À ${city.toUpperCase()} 🔥\n\n${topic.toUpperCase()}\n\n✅ Qualité garantie & service rapide\n✅ Commande simple par WhatsApp\n✅ Livraison disponible dans tous les quartiers de ${city}\n\n📞 Contactez ${name} dès aujourd'hui !`
+            );
+          } else {
+            setStudioOutput(
+              `MINI BUSINESS PLAN IA — PROJET : ${topic.toUpperCase()}\nPromoteur : ${name} (${city})\n\n1. SOLUTION : Utilisation de l'IA pour réduire les coûts de production de 70 %.\n2. CAPITAL DE DÉPART ESTIMÉ : 50 000 à 150 000 FCFA.\n3. CANAUX DE VENTE : WhatsApp Business, Facebook Marketplace et réseau GIAT.`
+            );
+          }
         }
       };
 
@@ -627,36 +1314,53 @@ using (true)
 with check (true);`;
 
       return (
-        <div className="min-h-screen flex flex-col">
-          {/* Toast Notification */}
+        <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen flex flex-col">
           {toast && (
             <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/50 text-sm font-medium max-w-sm">
               {toast}
             </div>
           )}
 
-          {/* Top Navigation Bar */}
+          {/* Top Navigation Bar with logo.png + Language Switcher */}
           <header className="no-print sticky top-0 z-40 bg-[#002664] text-white shadow-lg border-b-2 border-[#FECB00]">
             <div className="max-w-6xl mx-auto px-3 py-2.5 flex flex-wrap items-center justify-between gap-2">
               <div
                 onClick={() => setActiveTab("home")}
                 className="flex items-center gap-2.5 cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FECB00] to-amber-500 text-[#002664] font-extrabold flex items-center justify-center text-lg shadow">
-                  GIAT
-                </div>
+                <GiatLogo className="w-11 h-11 shrink-0" />
                 <div>
                   <div className="font-extrabold text-sm sm:text-base tracking-tight leading-tight">
                     GOMBO INTELLIGENCE ARTIFICIELLE TCHAD
                   </div>
                   <div className="text-[11px] text-amber-300 font-medium">
-                    PDG Mahamat Gombo Abakar • Powered by GDB
+                    {t.brandSub}
                   </div>
                 </div>
               </div>
 
-              {/* Status & Admin PDG Buttons - Always Visible on Mobile & Desktop */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                {/* Global 3-Language Switcher (FR / AR / EN) */}
+                <div className="flex rounded-lg bg-[#001b47] p-0.5 border border-white/20 text-[11px] font-extrabold">
+                  {[
+                    { code: "fr", label: "FR" },
+                    { code: "ar", label: "عربي" },
+                    { code: "en", label: "EN" }
+                  ].map((item) => (
+                    <button
+                      key={item.code}
+                      onClick={() => setLang(item.code)}
+                      className={`px-2 py-1 rounded-md transition ${
+                        lang === item.code
+                          ? "bg-[#FECB00] text-[#002664]"
+                          : "text-slate-200 hover:text-white"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+
                 <button
                   onClick={() => setShowSbModal(true)}
                   className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 border transition ${
@@ -670,7 +1374,7 @@ with check (true);`;
                       sbConnected ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
                     }`}
                   ></span>
-                  <span>{sbConnected ? "Supabase Connecté" : "Mode Local"}</span>
+                  <span>{sbConnected ? t.sbConnected : t.localMode}</span>
                 </button>
 
                 <button
@@ -681,7 +1385,7 @@ with check (true);`;
                       : "bg-[#C60C30] hover:bg-red-700 text-white"
                   }`}
                 >
-                  <span>🔐 Admin PDG</span>
+                  <span>🔐 {t.adminBtn}</span>
                 </button>
               </div>
             </div>
@@ -690,25 +1394,25 @@ with check (true);`;
             <nav className="bg-[#001b47] border-t border-white/10 overflow-x-auto">
               <div className="max-w-6xl mx-auto px-2 py-1.5 flex items-center gap-1 text-xs font-semibold whitespace-nowrap">
                 {[
-                  { id: "home", label: "🏠 Accueil" },
-                  { id: "kyc", label: `1. KYC ${isKycOk ? "✅" : ""}` },
-                  { id: "payment", label: `2. Paiement 5000F ${isPaidOk ? "✅" : ""}` },
-                  { id: "courses", label: `3. Cours (${progressPct}%)` },
-                  { id: "card", label: "🪪 Ma Carte" },
-                  { id: "cert", label: "🎓 Attestation" },
-                  { id: "directory", label: "🌍 Lauréats & QR" },
-                  { id: "admin", label: "🔐 Admin PDG" }
-                ].map((t) => (
+                  { id: "home", label: `🏠 ${t.navHome}` },
+                  { id: "kyc", label: `${t.navKyc} ${isKycOk ? "✅" : ""}` },
+                  { id: "payment", label: `${t.navPay} ${isPaidOk ? "✅" : ""}` },
+                  { id: "courses", label: `${t.navCourses} (${progressPct}%)` },
+                  { id: "card", label: `🪪 ${t.navCard}` },
+                  { id: "cert", label: `🎓 ${t.navCert}` },
+                  { id: "directory", label: `🌍 ${t.navDir}` },
+                  { id: "admin", label: `🔐 ${t.adminBtn}` }
+                ].map((tabItem) => (
                   <button
-                    key={t.id}
-                    onClick={() => setActiveTab(t.id)}
+                    key={tabItem.id}
+                    onClick={() => setActiveTab(tabItem.id)}
                     className={`px-3 py-1.5 rounded-lg transition ${
-                      activeTab === t.id
+                      activeTab === tabItem.id
                         ? "bg-[#FECB00] text-[#002664] font-extrabold"
                         : "text-slate-200 hover:bg-white/10"
                     }`}
                   >
-                    {t.label}
+                    {tabItem.label}
                   </button>
                 ))}
               </div>
@@ -721,14 +1425,19 @@ with check (true);`;
             {activeTab === "home" && (
               <div className="space-y-6">
                 <section className="rounded-2xl bg-gradient-to-br from-[#002664] via-[#00358a] to-[#0f172a] text-white p-6 sm:p-8 shadow-xl border border-amber-400/30">
-                  <div className="inline-block px-3 py-1 rounded-full bg-[#FECB00] text-[#002664] text-xs font-extrabold uppercase tracking-wider mb-3">
-                    Académie Nationale d'Intelligence • Tchad
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-5">
+                    <GiatLogo className="w-20 h-20 sm:w-24 sm:h-24 shrink-0" />
+                    <div>
+                      <div className="inline-block px-3 py-1 rounded-full bg-[#FECB00] text-[#002664] text-xs font-extrabold uppercase tracking-wider mb-2">
+                        {t.heroBadge}
+                      </div>
+                      <h1 className="text-xl sm:text-3xl font-extrabold leading-tight">
+                        {t.heroSlogan}
+                      </h1>
+                    </div>
                   </div>
-                  <h1 className="text-2xl sm:text-4xl font-extrabold leading-tight mb-3">
-                    « L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »
-                  </h1>
-                  <p className="text-slate-200 text-sm sm:text-base max-w-3xl mb-6">
-                    Objectif National : <strong>100 000 Tchadiens formés en 12 mois</strong> avec identité vérifiée (KYC), formation pratique en <strong>Français et Arabe Tchadien</strong>, et Attestation Officielle vérifiable par QR Code.
+                  <p className="text-slate-200 text-sm sm:text-base max-w-3xl mb-6 leading-relaxed">
+                    {t.heroDesc}
                   </p>
 
                   <div className="flex flex-wrap gap-3">
@@ -736,13 +1445,13 @@ with check (true);`;
                       onClick={() => setActiveTab("kyc")}
                       className="px-5 py-3 rounded-xl bg-[#FECB00] hover:bg-amber-400 text-[#002664] font-extrabold text-sm shadow-lg transition"
                     >
-                      🚀 Démarrer mon inscription KYC
+                      🚀 {t.ctaStart}
                     </button>
                     <button
                       onClick={() => setActiveTab("admin")}
                       className="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/30 transition"
                     >
-                      🔐 Ouvrir Tableau de Bord Admin PDG
+                      🔐 {t.ctaAdmin}
                     </button>
                   </div>
                 </section>
@@ -750,59 +1459,55 @@ with check (true);`;
                 {/* Sync Existing Candidate Box */}
                 <section className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                   <div>
-                    <h2 className="font-bold text-slate-900 text-sm sm:text-base">
-                      Déjà inscrit ? Synchronisez votre dossier
-                    </h2>
-                    <p className="text-xs text-slate-500">
-                      Entrez votre numéro +235 ou votre email pour récupérer votre badge KYC, votre accès cours ou votre attestation.
-                    </p>
+                    <h2 className="font-bold text-slate-900 text-sm sm:text-base">{t.syncTitle}</h2>
+                    <p className="text-xs text-slate-500">{t.syncSub}</p>
                   </div>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={lookupContact}
                       onChange={(e) => setLookupContact(e.target.value)}
-                      placeholder="Ex: 92825252 ou email"
+                      placeholder={t.syncPlaceholder}
                       className="px-3 py-2 rounded-xl border border-slate-300 text-sm w-48 sm:w-56"
                     />
                     <button
                       onClick={handleLookupProfile}
                       className="px-4 py-2 rounded-xl bg-[#002664] text-white text-xs font-bold hover:bg-blue-900"
                     >
-                      Charger
+                      {t.syncBtn}
                     </button>
                   </div>
                 </section>
 
-                {/* 4 Mandatory Steps Overview */}
+                {/* 4 Mandatory Steps */}
                 <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
                     {
-                      step: "ÉTAPE 1",
-                      title: "KYC Numérique Obligatoire",
-                      desc: "Nom civil, pièce d'identité, selfie en direct et vérification OTP SMS.",
-                      badge: isKycOk ? "Validé ✅" : "Obligatoire",
+                      step: "01",
+                      title: t.step1Title,
+                      desc: t.step1Desc,
+                      badge: isKycOk ? "✅" : "KYC",
                       tab: "kyc"
                     },
                     {
-                      step: "ÉTAPE 2",
-                      title: "Paiement 5 000 FCFA",
-                      desc: "Moov Money (92 82 52 52) ou Airtel Money (66 78 75 46). Accès à vie.",
-                      badge: isPaidOk ? "Payé ✅" : "5 000 FCFA",
+                      step: "02",
+                      title: t.step2Title,
+                      desc: t.step2Desc,
+                      badge: isPaidOk ? "✅" : "5 000 FCFA",
                       tab: "payment"
                     },
                     {
-                      step: "ÉTAPE 3",
-                      title: "En Ligne ou Présentiel",
-                      desc: "100% en ligne 24h/24 (FR/Arabe) ou 2 jours intensifs à N'Djamena (30 places).",
-                      badge: user.mode === "presential" ? "Présentiel 🏫" : "En Ligne 💻",
+                      step: "03",
+                      title: t.step3Title,
+                      desc: t.step3Desc,
+                      badge: user.mode === "presential" ? "🏫" : "💻",
                       tab: "payment"
                     },
                     {
-                      step: "ÉTAPE 4",
-                      title: "6 Modules + Attestation",
-                      desc: "18h de formation pratique + Attestation PDF A4 officielle avec QR Code.",
-                      badge: `${progressPct}% complété`,
+                      step: "04",
+                      title: t.step4Title,
+                      desc: t.step4Desc,
+                      badge: `${progressPct}%`,
                       tab: "courses"
                     }
                   ].map((item) => (
@@ -814,7 +1519,7 @@ with check (true);`;
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[11px] font-extrabold text-[#002664] bg-blue-50 px-2.5 py-0.5 rounded-full">
-                            {item.step}
+                            #{item.step}
                           </span>
                           <span className="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
                             {item.badge}
@@ -823,7 +1528,7 @@ with check (true);`;
                         <h3 className="font-bold text-slate-900 mb-1.5">{item.title}</h3>
                         <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
                       </div>
-                      <div className="mt-4 text-xs font-bold text-[#002664]">Ouvrir →</div>
+                      <div className="mt-4 text-xs font-bold text-[#002664]">{t.openArrow}</div>
                     </div>
                   ))}
                 </section>
@@ -834,22 +1539,10 @@ with check (true);`;
             {activeTab === "kyc" && (
               <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <span className="text-xs font-extrabold text-[#002664] uppercase">
-                      Étape 1 sur 4 • Sécurité & Crédibilité
-                    </span>
-                    <h2 className="text-xl font-extrabold text-slate-900">
-                      Inscription & KYC Numérique Obligatoire
-                    </h2>
-                  </div>
+                  <h2 className="text-xl font-extrabold text-slate-900">{t.kycHeader}</h2>
                   {user.kycStatus === "verified" && (
                     <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
-                      Identité Vérifiée GIAT ✅
-                    </span>
-                  )}
-                  {user.kycStatus === "pending" && (
-                    <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold">
-                      En attente validation PDG ⏳
+                      GIAT ✅
                     </span>
                   )}
                 </div>
@@ -857,7 +1550,7 @@ with check (true);`;
                 <form onSubmit={handleSubmitKyc} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Nom complet + Prénom (exactement comme sur la pièce) *
+                      {t.kycFullName}
                     </label>
                     <input
                       type="text"
@@ -872,7 +1565,7 @@ with check (true);`;
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Numéro de téléphone (+235) *
+                        {t.kycPhone}
                       </label>
                       <div className="flex gap-2">
                         <input
@@ -887,11 +1580,11 @@ with check (true);`;
                           type="button"
                           onClick={() => {
                             setOtpSent(true);
-                            notify("Code OTP envoyé par SMS : 2356");
+                            notify("OTP SMS : 2356");
                           }}
                           className="px-3 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold whitespace-nowrap"
                         >
-                          Envoyer OTP
+                          {t.kycSendOtp}
                         </button>
                       </div>
                       {otpSent && !user.otpVerified && (
@@ -900,7 +1593,7 @@ with check (true);`;
                             type="text"
                             value={otpCode}
                             onChange={(e) => setOtpCode(e.target.value)}
-                            placeholder="Code (2356)"
+                            placeholder="2356"
                             className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs w-28"
                           />
                           <button
@@ -908,27 +1601,23 @@ with check (true);`;
                             onClick={() => {
                               if (otpCode.trim().length >= 4) {
                                 setUser({ ...user, otpVerified: true });
-                                notify("Téléphone vérifié par OTP ✅");
-                              } else {
-                                notify("Entrez le code reçu (ex: 2356)");
+                                notify("OTP ✅");
                               }
                             }}
                             className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold"
                           >
-                            Valider OTP
+                            {t.kycValidateOtp}
                           </button>
                         </div>
                       )}
                       {user.otpVerified && (
-                        <div className="text-[11px] text-emerald-700 font-bold mt-1">
-                          Numéro vérifié par OTP ✅
-                        </div>
+                        <div className="text-[11px] text-emerald-700 font-bold mt-1">OTP ✅</div>
                       )}
                     </div>
 
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Email valide (pour recevoir l'attestation PDF) *
+                        {t.kycEmail}
                       </label>
                       <input
                         type="email"
@@ -944,7 +1633,7 @@ with check (true);`;
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Ville *
+                        {t.kycCity}
                       </label>
                       <select
                         value={user.city}
@@ -966,13 +1655,13 @@ with check (true);`;
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Quartier / Commune
+                        {t.kycDistrict}
                       </label>
                       <input
                         type="text"
                         value={user.district}
                         onChange={(e) => setUser({ ...user, district: e.target.value })}
-                        placeholder="Ex: Chagoua, Klemat, Moursal..."
+                        placeholder="Chagoua, Klemat, Moursal..."
                         className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm"
                       />
                     </div>
@@ -980,7 +1669,7 @@ with check (true);`;
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Type et photo de la pièce d'identité (CNI / Passeport / Carte d'électeur)
+                      {t.kycIdType}
                     </label>
                     <select
                       value={user.idType}
@@ -1001,28 +1690,24 @@ with check (true);`;
                       className="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-blue-50 file:text-[#002664] file:font-bold"
                     />
                     {user.idPhoto && (
-                      <img src={user.idPhoto} alt="Pièce ID" className="mt-2 h-24 rounded-lg border object-cover" />
+                      <img src={user.idPhoto} alt="ID" className="mt-2 h-24 rounded-lg border object-cover" />
                     )}
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold text-slate-800">
-                        Selfie en direct (Liveness Check)
-                      </span>
+                      <span className="text-xs font-bold text-slate-800">{t.kycLiveness}</span>
                       <button
                         type="button"
                         onClick={() => {
                           setLivenessDone(true);
-                          notify("Contrôle biométrique Liveness validé ✅");
+                          notify("Liveness ✅");
                         }}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
-                          livenessDone
-                            ? "bg-emerald-600 text-white"
-                            : "bg-[#002664] text-white"
+                          livenessDone ? "bg-emerald-600 text-white" : "bg-[#002664] text-white"
                         }`}
                       >
-                        {livenessDone ? "Liveness Validé ✅" : "📸 Lancer vérification visage"}
+                        {livenessDone ? "✅" : `📸 ${t.kycLivenessBtn}`}
                       </button>
                     </div>
                     <input
@@ -1045,7 +1730,7 @@ with check (true);`;
                     type="submit"
                     className="w-full py-3 rounded-xl bg-[#002664] hover:bg-blue-900 text-white font-extrabold text-sm shadow"
                   >
-                    Soumettre mon dossier KYC GIAT →
+                    {t.kycSubmit}
                   </button>
                 </form>
               </div>
@@ -1054,101 +1739,68 @@ with check (true);`;
             {/* ==================== STEP 2 & 3: PAYMENT & MODE ==================== */}
             {activeTab === "payment" && (
               <div className="max-w-3xl mx-auto space-y-5">
-                {user.kycStatus === "none" && (
-                  <div className="p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-sm font-semibold flex items-center justify-between">
-                    <span>⚠️ Vous devez d'abord compléter votre KYC à l'Étape 1 avant de payer.</span>
-                    <button
-                      onClick={() => setActiveTab("kyc")}
-                      className="px-3 py-1.5 rounded-lg bg-amber-600 text-white text-xs font-bold"
-                    >
-                      Aller au KYC
-                    </button>
-                  </div>
-                )}
-
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                  <span className="text-xs font-extrabold text-[#002664] uppercase">
-                    Étape 2 & 3 • Tarif Unique 5 000 FCFA (Accès à vie)
-                  </span>
-                  <h2 className="text-xl font-extrabold text-slate-900 mb-4">
-                    Choix de la Formation & Paiement Mobile Money
-                  </h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 mb-4">{t.payHeader}</h2>
 
-                  {/* Choice Online vs Presential */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                     <div
                       onClick={() => setUser({ ...user, mode: "online" })}
                       className={`p-4 rounded-xl border-2 cursor-pointer transition ${
-                        user.mode === "online"
-                          ? "border-[#002664] bg-blue-50/50"
-                          : "border-slate-200"
+                        user.mode === "online" ? "border-[#002664] bg-blue-50/50" : "border-slate-200"
                       }`}
                     >
-                      <div className="font-extrabold text-sm text-slate-900 mb-1">
-                        OPTION A : 100% EN LIGNE 💻
-                      </div>
-                      <p className="text-xs text-slate-600">
-                        Vidéos 5-10 min, Français & Arabe Tchadien, 24h/24, quiz et support WhatsApp.
-                      </p>
+                      <div className="font-extrabold text-sm text-slate-900 mb-1">{t.optOnlineTitle}</div>
+                      <p className="text-xs text-slate-600">{t.optOnlineDesc}</p>
                     </div>
 
                     <div
                       onClick={() => setUser({ ...user, mode: "presential" })}
                       className={`p-4 rounded-xl border-2 cursor-pointer transition ${
-                        user.mode === "presential"
-                          ? "border-[#002664] bg-blue-50/50"
-                          : "border-slate-200"
+                        user.mode === "presential" ? "border-[#002664] bg-blue-50/50" : "border-slate-200"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-extrabold text-sm text-slate-900">
-                          OPTION B : PRÉSENTIEL N'DJAMENA 🏫
-                        </span>
+                        <span className="font-extrabold text-sm text-slate-900">{t.optPresTitle}</span>
                         <span className="text-[11px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
-                          {stats.seatsLeft}/30 places
+                          {stats.seatsLeft}/30
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600">
-                        2 jours intensifs (Samedi & Dimanche, 8h-15h) avec le PDG et formateurs. Ordinateur fourni.
-                      </p>
+                      <p className="text-xs text-slate-600">{t.optPresDesc}</p>
                     </div>
                   </div>
 
-                  {/* Official Mobile Money Numbers */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                     <div className="p-4 rounded-xl bg-blue-950 text-white">
                       <div className="text-xs text-amber-300 font-bold uppercase">Moov Money Tchad</div>
                       <div className="text-lg font-extrabold tracking-wide my-1">(+235) 92 82 52 52</div>
                       <div className="text-[11px] text-slate-300">
-                        Nom : GOMBO INTELLIGENCE ARTIFICIELLE TCHAD
+                        GOMBO INTELLIGENCE ARTIFICIELLE TCHAD
                       </div>
                       <button
                         type="button"
                         onClick={() => {
                           navigator.clipboard?.writeText("92825252");
-                          notify("Numéro Moov Money 92 82 52 52 copié !");
+                          notify("92 82 52 52 ✅");
                         }}
                         className="mt-2 px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-bold"
                       >
-                        Copier 92 82 52 52
+                        92 82 52 52
                       </button>
                     </div>
 
                     <div className="p-4 rounded-xl bg-[#C60C30] text-white">
                       <div className="text-xs text-amber-200 font-bold uppercase">Airtel Money Tchad</div>
                       <div className="text-lg font-extrabold tracking-wide my-1">(+235) 66 78 75 46</div>
-                      <div className="text-[11px] text-red-100">
-                        Nom : MAHAMAT GOMBO ABAKAR
-                      </div>
+                      <div className="text-[11px] text-red-100">MAHAMAT GOMBO ABAKAR</div>
                       <button
                         type="button"
                         onClick={() => {
                           navigator.clipboard?.writeText("66787546");
-                          notify("Numéro Airtel Money 66 78 75 46 copié !");
+                          notify("66 78 75 46 ✅");
                         }}
                         className="mt-2 px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-bold"
                       >
-                        Copier 66 78 75 46
+                        66 78 75 46
                       </button>
                     </div>
                   </div>
@@ -1157,7 +1809,7 @@ with check (true);`;
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">
-                          Opérateur utilisé
+                          {t.payOperator}
                         </label>
                         <select
                           value={user.paymentMethod}
@@ -1170,7 +1822,7 @@ with check (true);`;
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">
-                          ID / Référence de la transaction (5 000 FCFA) *
+                          {t.payTxId}
                         </label>
                         <input
                           type="text"
@@ -1188,45 +1840,20 @@ with check (true);`;
                       disabled={user.kycStatus === "none"}
                       className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-extrabold text-sm shadow"
                     >
-                      {user.paymentStatus === "paid"
-                        ? "Paiement Validé ✅ — Accéder aux Cours"
-                        : user.paymentStatus === "pending"
-                        ? "Paiement envoyé ⏳ — En attente de validation Admin"
-                        : "Confirmer mon paiement de 5 000 FCFA →"}
+                      {t.paySubmit}
                     </button>
                   </form>
                 </div>
               </div>
             )}
 
-            {/* ==================== STEP 4: 6 MODULES ==================== */}
+            {/* ==================== STEP 4: EXPANDED 6 MODULES ==================== */}
             {activeTab === "courses" && (
               <div className="space-y-5">
-                {(!isKycOk || !isPaidOk) && (
-                  <div className="p-5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div>
-                      <div className="font-extrabold text-sm">
-                        🔒 Accès complet réservé aux apprenants vérifiés (KYC ✅ + 5 000 FCFA ✅)
-                      </div>
-                      <p className="text-xs text-amber-800 mt-0.5">
-                        Statut actuel : KYC = <strong>{user.kycStatus}</strong> | Paiement ={" "}
-                        <strong>{user.paymentStatus}</strong>
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setActiveTab(!isKycOk ? "kyc" : "payment")}
-                      className="px-4 py-2 rounded-xl bg-[#002664] text-white text-xs font-bold"
-                    >
-                      Compléter mon accès
-                    </button>
-                  </div>
-                )}
-
-                {/* Progress Bar */}
                 <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-extrabold text-slate-700 uppercase">
-                      Ma Progression GIAT (6 Modules • 18 Heures)
+                      {t.progressLabel}
                     </span>
                     <span className="text-sm font-extrabold text-[#002664]">{progressPct}%</span>
                   </div>
@@ -1239,10 +1866,10 @@ with check (true);`;
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                  {/* Module List */}
                   <div className="space-y-2">
                     {MODULES_DATA.map((m) => {
                       const done = user.completedModules?.includes(m.id);
+                      const modTitle = m.title[lang] || m.title.fr;
                       return (
                         <button
                           key={m.id}
@@ -1250,7 +1877,7 @@ with check (true);`;
                             setSelectedModule(m.id);
                             setQuizChoice(null);
                           }}
-                          className={`w-full text-left p-3.5 rounded-xl border transition flex items-center justify-between ${
+                          className={`w-full text-start p-3.5 rounded-xl border transition flex items-center justify-between gap-2 ${
                             selectedModule === m.id
                               ? "bg-[#002664] text-white border-[#002664]"
                               : "bg-white text-slate-800 border-slate-200 hover:border-[#002664]"
@@ -1258,9 +1885,9 @@ with check (true);`;
                         >
                           <div>
                             <div className="text-[11px] opacity-80 font-bold">
-                              Module {m.id} • {m.duration}
+                              #{m.id} • {m.duration}
                             </div>
-                            <div className="font-bold text-xs sm:text-sm">{m.title}</div>
+                            <div className="font-bold text-xs sm:text-sm">{modTitle}</div>
                           </div>
                           <span className="text-sm">{done ? "✅" : "📘"}</span>
                         </button>
@@ -1268,68 +1895,81 @@ with check (true);`;
                     })}
                   </div>
 
-                  {/* Active Module Viewer */}
                   {(() => {
                     const mod = MODULES_DATA.find((m) => m.id === selectedModule) || MODULES_DATA[0];
                     const locked = !isKycOk || !isPaidOk;
+                    const modTitle = mod.title[lang] || mod.title.fr;
+                    const modLesson = mod.lesson[lang] || mod.lesson.fr;
+                    const modExamples = mod.examples[lang] || mod.examples.fr;
+                    const modPoints = mod.keyPoints[lang] || mod.keyPoints.fr;
+                    const modQuiz = mod.quiz[lang] || mod.quiz.fr;
+
                     return (
                       <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-5">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <div>
-                            <span className="text-xs font-extrabold text-[#002664]">
-                              MODULE {mod.id} / 6 • DURÉE : {mod.duration}
-                            </span>
-                            <h3 className="text-xl font-extrabold text-slate-900">{mod.title}</h3>
-                          </div>
-                          <div className="flex rounded-lg border border-slate-200 overflow-hidden text-xs font-bold">
-                            <button
-                              onClick={() => setLang("fr")}
-                              className={`px-3 py-1.5 ${
-                                lang === "fr" ? "bg-[#002664] text-white" : "bg-white text-slate-600"
-                              }`}
-                            >
-                              🇫🇷 Français
-                            </button>
-                            <button
-                              onClick={() => setLang("ar")}
-                              className={`px-3 py-1.5 ${
-                                lang === "ar" ? "bg-[#002664] text-white" : "bg-white text-slate-600"
-                              }`}
-                            >
-                              🇹🇩 عربي تشادي
-                            </button>
-                          </div>
+                        <div>
+                          <span className="text-xs font-extrabold text-[#002664]">
+                            MODULE {mod.id} / 6 • {mod.duration}
+                          </span>
+                          <h3 className="text-xl font-extrabold text-slate-900 mt-0.5">{modTitle}</h3>
                         </div>
 
-                        <p
-                          dir={lang === "ar" ? "rtl" : "ltr"}
-                          className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 leading-relaxed"
-                        >
-                          {lang === "fr" ? mod.descFr : mod.descAr}
-                        </p>
+                        {/* Detailed Lesson */}
+                        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                          <div className="text-xs font-extrabold text-[#002664] uppercase">
+                            {t.lessonIntro}
+                          </div>
+                          <p className="text-sm text-slate-800 leading-relaxed">{modLesson}</p>
+                        </div>
 
+                        {/* Concrete Real-World Examples & Copyable Prompts */}
+                        <div className="space-y-3">
+                          <h4 className="font-extrabold text-sm text-slate-900">{t.examplesTitle}</h4>
+                          {modExamples.map((ex, idx) => (
+                            <div
+                              key={idx}
+                              className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-xs text-amber-950">{ex.title}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    navigator.clipboard?.writeText(ex.prompt);
+                                    notify("Prompt copié ✅");
+                                  }}
+                                  className="px-2.5 py-1 rounded-lg bg-[#002664] text-white text-[11px] font-bold shrink-0"
+                                >
+                                  📋 Copier
+                                </button>
+                              </div>
+                              <div className="p-2.5 rounded-lg bg-white border border-amber-200/80 text-xs text-slate-800 font-medium leading-relaxed">
+                                « {ex.prompt} »
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Key Takeaways */}
                         <div>
-                          <h4 className="font-bold text-sm text-slate-900 mb-2">
-                            Points clés de la leçon :
-                          </h4>
-                          <ul className="space-y-1.5 text-xs sm:text-sm text-slate-700 list-disc pl-5">
-                            {mod.keyPoints.map((pt, idx) => (
+                          <h4 className="font-bold text-sm text-slate-900 mb-2">{t.keyPointsTitle}</h4>
+                          <ul className="space-y-1.5 text-xs sm:text-sm text-slate-700 list-disc ps-5">
+                            {modPoints.map((pt, idx) => (
                               <li key={idx}>{pt}</li>
                             ))}
                           </ul>
                         </div>
 
-                        {/* Interactive AI Practical Studio in Module 4 */}
+                        {/* Interactive Studio in Module 4 */}
                         {mod.id === 4 && (
                           <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-3">
                             <div className="font-extrabold text-sm text-[#002664]">
-                              🛠️ Studio Pratique GIAT — Génère ton livrable IA
+                              🛠️ Studio Pratique GIAT
                             </div>
                             <div className="flex flex-wrap gap-2">
                               {[
-                                { id: "cv", label: "Créer mon CV" },
-                                { id: "affiche", label: "Affiche Boutique" },
-                                { id: "bp", label: "Mini Business Plan" }
+                                { id: "cv", label: "CV Pro" },
+                                { id: "affiche", label: "Affiche / Promo" },
+                                { id: "bp", label: "Business Plan" }
                               ].map((st) => (
                                 <button
                                   key={st.id}
@@ -1349,7 +1989,7 @@ with check (true);`;
                               type="text"
                               value={studioInput}
                               onChange={(e) => setStudioInput(e.target.value)}
-                              placeholder="Décris ton activité ou objectif (ex: Vente de téléphones à N'Djamena)"
+                              placeholder="Ex: Boutique électronique à N'Djamena"
                               className="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs bg-white"
                             />
                             <button
@@ -1357,7 +1997,7 @@ with check (true);`;
                               onClick={generateStudioContent}
                               className="px-4 py-2 rounded-lg bg-[#FECB00] text-[#002664] font-extrabold text-xs"
                             >
-                              Générer avec l'assistant GIAT
+                              ⚡ Générer
                             </button>
                             {studioOutput && (
                               <pre className="p-3 rounded-lg bg-white border text-xs whitespace-pre-wrap font-sans text-slate-800">
@@ -1367,13 +2007,13 @@ with check (true);`;
                           </div>
                         )}
 
-                        {/* Module Quiz */}
+                        {/* Quiz */}
                         <div className="pt-4 border-t border-slate-200 space-y-3">
                           <div className="font-bold text-sm text-slate-900">
-                            Quiz de validation : {mod.quiz.question}
+                            {t.quizTitle} {modQuiz.question}
                           </div>
                           <div className="space-y-2">
-                            {mod.quiz.options.map((opt, idx) => (
+                            {modQuiz.options.map((opt, idx) => (
                               <label
                                 key={idx}
                                 className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs sm:text-sm cursor-pointer ${
@@ -1398,9 +2038,7 @@ with check (true);`;
                             onClick={() => handleCompleteModule(mod.id)}
                             className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-extrabold text-xs sm:text-sm"
                           >
-                            {locked
-                              ? "Débloquez le KYC & Paiement pour valider"
-                              : "Valider ce module →"}
+                            {locked ? t.unlockRequiredBtn : t.validateModuleBtn}
                           </button>
                         </div>
                       </div>
@@ -1415,14 +2053,14 @@ with check (true);`;
               <div className="max-w-md mx-auto space-y-4">
                 <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-[#FECB00] bg-gradient-to-br from-[#002664] via-[#001b47] to-slate-950 text-white p-6">
                   <div className="flex items-center justify-between border-b border-white/15 pb-3 mb-4">
-                    <div>
-                      <div className="text-xs font-extrabold text-[#FECB00] tracking-wider">
-                        CARTE D'APPRENANT OFFICIELLE
+                    <div className="flex items-center gap-2.5">
+                      <GiatLogo className="w-10 h-10" />
+                      <div>
+                        <div className="text-xs font-extrabold text-[#FECB00] tracking-wider">
+                          {t.cardTitle}
+                        </div>
+                        <div className="font-extrabold text-sm">GIAT — ACADÉMIE NATIONALE IA</div>
                       </div>
-                      <div className="font-extrabold text-sm">GIAT — ACADÉMIE NATIONALE IA</div>
-                    </div>
-                    <div className="px-2.5 py-1 rounded-lg bg-[#FECB00] text-[#002664] font-extrabold text-xs">
-                      TCHAD
                     </div>
                   </div>
 
@@ -1436,22 +2074,19 @@ with check (true);`;
                     </div>
                     <div className="space-y-1">
                       <div className="font-extrabold text-base">
-                        {user.fullName || "Apprenant Non Inscrit"}
+                        {user.fullName || "Apprenant GIAT"}
                       </div>
                       <div className="text-xs text-slate-300">
-                        Ville : {user.city} {user.district ? `(${user.district})` : ""}
-                      </div>
-                      <div className="text-xs text-amber-300 font-bold">
-                        Option : {user.mode === "presential" ? "Présentiel N'Djamena" : "100% En Ligne"}
+                        {user.city} {user.district ? `(${user.district})` : ""}
                       </div>
                       <div className="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">
-                        {isKycOk ? "Identité Vérifiée GIAT ✅" : "KYC En Attente"}
+                        {isKycOk ? "KYC ✅" : "KYC ⏳"}
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-5 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-300">
-                    <span>ID : {user.certNumber || user.id || "GIAT-2026-EN-COURS"}</span>
+                    <span>ID : {user.certNumber || user.id || "GIAT-2026"}</span>
                     <span>PDG Mahamat Gombo Abakar</span>
                   </div>
                 </div>
@@ -1463,13 +2098,9 @@ with check (true);`;
               <div className="space-y-4">
                 <div className="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200">
                   <div>
-                    <h2 className="font-extrabold text-slate-900">
-                      Mon Attestation Officielle GIAT (Format A4)
-                    </h2>
+                    <h2 className="font-extrabold text-slate-900">{t.certHeader}</h2>
                     <p className="text-xs text-slate-500">
-                      {user.certNumber
-                        ? `Numéro officiel : ${user.certNumber} — Prête à imprimer ou enregistrer en PDF.`
-                        : "Terminez les 6 modules pour débloquer votre numéro officiel et votre QR Code."}
+                      {user.certNumber ? user.certNumber : "6/6 Modules requis"}
                     </p>
                   </div>
                   <button
@@ -1477,7 +2108,7 @@ with check (true);`;
                     disabled={!user.certNumber}
                     className="px-5 py-2.5 rounded-xl bg-[#002664] hover:bg-blue-900 disabled:bg-slate-300 text-white font-extrabold text-xs shadow"
                   >
-                    🖨️ Imprimer / Télécharger PDF A4
+                    🖨️ {t.certPrintBtn}
                   </button>
                 </div>
 
@@ -1486,23 +2117,22 @@ with check (true);`;
                   className="bg-white rounded-2xl p-6 sm:p-10 shadow-xl border-8 border-double border-[#002664] max-w-4xl mx-auto text-center space-y-5"
                 >
                   <div className="flex items-center justify-between text-xs font-extrabold text-[#002664] border-b-2 border-[#FECB00] pb-3">
-                    <span>RÉPUBLIQUE DU TCHAD</span>
-                    <span>GOMBO INTELLIGENCE ARTIFICIELLE TCHAD (GIAT)</span>
+                    <span>{t.certCountry}</span>
+                    <div className="flex items-center gap-2">
+                      <GiatLogo className="w-10 h-10" />
+                      <span>GIAT TCHAD</span>
+                    </div>
                     <span>POWERED BY GDB</span>
                   </div>
 
                   <div className="pt-2">
-                    <div className="text-xs uppercase tracking-[0.25em] text-amber-700 font-extrabold">
-                      Académie Nationale d'Intelligence Artificielle
+                    <div className="text-xs uppercase tracking-[0.2em] text-amber-700 font-extrabold">
+                      {t.certAcademy}
                     </div>
                     <h1 className="font-serif-cert text-2xl sm:text-4xl font-extrabold text-[#002664] mt-1">
-                      ATTESTATION DE RÉUSSITE
+                      {t.certMainTitle}
                     </h1>
                   </div>
-
-                  <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-                    Le Président Directeur Général de <strong>GIAT</strong> certifie que l'apprenant(e) dont l'identité a été vérifiée par procédure KYC numérique :
-                  </p>
 
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-2">
                     {user.selfiePhoto && (
@@ -1517,25 +2147,22 @@ with check (true);`;
                         {user.fullName || "[NOM COMPLET VÉRIFIÉ KYC]"}
                       </div>
                       <div className="text-xs text-slate-600 mt-1">
-                        Ville : <strong>{user.city}</strong> • Modalité :{" "}
-                        <strong>
-                          {user.mode === "presential" ? "Présentiel à N'Djamena" : "100% En Ligne"}
-                        </strong>
+                        {user.city} • {user.mode === "presential" ? "Présentiel N'Djamena" : "100% En Ligne"}
                       </div>
                     </div>
                   </div>
 
                   <p className="text-xs sm:text-sm text-slate-700 max-w-2xl mx-auto leading-relaxed">
-                    A suivi et validé avec succès l'intégralité du programme officiel de <strong>18 heures (6 Modules)</strong> portant sur la maîtrise de l'Intelligence Artificielle appliquée, l'éthique numérique et la création de valeur économique.
+                    A validé avec succès le programme officiel de <strong>18 heures (6 Modules)</strong> en Intelligence Artificielle Appliquée, Éthique Numérique et Création de Valeur.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center pt-4 border-t border-slate-200 text-xs">
-                    <div className="text-left space-y-1">
-                      <div className="font-bold text-slate-500">N° ATTESTATION UNIQUE :</div>
+                    <div className="text-start space-y-1">
+                      <div className="font-bold text-slate-500">N° ATTESTATION :</div>
                       <div className="font-extrabold text-[#002664] text-sm">
                         {user.certNumber || "GIAT-2026-EN-ATTENTE"}
                       </div>
-                      <div className="text-slate-500">Délivrée le : {user.certifiedAt || "—"}</div>
+                      <div className="text-slate-500">{user.certifiedAt || "—"}</div>
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -1543,16 +2170,13 @@ with check (true);`;
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(
                           user.certNumber || "GIAT-TCHAD-OFFICIEL"
                         )}`}
-                        alt="QR Code Vérification"
+                        alt="QR Code"
                         className="w-24 h-24 border p-1 rounded-lg"
                       />
-                      <span className="text-[10px] text-slate-500 mt-1">
-                        Scanner pour vérifier l'authenticité
-                      </span>
                     </div>
 
-                    <div className="text-right space-y-1">
-                      <div className="font-bold text-slate-700">Le PDG Fondateur</div>
+                    <div className="text-end space-y-1">
+                      <div className="font-bold text-slate-700">PDG Fondateur</div>
                       <div className="font-serif-cert italic text-base font-bold text-[#002664]">
                         Mahamat Gombo Abakar
                       </div>
@@ -1568,27 +2192,22 @@ with check (true);`;
             {/* ==================== DIRECTORY & QR VERIFIER ==================== */}
             {activeTab === "directory" && (
               <div className="space-y-6">
-                {/* Public QR / Certificate Verifier */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                  <h2 className="text-lg font-extrabold text-slate-900 mb-1">
-                    🔍 Vérificateur d'Authenticité d'Attestation GIAT
-                  </h2>
-                  <p className="text-xs text-slate-500 mb-4">
-                    Entreprises et recruteurs : saisissez le numéro inscrit sur une attestation (ex : GIAT-2026-NDJ-0001) pour vérifier sa validité.
-                  </p>
+                  <h2 className="text-lg font-extrabold text-slate-900 mb-1">🔍 {t.verifyTitle}</h2>
+                  <p className="text-xs text-slate-500 mb-4">{t.verifyDesc}</p>
                   <div className="flex flex-wrap gap-2">
                     <input
                       type="text"
                       value={verifyCode}
                       onChange={(e) => setVerifyCode(e.target.value)}
-                      placeholder="Ex: GIAT-2026-NDJ-0001"
+                      placeholder="GIAT-2026-NDJ-0001"
                       className="px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm flex-1 min-w-[220px]"
                     />
                     <button
                       onClick={handleVerifyCert}
                       className="px-5 py-2.5 rounded-xl bg-[#002664] text-white font-bold text-sm"
                     >
-                      Vérifier le certificat
+                      {t.verifyBtn}
                     </button>
                   </div>
 
@@ -1596,7 +2215,7 @@ with check (true);`;
                     <div className="mt-4">
                       {verifyResult === "invalid" ? (
                         <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-bold">
-                          ❌ Numéro introuvable dans le registre officiel GIAT. Méfiez-vous des falsifications.
+                          ❌ Numéro introuvable / Invalid certificate ID.
                         </div>
                       ) : (
                         <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs space-y-1">
@@ -1604,10 +2223,8 @@ with check (true);`;
                             ✅ ATTESTATION OFFICIELLE AUTHENTIQUE
                           </div>
                           <div>
-                            Titulaire : <strong>{verifyResult.fullName}</strong> ({verifyResult.city})
-                          </div>
-                          <div>
-                            Numéro : <strong>{verifyResult.id}</strong> • Modalité : {verifyResult.mode}
+                            <strong>{verifyResult.fullName}</strong> ({verifyResult.city}) —{" "}
+                            <strong>{verifyResult.id}</strong>
                           </div>
                         </div>
                       )}
@@ -1615,22 +2232,17 @@ with check (true);`;
                   )}
                 </div>
 
-                {/* Directory of Verified Talents */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <h2 className="text-lg font-extrabold text-slate-900">
-                        🇹🇩 Annuaire National des Lauréats Vérifiés GIAT
-                      </h2>
-                      <p className="text-xs text-slate-500">
-                        Base de données de talents IA certifiés au Tchad recrutables par les entreprises.
-                      </p>
+                      <h2 className="text-lg font-extrabold text-slate-900">🇹🇩 {t.dirTitle}</h2>
+                      <p className="text-xs text-slate-500">{t.dirDesc}</p>
                     </div>
                     <input
                       type="text"
                       value={dirSearch}
                       onChange={(e) => setDirSearch(e.target.value)}
-                      placeholder="Chercher ville (Moundou, N'Djamena...) ou nom"
+                      placeholder="N'Djamena, Moundou, Abéché..."
                       className="px-3.5 py-2 rounded-xl border border-slate-300 text-xs w-full sm:w-64"
                     />
                   </div>
@@ -1647,11 +2259,11 @@ with check (true);`;
                             📍 {l.city} • {l.specialty}
                           </div>
                           <div className="text-[11px] text-slate-400 mt-1">
-                            ID : {l.id} ({l.mode})
+                            {l.id} ({l.mode})
                           </div>
                         </div>
                         <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold whitespace-nowrap">
-                          Certifié GIAT ✅
+                          GIAT ✅
                         </span>
                       </div>
                     ))}
@@ -1665,20 +2277,13 @@ with check (true);`;
               <div className="space-y-6">
                 {!adminUnlocked ? (
                   <div className="max-w-md mx-auto bg-white rounded-2xl p-6 shadow-md border border-slate-200 text-center space-y-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#002664] text-[#FECB00] font-extrabold flex items-center justify-center mx-auto text-xl">
-                      🔐
-                    </div>
-                    <h2 className="text-xl font-extrabold text-slate-900">
-                      Accès Administrateur PDG
-                    </h2>
-                    <p className="text-xs text-slate-500">
-                      Réservé au PDG Mahamat Gombo Abakar et à l'équipe de validation GIAT.
-                    </p>
+                    <GiatLogo className="w-16 h-16 mx-auto" />
+                    <h2 className="text-xl font-extrabold text-slate-900">{t.adminTitle}</h2>
                     <input
                       type="password"
                       value={pinInput}
                       onChange={(e) => setPinInput(e.target.value)}
-                      placeholder="Entrez le code PIN (défaut : 2350)"
+                      placeholder="PIN (2350)"
                       className="w-full px-4 py-3 rounded-xl border border-slate-300 text-center font-bold tracking-widest text-base"
                     />
                     {pinError && <div className="text-xs text-red-600 font-bold">{pinError}</div>}
@@ -1688,52 +2293,51 @@ with check (true);`;
                           setAdminUnlocked(true);
                           setPinError("");
                         } else {
-                          setPinError("Code PIN incorrect.");
+                          setPinError("PIN incorrect");
                         }
                       }}
                       className="w-full py-3 rounded-xl bg-[#002664] hover:bg-blue-900 text-white font-extrabold text-sm"
                     >
-                      Déverrouiller le Tableau de Bord
+                      {t.adminUnlockBtn}
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {/* Admin Header */}
                     <div className="bg-slate-900 text-white rounded-2xl p-5 flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <div className="text-xs text-[#FECB00] font-extrabold uppercase">
-                          Espace Direction Générale GIAT
+                      <div className="flex items-center gap-3">
+                        <GiatLogo className="w-12 h-12" />
+                        <div>
+                          <div className="text-xs text-[#FECB00] font-extrabold uppercase">
+                            GIAT DIRECTION GÉNÉRALE
+                          </div>
+                          <h2 className="text-xl font-extrabold">{t.adminBtn}</h2>
                         </div>
-                        <h2 className="text-xl font-extrabold">
-                          Tableau de Bord Administrateur & Validation
-                        </h2>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => setShowSbModal(true)}
                           className="px-3.5 py-2 rounded-xl bg-[#FECB00] text-[#002664] text-xs font-extrabold"
                         >
-                          ⚙️ Configurer Supabase
+                          ⚙️ Supabase
                         </button>
                         <button
                           onClick={() => fetchAllFromSupabase(false)}
                           disabled={!supabaseClient || sbSyncing}
                           className="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 disabled:opacity-40 text-white text-xs font-bold"
                         >
-                          {sbSyncing ? "Actualisation..." : "🔄 Actualiser"}
+                          🔄 Sync
                         </button>
                       </div>
                     </div>
 
-                    {/* KPI Cards */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                       {[
-                        { label: "Total Inscrits", val: stats.total, color: "text-slate-900" },
-                        { label: "KYC à Valider", val: stats.kycPending, color: "text-amber-600" },
-                        { label: "Paiements à Valider", val: stats.payPending, color: "text-blue-600" },
-                        { label: "Recettes Validées", val: `${stats.revenue.toLocaleString()} F`, color: "text-emerald-600" },
-                        { label: "Lauréats Certifiés", val: stats.certifiedCount, color: "text-purple-700" },
-                        { label: "Places N'Djamena", val: `${stats.seatsLeft}/30`, color: "text-rose-600" }
+                        { label: "Total", val: stats.total, color: "text-slate-900" },
+                        { label: "KYC ⏳", val: stats.kycPending, color: "text-amber-600" },
+                        { label: "Pay ⏳", val: stats.payPending, color: "text-blue-600" },
+                        { label: "FCFA ✅", val: `${stats.revenue.toLocaleString()} F`, color: "text-emerald-600" },
+                        { label: "Certifiés", val: stats.certifiedCount, color: "text-purple-700" },
+                        { label: "N'Djamena", val: `${stats.seatsLeft}/30`, color: "text-rose-600" }
                       ].map((k) => (
                         <div key={k.label} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                           <div className="text-[11px] font-bold text-slate-500">{k.label}</div>
@@ -1742,124 +2346,63 @@ with check (true);`;
                       ))}
                     </div>
 
-                    {/* Filter Tabs */}
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        { id: "all", label: `Tous (${allCandidates.length})` },
-                        { id: "kyc_pending", label: `KYC en attente (${stats.kycPending})` },
-                        { id: "pay_pending", label: `Paiements à valider (${stats.payPending})` },
-                        { id: "certified", label: `Certifiés (${stats.certifiedCount})` }
-                      ].map((f) => (
-                        <button
-                          key={f.id}
-                          onClick={() => setAdminFilter(f.id)}
-                          className={`px-3.5 py-1.5 rounded-lg text-xs font-bold ${
-                            adminFilter === f.id
-                              ? "bg-[#002664] text-white"
-                              : "bg-white border border-slate-200 text-slate-700"
-                          }`}
-                        >
-                          {f.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Candidates Table */}
                     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
-                      <table className="w-full text-left border-collapse text-xs">
+                      <table className="w-full text-start border-collapse text-xs">
                         <thead>
                           <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase">
                             <th className="p-3.5">Apprenant</th>
                             <th className="p-3.5">Ville / Option</th>
-                            <th className="p-3.5">Statut KYC</th>
-                            <th className="p-3.5">Paiement / ID Tx</th>
-                            <th className="p-3.5">Actions Rapides</th>
+                            <th className="p-3.5">KYC</th>
+                            <th className="p-3.5">Paiement / Tx</th>
+                            <th className="p-3.5">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                          {allCandidates
-                            .filter((c) => {
-                              if (adminFilter === "kyc_pending") return c.kycStatus === "pending";
-                              if (adminFilter === "pay_pending") return c.paymentStatus === "pending";
-                              if (adminFilter === "certified") return Boolean(c.certNumber);
-                              return true;
-                            })
-                            .map((c) => (
-                              <tr key={c.id} className="hover:bg-slate-50">
-                                <td className="p-3.5">
-                                  <div className="font-extrabold text-slate-900">
-                                    {c.fullName || "Sans nom"}
-                                  </div>
-                                  <div className="text-slate-500">
-                                    {c.phone} • {c.email}
-                                  </div>
-                                </td>
-                                <td className="p-3.5">
-                                  <div className="font-bold">{c.city}</div>
-                                  <div className="text-slate-500">
-                                    {c.mode === "presential" ? "Présentiel 🏫" : "En ligne 💻"}
-                                  </div>
-                                </td>
-                                <td className="p-3.5">
-                                  <span
-                                    className={`px-2 py-0.5 rounded-full font-bold ${
-                                      c.kycStatus === "verified"
-                                        ? "bg-emerald-100 text-emerald-800"
-                                        : c.kycStatus === "rejected"
-                                        ? "bg-red-100 text-red-800"
-                                        : "bg-amber-100 text-amber-800"
-                                    }`}
+                          {allCandidates.map((c) => (
+                            <tr key={c.id} className="hover:bg-slate-50">
+                              <td className="p-3.5">
+                                <div className="font-extrabold text-slate-900">{c.fullName}</div>
+                                <div className="text-slate-500">
+                                  {c.phone} • {c.email}
+                                </div>
+                              </td>
+                              <td className="p-3.5">
+                                <div className="font-bold">{c.city}</div>
+                                <div className="text-slate-500">{c.mode}</div>
+                              </td>
+                              <td className="p-3.5 font-bold">{c.kycStatus}</td>
+                              <td className="p-3.5">
+                                <div className="font-bold">{c.paymentStatus}</div>
+                                <div className="font-mono text-slate-500">{c.txId || "—"}</div>
+                              </td>
+                              <td className="p-3.5">
+                                <div className="flex flex-wrap gap-1.5">
+                                  <button
+                                    onClick={() => setInspectedCandidate(c)}
+                                    className="px-2.5 py-1 rounded bg-slate-800 text-white font-bold"
                                   >
-                                    {c.kycStatus}
-                                  </span>
-                                </td>
-                                <td className="p-3.5">
-                                  <div className="font-bold">
-                                    {c.paymentStatus === "paid" ? "Payé 5000F ✅" : c.paymentStatus}
-                                  </div>
-                                  <div className="text-slate-500 font-mono">
-                                    {c.txId || "—"}
-                                  </div>
-                                </td>
-                                <td className="p-3.5">
-                                  <div className="flex flex-wrap gap-1.5">
+                                    Inspecter
+                                  </button>
+                                  {c.kycStatus !== "verified" && (
                                     <button
-                                      onClick={() => setInspectedCandidate(c)}
-                                      className="px-2.5 py-1 rounded bg-slate-800 text-white font-bold"
+                                      onClick={() => adminUpdateCandidate(c.id, { kycStatus: "verified" })}
+                                      className="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold"
                                     >
-                                      Inspecter
+                                      KYC ✅
                                     </button>
-                                    {c.kycStatus !== "verified" && (
-                                      <button
-                                        onClick={() =>
-                                          adminUpdateCandidate(c.id, { kycStatus: "verified" })
-                                        }
-                                        className="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold"
-                                      >
-                                        Approuver KYC
-                                      </button>
-                                    )}
-                                    {c.paymentStatus !== "paid" && (
-                                      <button
-                                        onClick={() =>
-                                          adminUpdateCandidate(c.id, { paymentStatus: "paid" })
-                                        }
-                                        className="px-2.5 py-1 rounded bg-blue-600 text-white font-bold"
-                                      >
-                                        Valider 5000F
-                                      </button>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          {allCandidates.length === 0 && (
-                            <tr>
-                              <td colSpan="5" className="p-8 text-center text-slate-500">
-                                Aucun dossier enregistré pour le moment. Les inscriptions KYC et paiements apparaîtront ici automatiquement.
+                                  )}
+                                  {c.paymentStatus !== "paid" && (
+                                    <button
+                                      onClick={() => adminUpdateCandidate(c.id, { paymentStatus: "paid" })}
+                                      className="px-2.5 py-1 rounded bg-blue-600 text-white font-bold"
+                                    >
+                                      5000F ✅
+                                    </button>
+                                  )}
+                                </div>
                               </td>
                             </tr>
-                          )}
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -1869,158 +2412,93 @@ with check (true);`;
             )}
           </main>
 
-          {/* ==================== INSPECT KYC MODAL ==================== */}
+          {/* Inspect Candidate Modal */}
           {inspectedCandidate && (
             <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
               <div className="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between border-b pb-3">
                   <h3 className="font-extrabold text-lg text-slate-900">
-                    Inspection Dossier : {inspectedCandidate.fullName}
+                    {inspectedCandidate.fullName}
                   </h3>
                   <button
                     onClick={() => setInspectedCandidate(null)}
                     className="text-slate-500 font-bold text-sm"
                   >
-                    ✕ Fermer
+                    ✕
                   </button>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <div className="font-bold text-slate-700 mb-1">
-                      Pièce d'identité ({inspectedCandidate.idType}) :
-                    </div>
-                    {inspectedCandidate.idPhoto ? (
-                      <img
-                        src={inspectedCandidate.idPhoto}
-                        alt="ID"
-                        className="w-full h-48 object-contain border rounded-xl bg-slate-50"
-                      />
-                    ) : (
-                      <div className="h-32 border rounded-xl flex items-center justify-center text-slate-400">
-                        Aucune photo pièce jointe
-                      </div>
+                    <div className="font-bold mb-1">ID ({inspectedCandidate.idType})</div>
+                    {inspectedCandidate.idPhoto && (
+                      <img src={inspectedCandidate.idPhoto} alt="ID" className="w-full h-48 object-contain border rounded-xl" />
                     )}
                   </div>
                   <div>
-                    <div className="font-bold text-slate-700 mb-1">Selfie Liveness :</div>
-                    {inspectedCandidate.selfiePhoto ? (
-                      <img
-                        src={inspectedCandidate.selfiePhoto}
-                        alt="Selfie"
-                        className="w-full h-48 object-contain border rounded-xl bg-slate-50"
-                      />
-                    ) : (
-                      <div className="h-32 border rounded-xl flex items-center justify-center text-slate-400">
-                        Aucun selfie joint
-                      </div>
+                    <div className="font-bold mb-1">Selfie Liveness</div>
+                    {inspectedCandidate.selfiePhoto && (
+                      <img src={inspectedCandidate.selfiePhoto} alt="Selfie" className="w-full h-48 object-contain border rounded-xl" />
                     )}
                   </div>
                 </div>
-
-                <div className="p-3 rounded-xl bg-slate-50 text-xs space-y-1">
-                  <div>
-                    <strong>Téléphone :</strong> {inspectedCandidate.phone} |{" "}
-                    <strong>Email :</strong> {inspectedCandidate.email}
-                  </div>
-                  <div>
-                    <strong>Ville :</strong> {inspectedCandidate.city} ({inspectedCandidate.district})
-                  </div>
-                  <div>
-                    <strong>Transaction Mobile Money :</strong> {inspectedCandidate.paymentMethod} —{" "}
-                    <span className="font-mono font-bold">{inspectedCandidate.txId || "Non renseigné"}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 pt-2">
+                <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() =>
-                      adminUpdateCandidate(inspectedCandidate.id, { kycStatus: "verified" })
-                    }
+                    onClick={() => adminUpdateCandidate(inspectedCandidate.id, { kycStatus: "verified" })}
                     className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-extrabold"
                   >
-                    ✅ Approuver KYC
+                    Approuver KYC ✅
                   </button>
                   <button
-                    onClick={() =>
-                      adminUpdateCandidate(inspectedCandidate.id, { kycStatus: "rejected" })
-                    }
-                    className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-extrabold"
-                  >
-                    ❌ Rejeter KYC
-                  </button>
-                  <button
-                    onClick={() =>
-                      adminUpdateCandidate(inspectedCandidate.id, { paymentStatus: "paid" })
-                    }
+                    onClick={() => adminUpdateCandidate(inspectedCandidate.id, { paymentStatus: "paid" })}
                     className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-extrabold"
                   >
-                    💰 Valider Paiement 5 000 FCFA
+                    Valider 5000 FCFA 💰
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ==================== SUPABASE CONFIG MODAL ==================== */}
+          {/* Supabase Config Modal */}
           {showSbModal && (
             <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
               <div className="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between border-b pb-3">
-                  <h3 className="font-extrabold text-lg text-slate-900">
-                    Configuration Base de Données Supabase
-                  </h3>
-                  <button
-                    onClick={() => setShowSbModal(false)}
-                    className="text-slate-500 font-bold text-sm"
-                  >
-                    ✕ Fermer
+                  <h3 className="font-extrabold text-lg text-slate-900">Supabase Configuration</h3>
+                  <button onClick={() => setShowSbModal(false)} className="text-slate-500 font-bold">
+                    ✕
                   </button>
                 </div>
-
                 <div className="space-y-3 text-xs">
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      1. Project URL Supabase
-                    </label>
+                    <label className="block font-bold mb-1">Project URL</label>
                     <input
                       type="text"
                       value={sbConfig.url}
                       onChange={(e) => setSbConfig({ ...sbConfig, url: e.target.value })}
-                      placeholder="https://votre-projet.supabase.co"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300"
+                      placeholder="https://xxxx.supabase.co"
+                      className="w-full px-3 py-2 rounded-xl border"
                     />
                   </div>
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      2. Clé Publique (anon public key)
-                    </label>
+                    <label className="block font-bold mb-1">Anon / Publishable Key</label>
                     <input
                       type="text"
                       value={sbConfig.anonKey}
                       onChange={(e) => setSbConfig({ ...sbConfig, anonKey: e.target.value })}
-                      placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300"
+                      className="w-full px-3 py-2 rounded-xl border"
                     />
                   </div>
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      3. Code PIN Admin PDG (défaut : 2350)
-                    </label>
+                    <label className="block font-bold mb-1">Admin PIN</label>
                     <input
                       type="text"
                       value={sbConfig.adminPin}
                       onChange={(e) => setSbConfig({ ...sbConfig, adminPin: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300"
+                      className="w-full px-3 py-2 rounded-xl border"
                     />
                   </div>
-
-                  {sbError && (
-                    <div className="p-2.5 rounded-lg bg-red-50 text-red-700 font-bold">
-                      Erreur : {sbError}
-                    </div>
-                  )}
-
+                  {sbError && <div className="p-2 rounded bg-red-50 text-red-700 font-bold">{sbError}</div>}
                   <div className="flex gap-2">
                     <button
                       onClick={async () => {
@@ -2029,19 +2507,18 @@ with check (true);`;
                       }}
                       className="px-4 py-2.5 rounded-xl bg-[#002664] text-white font-extrabold"
                     >
-                      Enregistrer et Connecter
+                      Connecter
                     </button>
                     <button
                       onClick={() => {
                         navigator.clipboard?.writeText(SQL_SNIPPET);
-                        notify("Script SQL copié ! Collez-le dans SQL Editor sur Supabase.");
+                        notify("SQL copié ✅");
                       }}
                       className="px-4 py-2.5 rounded-xl bg-amber-100 text-amber-900 font-extrabold"
                     >
-                      Copier le Script SQL
+                      Copier SQL
                     </button>
                   </div>
-
                   <pre className="p-3 rounded-xl bg-slate-900 text-emerald-300 text-[11px] overflow-x-auto">
                     {SQL_SNIPPET}
                   </pre>
@@ -2053,22 +2530,19 @@ with check (true);`;
           {/* Footer */}
           <footer className="no-print bg-slate-900 text-slate-400 text-xs py-6 px-4 mt-10">
             <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div>
-                <strong className="text-white">GIAT — Gombo Intelligence Artificielle Tchad</strong> • PDG Mahamat Gombo Abakar
+              <div className="flex items-center gap-2.5">
+                <GiatLogo className="w-8 h-8" />
+                <span>
+                  <strong className="text-white">GIAT — Gombo Intelligence Artificielle Tchad</strong> • PDG Mahamat Gombo Abakar
+                </span>
               </div>
               <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setShowSbModal(true)}
-                  className="text-amber-400 hover:underline font-bold"
-                >
-                  Configuration Supabase
+                <button onClick={() => setShowSbModal(true)} className="text-amber-400 hover:underline font-bold">
+                  Supabase
                 </button>
                 <span>•</span>
-                <button
-                  onClick={() => setActiveTab("admin")}
-                  className="text-white hover:underline font-bold"
-                >
-                  🔐 Admin PDG
+                <button onClick={() => setActiveTab("admin")} className="text-white hover:underline font-bold">
+                  🔐 {t.adminBtn}
                 </button>
               </div>
             </div>
