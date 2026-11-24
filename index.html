@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GIAT — Generation Intelligence Artificielle Tchad</title>
+  <title>GIAT — Gombo Intelligence Artificielle Tchad</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -97,13 +97,14 @@
 
     const I18N = {
       fr: {
-        brandTitle: "GENERATION INTELLIGENCE ARTIFICIELLE TCHAD",
+        brandTitle: "GOMBO INTELLIGENCE ARTIFICIELLE TCHAD",
         brandSub: "PDG Mahamat Gombo Abakar • 10+ Jours • En Ligne 💻 ou Présentiel • 23 Provinces & Diaspora",
         local: "Mode Local",
         supabase: "Supabase",
         adminBtn: "Admin PDG",
         navHome: "Accueil",
         navLive: "Canal Temps Réel",
+        navChannels: "Meet / WhatsApp / BOTIM",
         navKyc: "1. KYC",
         navPay: "2. Paiement 5000F",
         navCourses: "3. Cours (10 Jours)",
@@ -114,9 +115,9 @@
         modePresential: "En présentiel",
         heroBadge: "Académie Nationale d'Intelligence Artificielle • En Ligne 💻 ou En Présentiel",
         heroTitle: "« L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »",
-        heroDesc: "Formation complète sur au moins 10 jours — disponible en ligne 💻 ou en présentiel — ouverte à tous les publics des 23 provinces du Tchad et de la diaspora : élèves, étudiants et chercheurs, commerçant(e)s, emploi, ONG & bureau, entrepreneurs et autres publics.",
+        heroDesc: "Formation complète sur au moins 10 jours — en ligne 💻 ou en présentiel — ouverte à tous les publics des 23 provinces du Tchad et de la diaspora : élèves, étudiants et chercheurs, commerçant(e)s, emploi, ONG & bureau, entrepreneurs et autres publics.",
         ctaStart: "S'inscrire & Valider mon KYC",
-        ctaLive: "Canal Temps Réel & Aide Auto",
+        ctaChannels: "Accéder aux Canaux (Meet / WhatsApp / BOTIM)",
         ctaCourses: "Suivre les 10 Modules",
         audienceTitle: "Publics Ciblés — Tous Profils Bienvenus",
         regionsTitle: "Couverture Nationale & Diaspora — 23 Provinces du Tchad + Diaspora",
@@ -160,9 +161,11 @@
         ceoTitle: "Le PDG Fondateur",
         liveTitle: "Canal Interactif en Temps Réel & Assistance Automatisée GIAT",
         liveSub: "Suivez l'activité en direct et posez vos questions : l'assistant automatisé GIAT répond immédiatement à vos soucis.",
-        livePlaceholder: "Décrivez votre souci ou question (ex: KYC, paiement 5000F, modules, attestation, en ligne ou présentiel)...",
+        livePlaceholder: "Décrivez votre souci ou question (KYC, paiement 5000F, modules, attestation, Meet, WhatsApp, BOTIM)...",
         liveSend: "Envoyer & Réponse Auto",
-        adminTitle: "Administration PDG & Ajout de Modules",
+        channelsTitle: "Canaux de Formation Intégrés GIAT (Google Meet, WhatsApp, BOTIM)",
+        channelsSub: "Après validation de votre KYC et paiement de 5 000 FCFA, ouvrez directement votre canal de formation dans l'application sans quitter GIAT.",
+        adminTitle: "Administration PDG — Apprenants, KYC, Certificats & Modules",
         adminPinPlaceholder: "Code PIN (2350)",
         adminUnlock: "Déverrouiller",
         addModTitle: "Ajouter un Nouveau Module (10+ Jours)",
@@ -176,13 +179,14 @@
         markAllRead: "Tout marquer lu"
       },
       ar: {
-        brandTitle: "جيل للذكاء الاصطناعي — تشاد",
+        brandTitle: "قومبو للذكاء الاصطناعي — تشاد",
         brandSub: "المدير العام محمد قومبو أبكر • 10+ أيام • عن بُعد 💻 أو حضوري • 23 ولاية والمهجر",
         local: "الوضع المحلي",
         supabase: "Supabase",
         adminBtn: "إدارة المدير العام",
         navHome: "الرئيسية",
         navLive: "القناة المباشرة",
+        navChannels: "Meet / واتساب / BOTIM",
         navKyc: "١. KYC",
         navPay: "٢. الدفع 5000F",
         navCourses: "٣. الدروس (10 أيام)",
@@ -193,9 +197,9 @@
         modePresential: "حضوري",
         heroBadge: "الأكاديمية الوطنية للذكاء الاصطناعي • عن بُعد 💻 أو حضوري",
         heroTitle: "« الذكاء الاصطناعي لن يستبدلك. الشخص الذي يتقن الذكاء الاصطناعي هو من سيستبدلك. تدرب مع GIAT. »",
-        heroDesc: "تكوين متكامل لمدة لا تقل عن 10 أيام — متاح عن بُعد 💻 أو حضورياً — لجميع الفئات في الولايات الـ 23 بتشاد والمهجر: التلاميذ، الطلاب والباحثون، التجار والتاجرات، التوظيف والمنظمات والمكاتب، رواد الأعمال وباقي الفئات.",
+        heroDesc: "تكوين متكامل لمدة لا تقل عن 10 أيام — عن بُعد 💻 أو حضورياً — لجميع الفئات في الولايات الـ 23 بتشاد والمهجر: التلاميذ، الطلاب والباحثون، التجار والتاجرات، التوظيف والمنظمات والمكاتب، رواد الأعمال وباقي الفئات.",
         ctaStart: "التسجيل وتأكيد KYC",
-        ctaLive: "القناة المباشرة والمساعدة الآلية",
+        ctaChannels: "قنوات التكوين (Meet / واتساب / BOTIM)",
         ctaCourses: "متابعة الوحدات الـ 10",
         audienceTitle: "الفئات المستهدفة — مفتوح لجميع الفئات",
         regionsTitle: "تغطية شاملة — الولايات الـ 23 في تشاد والمهجر",
@@ -239,9 +243,11 @@
         ceoTitle: "الرئيس المدير العام المؤسس",
         liveTitle: "القناة التفاعلية المباشرة والمساعدة الآلية GIAT",
         liveSub: "تابع النشاط المباشر واطرح مشكلتك أو سؤالك ليقدم لك النظام إجابة فورية تلقائية.",
-        livePlaceholder: "اكتب سؤالك أو مشكلتك (KYC، الدفع 5000F، الوحدات، الشهادة، عن بُعد أو حضوري)...",
+        livePlaceholder: "اكتب سؤالك أو مشكلتك (KYC، الدفع 5000F، الوحدات، الشهادة، Meet، واتساب، BOTIM)...",
         liveSend: "إرسال ورد آلي",
-        adminTitle: "لوحة المدير العام وإضافة الوحدات",
+        channelsTitle: "قنوات التكوين المدمجة في GIAT (Google Meet، واتساب، BOTIM)",
+        channelsSub: "بعد إتمام KYC وتأكيد الدفع (5,000 فرنك)، افتح قناة التكوين داخل المنصة وابدأ التدريب دون مغادرة التطبيق.",
+        adminTitle: "لوحة المدير العام — المتدربون، طلبات KYC، الشهادات والوحدات",
         adminPinPlaceholder: "رمز PIN (2350)",
         adminUnlock: "فتح اللوحة",
         addModTitle: "إضافة وحدة دراسية جديدة (10+ أيام)",
@@ -255,13 +261,14 @@
         markAllRead: "قراءة الكل"
       },
       en: {
-        brandTitle: "GENERATION INTELLIGENCE ARTIFICIELLE TCHAD",
+        brandTitle: "GOMBO INTELLIGENCE ARTIFICIELLE TCHAD",
         brandSub: "CEO Mahamat Gombo Abakar • 10+ Days • Online 💻 or In-Person • 23 Provinces & Diaspora",
         local: "Local Mode",
         supabase: "Supabase",
         adminBtn: "CEO Admin",
         navHome: "Home",
         navLive: "Live Channel",
+        navChannels: "Meet / WhatsApp / BOTIM",
         navKyc: "1. KYC",
         navPay: "2. Pay 5000F",
         navCourses: "3. Courses (10 Days)",
@@ -272,9 +279,9 @@
         modePresential: "In-person",
         heroBadge: "National Academy of Artificial Intelligence • Online 💻 or In-Person",
         heroTitle: "\"AI will not replace you. Someone who masters AI will replace you. Train with GIAT.\"",
-        heroDesc: "Complete at least 10-day training — available online 💻 or in-person — designed for all audiences across Chad's 23 provinces and the diaspora: school students, university students & researchers, merchants, jobs / NGOs & office, entrepreneurs, and other publics.",
+        heroDesc: "Complete at least 10-day training — online 💻 or in-person — designed for all audiences across Chad's 23 provinces and the diaspora: school students, university students & researchers, merchants, jobs / NGOs & office, entrepreneurs, and other publics.",
         ctaStart: "Register & Validate KYC",
-        ctaLive: "Live Channel & Auto Help",
+        ctaChannels: "Training Channels (Meet / WhatsApp / BOTIM)",
         ctaCourses: "Open the 10 Modules",
         audienceTitle: "Target Audiences — Every Profile Welcome",
         regionsTitle: "National & Diaspora Reach — All 23 Provinces of Chad + Diaspora",
@@ -318,9 +325,11 @@
         ceoTitle: "Founder & CEO",
         liveTitle: "Real-Time Interactive Channel & Automated GIAT Helpdesk",
         liveSub: "Follow live activity and post your issue or question for an instant automated GIAT response.",
-        livePlaceholder: "Describe your issue or question (KYC, 5000F payment, modules, certificate, online or in-person)...",
+        livePlaceholder: "Describe your issue or question (KYC, 5000F payment, modules, certificate, Meet, WhatsApp, BOTIM)...",
         liveSend: "Post & Auto-Reply",
-        adminTitle: "CEO Admin & Course Module Builder",
+        channelsTitle: "Embedded GIAT Training Channels (Google Meet, WhatsApp, BOTIM)",
+        channelsSub: "Once KYC and the 5,000 FCFA payment are confirmed, open your training channel right inside GIAT without leaving the app.",
+        adminTitle: "CEO Admin — Learners, KYC Approvals, Certificates & Modules",
         adminPinPlaceholder: "PIN Code (2350)",
         adminUnlock: "Unlock",
         addModTitle: "Add a New Course Module (10+ Days)",
@@ -335,7 +344,6 @@
       }
     };
 
-    // Contenus pédagogiques développés pour les 10 modules (prêts pour formateur & apprenant)
     const BASE_10_DAY_MODULES = [
       {
         id: 1,
@@ -389,7 +397,7 @@
         lesson: {
           fr: "Objectif formateur & apprenant : Aider les commerçant(e)s à rédiger des fiches produits attractives, structurer leurs ventes journalières en FCFA et répondre poliment aux clients. Déroulé : (1) Fiche produit claire (prix, usage, disponibilité) ; (2) Tableau récapitulatif des entrées/sorties ; (3) Réponses rapides aux objections clients. Critère de validation : créer une fiche vente et un suivi clair en FCFA.",
           ar: "هدف المكون والمتدرب: مساعدة التجار على كتابة أوصاف واضحة للمنتجات وتنظيم المبيعات اليومية بالفرنك الأفريقي والرد على الزبائن. المحاور: (1) بطاقة منتج واضحة؛ (2) ملخص المبيعات والمصاريف؛ (3) الرد السريع على استفسارات العملاء. معيار الاعتماد: إعداد عرض منتج وجدول متابعة واضح.",
-          en: "Trainer & learner goal: Help merchants create clear product listings, track daily FCFA sales, and handle customer inquiries. Outline: (1) Clear product sheet; (2) Daily sales & expense summary; (3) Polite customer replies. Completion check: build a product pitch and sales summary."
+          en: "Trainer & learner goal: Help merchants create clear product listings, track daily FCFA sales, and handle customer inquiries. Outline: (1) Clear product listing; (2) Daily sales & expense summary; (3) Polite customer replies. Completion check: build a product pitch and sales summary."
         },
         quiz: {
           fr: { q: "Qu'apporte l'IA à un(e) commerçant(e) ?", opts: ["Gain de temps sur les fiches produits, devis et suivis de vente", "Une hausse automatique des stocks sans achat", "L'absence de relation client"], ans: 0 },
@@ -591,67 +599,27 @@
       });
     }
 
-    // Moteur de réponse automatisée aux soucis utilisateurs dans le canal temps réel
     function generateAutomatedSupportReply(rawText, lang) {
       const q = (rawText || "").toLowerCase();
-
-      if (q.includes("kyc") || q.includes("pièce") || q.includes("recto") || q.includes("verso") || q.includes("identité") || q.includes("هوية") || q.includes("id")) {
+      if (q.includes("meet") || q.includes("whatsapp") || q.includes("botim") || q.includes("canal") || q.includes("واتساب")) {
         if (lang === "ar") {
-          return "🤖 رد آلي GIAT (KYC): لتأكيد ملف KYC، أدخل الاسم وتاريخ ومكان الميلاد والهاتف والبريد والولاية/المهجر ونمط التكوين (عن بُعد 💻 أو حضوري)، ثم أرفق صورتي الهوية (الوجه الأمامي والخلفي) واضغط على «تأكيد ملف KYC فوراً».";
+          return "🤖 رد آلي GIAT (قنوات التكوين): بعد إتمام KYC وتأكيد الدفع (5,000 FCFA)، افتح تبويب «Meet / واتساب / BOTIM» واضغط على القناة المطلوبة لبدء التدريب مباشرة داخل المنصة دون مغادرتها.";
         }
         if (lang === "en") {
-          return "🤖 GIAT Auto-Reply (KYC): Fill in your name, birth date & place, phone, email, province/diaspora, and format (Online 💻 or In-person), upload ID FRONT & BACK photos, and click Validate KYC Immediately.";
+          return "🤖 GIAT Auto-Reply (Training Channels): Once KYC and the 5,000 FCFA payment are confirmed, open Meet / WhatsApp / BOTIM and click your channel to start training right inside GIAT without leaving the app.";
         }
-        return "🤖 Réponse Auto GIAT (KYC) : Renseignez votre nom, date et lieu de naissance, téléphone, email, province/diaspora et modalité (En ligne 💻 ou Présentiel), ajoutez les photos RECTO et VERSO de votre pièce d'identité, puis cliquez sur « Valider mon KYC immédiatement ».";
+        return "🤖 Réponse Auto GIAT (Canaux Meet / WhatsApp / BOTIM) : Une fois votre KYC et le paiement de 5 000 FCFA validés, ouvrez l'onglet « Meet / WhatsApp / BOTIM » et cliquez sur le canal souhaité pour démarrer la formation directement dans l'application.";
       }
-
-      if (q.includes("pai") || q.includes("5000") || q.includes("5 000") || q.includes("moov") || q.includes("airtel") || q.includes("transaction") || q.includes("دفع") || q.includes("pay")) {
-        if (lang === "ar") {
-          return "🤖 رد آلي GIAT (الدفع 5,000 FCFA): بعد تأكيد KYC، انتقل إلى تبويب «2. الدفع 5000F»، أرسل 5,000 FCFA عبر Moov Money (+235 92 82 52 52) أو Airtel Money (+235 66 78 75 46)، ثم أدخل رقم العملية واضغط على تأكيد الدفع لفتح الوحدات.";
-        }
-        if (lang === "en") {
-          return "🤖 GIAT Auto-Reply (5,000 FCFA Payment): After KYC, open 2. Pay 5000F, send 5,000 FCFA via Moov Money (+235 92 82 52 52) or Airtel Money (+235 66 78 75 46), enter your transaction ID, and confirm to unlock modules.";
-        }
-        return "🤖 Réponse Auto GIAT (Paiement 5 000 FCFA) : Après validation du KYC, allez dans « 2. Paiement 5000F », effectuez le paiement de 5 000 FCFA via Moov Money (+235 92 82 52 52) ou Airtel Money (+235 66 78 75 46), saisissez l'ID de transaction et confirmez pour débloquer les modules.";
+      if (q.includes("kyc") || q.includes("pièce") || q.includes("recto") || q.includes("verso") || q.includes("identité") || q.includes("هوية")) {
+        return "🤖 Réponse Auto GIAT (KYC) : Renseignez votre nom, date et lieu de naissance, téléphone, email, province/diaspora et modalité (En ligne 💻 ou Présentiel), ajoutez les photos RECTO et VERSO, puis validez votre KYC.";
       }
-
-      if (q.includes("module") || q.includes("cours") || q.includes("jour") || q.includes("débloqu") || q.includes("coch") || q.includes("وحدة") || q.includes("دروس") || q.includes("unlock")) {
-        if (lang === "ar") {
-          return "🤖 رد آلي GIAT (الوحدات الـ 10): تأكد أولاً من إتمام KYC والدفع (5,000 FCFA). في تبويب «3. الدروس (10 أيام)»، اختر الوحدة، اقرأ أو استمع للدرس، أجب عن سؤال التحقق ثم اضغط «اعتماد وتحديد هذه الوحدة» ليظهر ✅ وتتحدث النسبة.";
-        }
-        if (lang === "en") {
-          return "🤖 GIAT Auto-Reply (10 Modules): Ensure KYC and 5,000 FCFA payment are confirmed. In 3. Courses (10 Days), select a module, read or listen to the lesson, answer the check question, and click Validate & Check This Module.";
-        }
-        return "🤖 Réponse Auto GIAT (10 Modules) : Vérifiez que votre KYC et votre paiement (5 000 FCFA) sont validés. Dans « 3. Cours (10 Jours) », sélectionnez le module, lisez ou écoutez la leçon, répondez au quiz puis cliquez sur « Valider et cocher ce module » pour afficher ✅.";
+      if (q.includes("pai") || q.includes("5000") || q.includes("5 000") || q.includes("moov") || q.includes("airtel") || q.includes("دفع")) {
+        return "🤖 Réponse Auto GIAT (Paiement 5 000 FCFA) : Effectuez le paiement de 5 000 FCFA via Moov Money (+235 92 82 52 52) ou Airtel Money (+235 66 78 75 46), puis saisissez votre référence de transaction dans « 2. Paiement 5000F » pour débloquer les modules.";
       }
-
-      if (q.includes("attestation") || q.includes("certificat") || q.includes("cachet") || q.includes("qr") || q.includes("شهادة") || q.includes("ختم") || q.includes("certificate")) {
-        if (lang === "ar") {
-          return "🤖 رد آلي GIAT (الشهادة والختم): يتم إنشاء رقم الشهادة وتفعيل الختم الرسمي ورمز QR تلقائياً بمجرد إتمام جميع الوحدات العشر (10 أيام على الأقل)، مع إظهار تاريخ ومكان الميلاد وطباعة PDF A4.";
-        }
-        if (lang === "en") {
-          return "🤖 GIAT Auto-Reply (Certificate & Seal): Once all 10 modules (at least 10 days) are completed, your certificate number, official seal, and QR code unlock automatically with your birth date/place and A4 PDF print.";
-        }
-        return "🤖 Réponse Auto GIAT (Attestation & Cachet) : Dès que les 10 modules (au moins 10 jours) sont validés, votre numéro d'attestation, le cachet officiel et le QR Code s'activent automatiquement avec votre date et lieu de naissance, prêts pour l'impression A4.";
+      if (q.includes("module") || q.includes("cours") || q.includes("attestation") || q.includes("certificat") || q.includes("شهادة")) {
+        return "🤖 Réponse Auto GIAT (Cours & Attestation) : Validez chaque module après le quiz pour le cocher (✅). Une fois les 10 modules complétés, votre attestation avec numéro, QR Code et cachet officiel s'active automatiquement.";
       }
-
-      if (q.includes("présentiel") || q.includes("ligne") || q.includes("online") || q.includes("presential") || q.includes("حضوري") || q.includes("بُعد") || q.includes("province") || q.includes("diaspora")) {
-        if (lang === "ar") {
-          return "🤖 رد آلي GIAT (أنماط التكوين والتغطية): البرنامج متاح عن بُعد 💻 أو حضورياً لمدة لا تقل عن 10 أيام، ويخدم جميع الفئات في الولايات الـ 23 بتشاد والمهجر (التلاميذ، الطلاب والباحثون، التجار، التوظيف والمنظمات، رواد الأعمال وباقي الفئات).";
-        }
-        if (lang === "en") {
-          return "🤖 GIAT Auto-Reply (Formats & Reach): Training runs for at least 10 days Online 💻 or In-person, serving all audiences across Chad's 23 provinces and the diaspora (school students, university students & researchers, merchants, jobs/NGOs, entrepreneurs, and other publics).";
-        }
-        return "🤖 Réponse Auto GIAT (Modalités & Couverture) : La formation dure au moins 10 jours en ligne 💻 ou en présentiel, et s'adresse à tous les publics des 23 provinces du Tchad et de la diaspora (élèves, étudiants et chercheurs, commerçant(e)s, emploi/ONG/bureau, entrepreneurs et autres publics).";
-      }
-
-      if (lang === "ar") {
-        return "🤖 رد آلي GIAT: تم استلام رسالتك («" + rawText + "»). يمكنك تحديد موضوع مشكلتك (KYC، الدفع 5000F، الوحدات الـ 10، الشهادة، أو التكوين عن بُعد 💻 / حضوري) للحصول على إرشاد فوري خطوة بخطوة.";
-      }
-      if (lang === "en") {
-        return "🤖 GIAT Auto-Reply: We received your message (\"" + rawText + "\"). Mention your topic (KYC, 5000F payment, 10 modules, certificate, or Online 💻 / In-person) for instant step-by-step guidance.";
-      }
-      return "🤖 Réponse Auto GIAT : Votre message (« " + rawText + " ») est bien pris en compte. Précisez votre souci (KYC, paiement 5000F, 10 modules, attestation, ou formation en ligne 💻 / en présentiel) pour une aide immédiate étape par étape.";
+      return "🤖 Réponse Auto GIAT : Votre message (« " + rawText + " ») est pris en compte. Indiquez votre sujet (KYC, paiement 5000F, 10 modules, attestation, Google Meet, WhatsApp ou BOTIM) pour une aide immédiate.";
     }
 
     function App() {
@@ -663,7 +631,7 @@
 
       const [user, setUser] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_user_v7");
+          const saved = localStorage.getItem("giat_user_v8");
           return saved ? { ...DEFAULT_USER, ...JSON.parse(saved) } : DEFAULT_USER;
         } catch {
           return DEFAULT_USER;
@@ -672,7 +640,7 @@
 
       const [allCandidates, setAllCandidates] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_all_candidates_v7");
+          const saved = localStorage.getItem("giat_all_candidates_v8");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
@@ -681,16 +649,37 @@
 
       const [customModules, setCustomModules] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_custom_modules_v2");
+          const saved = localStorage.getItem("giat_custom_modules_v3");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
         }
       });
 
+      // Liens / salles des canaux de formation (Meet, WhatsApp, BOTIM)
+      const [channelConfig, setChannelConfig] = useState(() => {
+        try {
+          const saved = localStorage.getItem("giat_channels_cfg_v1");
+          return saved
+            ? JSON.parse(saved)
+            : {
+                meetUrl: "https://meet.google.com/new",
+                whatsappUrl: "https://whatsapp.com/channel/",
+                botimUrl: "https://botim.me/"
+              };
+        } catch {
+          return {
+            meetUrl: "https://meet.google.com/new",
+            whatsappUrl: "https://whatsapp.com/channel/",
+            botimUrl: "https://botim.me/"
+          };
+        }
+      });
+      const [selectedChannel, setSelectedChannel] = useState("meet"); // "meet" | "whatsapp" | "botim"
+
       const [liveFeed, setLiveFeed] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_live_feed_v2");
+          const saved = localStorage.getItem("giat_live_feed_v3");
           return saved
             ? JSON.parse(saved)
             : [
@@ -699,7 +688,7 @@
                   author: "GIAT Tchad",
                   region: "N'Djamena",
                   type: "system",
-                  text: "Bienvenue sur le Canal Temps Réel GIAT ! Formation d'au moins 10 jours en ligne 💻 ou en présentiel • 23 Provinces & Diaspora • Réponse automatique active.",
+                  text: "Bienvenue sur le Canal Temps Réel GIAT ! 10+ jours de formation en ligne 💻 ou en présentiel • 23 Provinces & Diaspora • Canaux Meet, WhatsApp & BOTIM intégrés.",
                   time: "En direct"
                 }
               ];
@@ -712,10 +701,10 @@
       const [notifications, setNotifications] = useState([
         {
           id: "N-1",
-          text: "Plateforme GIAT opérationnelle : programme d'au moins 10 jours disponible en ligne 💻 ou en présentiel pour tous les publics des 23 provinces du Tchad et de la diaspora.",
+          text: "Plateforme GIAT prête : programme d'au moins 10 jours en ligne 💻 ou en présentiel pour les 23 provinces et la diaspora, avec canaux Google Meet, WhatsApp et BOTIM intégrés.",
           time: "Maintenant",
           read: false,
-          tab: "courses"
+          tab: "channels"
         }
       ]);
       const [notifOpen, setNotifOpen] = useState(false);
@@ -797,19 +786,23 @@
       }, [sbConfig.url, sbConfig.anonKey]);
 
       useEffect(() => {
-        localStorage.setItem("giat_user_v7", JSON.stringify(user));
+        localStorage.setItem("giat_user_v8", JSON.stringify(user));
       }, [user]);
 
       useEffect(() => {
-        localStorage.setItem("giat_all_candidates_v7", JSON.stringify(allCandidates));
+        localStorage.setItem("giat_all_candidates_v8", JSON.stringify(allCandidates));
       }, [allCandidates]);
 
       useEffect(() => {
-        localStorage.setItem("giat_custom_modules_v2", JSON.stringify(customModules));
+        localStorage.setItem("giat_custom_modules_v3", JSON.stringify(customModules));
       }, [customModules]);
 
       useEffect(() => {
-        localStorage.setItem("giat_live_feed_v2", JSON.stringify(liveFeed));
+        localStorage.setItem("giat_channels_cfg_v1", JSON.stringify(channelConfig));
+      }, [channelConfig]);
+
+      useEffect(() => {
+        localStorage.setItem("giat_live_feed_v3", JSON.stringify(liveFeed));
       }, [liveFeed]);
 
       useEffect(() => {
@@ -934,7 +927,48 @@
         return payload;
       };
 
-      // Validation KYC fonctionnelle et fluide
+      // Admin actions: approve KYC, confirm payment, or issue certificate
+      const adminApproveKyc = async (cand) => {
+        const updated = { ...cand, kycStatus: "verified" };
+        setAllCandidates((prev) => prev.map((c) => (c.id === cand.id ? updated : c)));
+        if (user.id === cand.id) setUser(updated);
+        notify(`KYC approuvé par Admin pour ${cand.fullName}.`, "admin", true);
+      };
+
+      const adminConfirmPayment = async (cand) => {
+        const updated = {
+          ...cand,
+          kycStatus: "verified",
+          paymentStatus: "paid",
+          txId: cand.txId || `ADMIN-5000-${Date.now().toString().slice(-4)}`
+        };
+        setAllCandidates((prev) => prev.map((c) => (c.id === cand.id ? updated : c)));
+        if (user.id === cand.id) setUser(updated);
+        notify(`Paiement 5 000 FCFA confirmé par Admin pour ${cand.fullName}.`, "admin", true);
+      };
+
+      const adminIssueCertificate = async (cand) => {
+        const code = (cand.region || "TCD")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .slice(0, 3)
+          .toUpperCase();
+        const certNumber = cand.certNumber || `GIAT-2026-${code}-${String(Math.floor(1000 + Math.random() * 9000))}`;
+        const certifiedAt = cand.certifiedAt || new Date().toLocaleDateString("fr-FR");
+        const allIds = allModules.map((m) => m.id);
+        const updated = {
+          ...cand,
+          kycStatus: "verified",
+          paymentStatus: "paid",
+          completedModules: Array.from(new Set([...(cand.completedModules || []), ...allIds])),
+          certNumber,
+          certifiedAt
+        };
+        setAllCandidates((prev) => prev.map((c) => (c.id === cand.id ? updated : c)));
+        if (user.id === cand.id) setUser(updated);
+        notify(`Certificat ${certNumber} délivré à ${cand.fullName}.`, "cert", true);
+      };
+
       const handleKycSubmit = async (e) => {
         e.preventDefault();
         if (!user.fullName.trim() || !user.birthDate || !user.birthPlace.trim() || !user.phone.trim() || !user.email.trim()) {
@@ -955,7 +989,6 @@
         setActiveTab("payment");
       };
 
-      // Confirmation du paiement 5 000 FCFA fonctionnelle et fluide
       const handlePaymentSubmit = async (e) => {
         e.preventDefault();
         if (!user.txId.trim()) {
@@ -969,7 +1002,7 @@
         };
         await persistCandidate(nextUser);
         notify(
-          `Paiement de 5 000 FCFA confirmé (Réf: ${user.txId.trim()}) pour ${user.fullName || "Apprenant"}. Les 10 modules sont débloqués !`,
+          `Paiement de 5 000 FCFA confirmé (Réf: ${user.txId.trim()}) pour ${user.fullName || "Apprenant"}. Les 10 modules et les canaux Meet / WhatsApp / BOTIM sont débloqués !`,
           "courses",
           true
         );
@@ -978,10 +1011,10 @@
 
       const isKycOk = user.kycStatus === "verified";
       const isPaidOk = user.paymentStatus === "paid";
+      const conditionsMet = isKycOk && isPaidOk;
 
-      // Validation & cochage des 10 modules + modules ajoutés par l'Admin
       const handleValidateModule = async (modId) => {
-        if (!isKycOk || !isPaidOk) {
+        if (!conditionsMet) {
           notify("Veuillez d'abord valider votre KYC et confirmer le paiement de 5 000 FCFA.");
           return;
         }
@@ -1087,6 +1120,20 @@
         setActiveTab("courses");
       };
 
+      const handleOpenTrainingChannel = (channelKey) => {
+        if (!conditionsMet) {
+          notify("Conditions requises : validez d'abord votre KYC et confirmez le paiement de 5 000 FCFA.");
+          if (!isKycOk) setActiveTab("kyc");
+          else setActiveTab("payment");
+          return;
+        }
+        setSelectedChannel(channelKey);
+        setActiveTab("channels");
+        const label =
+          channelKey === "meet" ? "Google Meet" : channelKey === "whatsapp" ? "WhatsApp" : "BOTIM";
+        notify(`Canal ${label} activé dans l'application. Vous pouvez démarrer votre formation immédiatement.`, "channels", true);
+      };
+
       const progressPct = Math.round(((user.completedModules?.length || 0) / allModules.length) * 100);
 
       const audienceLabel = useMemo(() => {
@@ -1095,6 +1142,22 @@
       }, [lang, user.audience]);
 
       const modeLabel = user.mode === "presential" ? t.modePresential : t.modeOnline;
+
+      // Statistiques exactes pour l'Admin
+      const adminStats = useMemo(() => {
+        const list = allCandidates.length > 0 ? allCandidates : (user.fullName ? [user] : []);
+        const learnersCount = list.length;
+        const kycVerifiedCount = list.filter((c) => c.kycStatus === "verified").length;
+        const paidCount = list.filter((c) => c.paymentStatus === "paid").length;
+        const certsIssuedCount = list.filter((c) => Boolean(c.certNumber)).length + SAMPLE_LAUREATES.length;
+        return {
+          learnersCount,
+          kycVerifiedCount,
+          paidCount,
+          certsIssuedCount,
+          list
+        };
+      }, [allCandidates, user]);
 
       const combinedLaureates = useMemo(() => {
         const fromCandidates = allCandidates
@@ -1123,6 +1186,13 @@
         const found = combinedLaureates.find((l) => l.id.toUpperCase() === code);
         setVerifyResult(found || "invalid");
       };
+
+      const currentChannelUrl =
+        selectedChannel === "meet"
+          ? channelConfig.meetUrl
+          : selectedChannel === "whatsapp"
+          ? channelConfig.whatsappUrl
+          : channelConfig.botimUrl;
 
       return (
         <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen flex flex-col">
@@ -1167,7 +1237,7 @@
                   ))}
                 </div>
 
-                {/* Notifications Bell — Contenu complet affiché */}
+                {/* Notifications Bell */}
                 <div className="relative">
                   <button
                     onClick={() => setNotifOpen((p) => !p)}
@@ -1238,6 +1308,7 @@
                 {[
                   { id: "home", label: `🏠 ${t.navHome}` },
                   { id: "live", label: `📡 ${t.navLive} (${liveFeed.length})` },
+                  { id: "channels", label: `🎥 ${t.navChannels}` },
                   { id: "kyc", label: `${t.navKyc} ${isKycOk ? "✅" : ""}` },
                   { id: "payment", label: `${t.navPay} ${isPaidOk ? "✅" : ""}` },
                   { id: "courses", label: `${t.navCourses} (${user.completedModules?.length || 0}/${allModules.length})` },
@@ -1281,7 +1352,6 @@
                     {t.heroDesc}
                   </p>
 
-                  {/* Choix rapide En ligne 💻 ou En présentiel */}
                   <div className="flex flex-wrap items-center gap-2 pt-1">
                     <span className="text-xs font-bold text-amber-200">{t.studyMode}</span>
                     <button
@@ -1312,10 +1382,10 @@
                       🚀 {t.ctaStart}
                     </button>
                     <button
-                      onClick={() => setActiveTab("live")}
+                      onClick={() => handleOpenTrainingChannel("meet")}
                       className="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/30"
                     >
-                      📡 {t.ctaLive}
+                      🎥 {t.ctaChannels}
                     </button>
                     <button
                       onClick={() => setActiveTab("courses")}
@@ -1365,6 +1435,174 @@
                     ))}
                   </div>
                 </section>
+              </div>
+            )}
+
+            {/* ==================== INTEGRATED TRAINING CHANNELS (MEET / WHATSAPP / BOTIM) ==================== */}
+            {activeTab === "channels" && (
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
+                  <div>
+                    <h2 className="text-xl font-extrabold text-slate-900">{t.channelsTitle}</h2>
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1">{t.channelsSub}</p>
+                  </div>
+
+                  {/* Conditions status bar */}
+                  <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-slate-50 border text-xs font-bold">
+                    <span className={isKycOk ? "text-emerald-700" : "text-amber-700"}>
+                      1. KYC : {isKycOk ? "Validé ✅" : "À valider"}
+                    </span>
+                    <span>•</span>
+                    <span className={isPaidOk ? "text-emerald-700" : "text-amber-700"}>
+                      2. Paiement 5 000 FCFA : {isPaidOk ? "Confirmé ✅" : "À confirmer"}
+                    </span>
+                    {!conditionsMet && (
+                      <button
+                        onClick={() => setActiveTab(!isKycOk ? "kyc" : "payment")}
+                        className="ms-auto px-3.5 py-1.5 rounded-lg bg-[#002664] text-white font-extrabold"
+                      >
+                        Remplir les conditions →
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Channel buttons: Google Meet, WhatsApp, BOTIM */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button
+                      onClick={() => handleOpenTrainingChannel("meet")}
+                      className={`p-4 rounded-xl border text-start transition space-y-1 ${
+                        selectedChannel === "meet"
+                          ? "bg-[#002664] text-white border-[#002664] shadow-md"
+                          : "bg-white text-slate-900 border-slate-200 hover:border-[#002664]"
+                      }`}
+                    >
+                      <div className="text-base font-extrabold">🎥 Google Meet</div>
+                      <div className="text-xs opacity-85">Session vidéo & cours en direct</div>
+                    </button>
+
+                    <button
+                      onClick={() => handleOpenTrainingChannel("whatsapp")}
+                      className={`p-4 rounded-xl border text-start transition space-y-1 ${
+                        selectedChannel === "whatsapp"
+                          ? "bg-emerald-700 text-white border-emerald-700 shadow-md"
+                          : "bg-white text-slate-900 border-slate-200 hover:border-emerald-700"
+                      }`}
+                    >
+                      <div className="text-base font-extrabold">💬 WhatsApp</div>
+                      <div className="text-xs opacity-85">Groupe / canal d'accompagnement</div>
+                    </button>
+
+                    <button
+                      onClick={() => handleOpenTrainingChannel("botim")}
+                      className={`p-4 rounded-xl border text-start transition space-y-1 ${
+                        selectedChannel === "botim"
+                          ? "bg-blue-700 text-white border-blue-700 shadow-md"
+                          : "bg-white text-slate-900 border-slate-200 hover:border-blue-700"
+                      }`}
+                    >
+                      <div className="text-base font-extrabold">📞 BOTIM</div>
+                      <div className="text-xs opacity-85">Appel & visioconférence diaspora / Tchad</div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Embedded Training Workspace without leaving GIAT */}
+                {conditionsMet ? (
+                  <div className="bg-white rounded-2xl shadow-sm border overflow-hidden space-y-4 p-6">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b pb-3">
+                      <div>
+                        <div className="text-xs font-extrabold text-emerald-700 uppercase">
+                          Accès Formation Débloqué ✅ • {modeLabel}
+                        </div>
+                        <h3 className="text-lg font-extrabold text-slate-900">
+                          Salle Intégrée —{" "}
+                          {selectedChannel === "meet"
+                            ? "Google Meet"
+                            : selectedChannel === "whatsapp"
+                            ? "WhatsApp"
+                            : "BOTIM"}
+                        </h3>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab("courses")}
+                        className="px-4 py-2 rounded-xl bg-[#FECB00] text-[#002664] font-extrabold text-xs"
+                      >
+                        📚 Ouvrir les 10 Modules →
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                      <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-slate-900 min-h-[380px] flex flex-col">
+                        <div className="px-4 py-2.5 bg-slate-800 text-white text-xs flex items-center justify-between">
+                          <span>Canal actif : {currentChannelUrl}</span>
+                          <a
+                            href={currentChannelUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2.5 py-1 rounded bg-[#FECB00] text-[#002664] font-extrabold"
+                          >
+                            Ouvrir dans un onglet
+                          </a>
+                        </div>
+                        <iframe
+                          src={currentChannelUrl}
+                          title="Canal de formation GIAT"
+                          className="flex-1 w-full min-h-[340px] bg-white"
+                          allow="camera; microphone; fullscreen; display-capture"
+                        ></iframe>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-slate-50 border space-y-3 text-xs">
+                        <div className="font-extrabold text-[#002664] text-sm">
+                          Démarrer la Formation Maintenant
+                        </div>
+                        <p className="text-slate-700 leading-relaxed">
+                          Apprenant : <strong>{user.fullName || "Apprenant GIAT"}</strong> ({user.region})
+                        </p>
+                        <p className="text-slate-700 leading-relaxed">
+                          Suivez la session via{" "}
+                          <strong>
+                            {selectedChannel === "meet"
+                              ? "Google Meet"
+                              : selectedChannel === "whatsapp"
+                              ? "WhatsApp"
+                              : "BOTIM"}
+                          </strong>{" "}
+                          puis validez chaque module dans l'onglet Cours pour obtenir votre Attestation officielle.
+                        </p>
+                        <button
+                          onClick={() => setActiveTab("courses")}
+                          className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold"
+                        >
+                          Commencer Module #1 →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-amber-50 border border-amber-300 rounded-2xl p-6 text-center space-y-3">
+                    <div className="text-base font-extrabold text-amber-950">
+                      Conditions de formation non encore remplies
+                    </div>
+                    <p className="text-xs sm:text-sm text-amber-900">
+                      Validez votre KYC et confirmez le paiement de 5 000 FCFA pour accéder directement aux canaux Google Meet, WhatsApp et BOTIM.
+                    </p>
+                    <div className="flex justify-center gap-3">
+                      <button
+                        onClick={() => setActiveTab("kyc")}
+                        className="px-4 py-2 rounded-xl bg-[#002664] text-white font-extrabold text-xs"
+                      >
+                        1. Valider KYC
+                      </button>
+                      <button
+                        onClick={() => setActiveTab("payment")}
+                        className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs"
+                      >
+                        2. Confirmer Paiement 5 000 FCFA
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1544,7 +1782,6 @@
                     </select>
                   </div>
 
-                  {/* RECTO & VERSO */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="p-3.5 rounded-xl bg-blue-50/50 border border-blue-200 space-y-2">
                       <label className="block text-xs font-extrabold text-[#002664]">{t.idFront}</label>
@@ -1693,7 +1930,7 @@
                   {(() => {
                     const mod = allModules.find((m) => m.id === selectedModule) || allModules[0];
                     const isDone = (user.completedModules || []).includes(mod.id);
-                    const locked = !isKycOk || !isPaidOk;
+                    const locked = !conditionsMet;
                     const titleText = mod.title[lang] || mod.title.fr;
                     const lessonText = mod.lesson[lang] || mod.lesson.fr;
                     const qObj = mod.quiz[lang] || mod.quiz.fr;
@@ -1733,6 +1970,13 @@
                               ⏹️ {t.stopAudio}
                             </button>
                           )}
+                          <button
+                            type="button"
+                            onClick={() => handleOpenTrainingChannel("meet")}
+                            className="ms-auto px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold"
+                          >
+                            🎥 Meet / WhatsApp / BOTIM
+                          </button>
                         </div>
 
                         <p className="text-sm text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-xl border whitespace-pre-line">
@@ -1974,7 +2218,7 @@
               </div>
             )}
 
-            {/* ==================== ADMIN & MODULE BUILDER ==================== */}
+            {/* ==================== ADMIN PDG ==================== */}
             {activeTab === "admin" && (
               <div className="space-y-6">
                 {!adminUnlocked ? (
@@ -2005,7 +2249,7 @@
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    <div className="bg-slate-900 text-white rounded-2xl p-5 flex items-center justify-between">
+                    <div className="bg-slate-900 text-white rounded-2xl p-5 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-3">
                         <GiatLogo className="w-12 h-12" />
                         <h2 className="text-xl font-extrabold">{t.adminTitle}</h2>
@@ -2018,6 +2262,145 @@
                       </button>
                     </div>
 
+                    {/* Exact KPIs: Apprenants, KYC vérifiés, Paiements 5000F, Certificats délivrés */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <div className="bg-white rounded-2xl p-4 border shadow-sm">
+                        <div className="text-xs text-slate-500 font-bold">Apprenant(e)s</div>
+                        <div className="text-2xl font-extrabold text-[#002664] mt-1">
+                          {adminStats.learnersCount}
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-2xl p-4 border shadow-sm">
+                        <div className="text-xs text-slate-500 font-bold">KYC Vérifiés</div>
+                        <div className="text-2xl font-extrabold text-blue-700 mt-1">
+                          {adminStats.kycVerifiedCount}
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-2xl p-4 border shadow-sm">
+                        <div className="text-xs text-slate-500 font-bold">Paiements 5 000F</div>
+                        <div className="text-2xl font-extrabold text-emerald-700 mt-1">
+                          {adminStats.paidCount}
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-2xl p-4 border shadow-sm">
+                        <div className="text-xs text-slate-500 font-bold">Certificats Délivrés</div>
+                        <div className="text-2xl font-extrabold text-amber-600 mt-1">
+                          {adminStats.certsIssuedCount}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* KYC & Learner Approvals Table */}
+                    <div className="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
+                      <h3 className="font-extrabold text-base text-[#002664]">
+                        Demandes de Vérification KYC & Approbations ({adminStats.list.length})
+                      </h3>
+
+                      {adminStats.list.length === 0 ? (
+                        <p className="text-xs text-slate-500">
+                          Aucune demande enregistrée pour le moment. Les soumissions KYC et paiements apparaîtront ici automatiquement.
+                        </p>
+                      ) : (
+                        <div className="space-y-3">
+                          {adminStats.list.map((cand) => (
+                            <div
+                              key={cand.id}
+                              className="p-4 rounded-xl border border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs"
+                            >
+                              <div className="space-y-1">
+                                <div className="font-extrabold text-sm text-slate-900">
+                                  {cand.fullName || "Sans nom"}{" "}
+                                  <span className="text-slate-500 font-semibold">
+                                    • {cand.region} • {cand.mode === "presential" ? t.modePresential : t.modeOnline}
+                                  </span>
+                                </div>
+                                <div className="text-slate-600">
+                                  Né(e) le <strong>{cand.birthDate || "—"}</strong> à <strong>{cand.birthPlace || "—"}</strong> • Tél : {cand.phone || "—"}
+                                </div>
+                                <div className="flex flex-wrap gap-2 pt-1">
+                                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 font-bold">
+                                    KYC : {cand.kycStatus}
+                                  </span>
+                                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-bold">
+                                    Paiement : {cand.paymentStatus}
+                                  </span>
+                                  <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 font-bold">
+                                    Modules : {(cand.completedModules || []).length}/{allModules.length}
+                                  </span>
+                                  {cand.certNumber && (
+                                    <span className="px-2.5 py-0.5 rounded-full bg-slate-900 text-[#FECB00] font-extrabold">
+                                      Certificat : {cand.certNumber}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="flex flex-wrap gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => adminApproveKyc(cand)}
+                                  className="px-3 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white font-extrabold"
+                                >
+                                  Approuver KYC
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => adminConfirmPayment(cand)}
+                                  className="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold"
+                                >
+                                  Confirmer 5 000F
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => adminIssueCertificate(cand)}
+                                  className="px-3 py-2 rounded-lg bg-[#FECB00] hover:bg-amber-400 text-[#002664] font-extrabold"
+                                >
+                                  Délivrer Certificat
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Configure Google Meet, WhatsApp, BOTIM URLs */}
+                    <div className="bg-white rounded-2xl p-6 border shadow-sm space-y-3 text-xs sm:text-sm">
+                      <h3 className="font-extrabold text-base text-[#002664]">
+                        Liens des Canaux de Formation (Google Meet, WhatsApp, BOTIM)
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                          <label className="block font-bold mb-1">Google Meet URL</label>
+                          <input
+                            type="url"
+                            value={channelConfig.meetUrl}
+                            onChange={(e) => setChannelConfig({ ...channelConfig, meetUrl: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl border text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-bold mb-1">WhatsApp URL</label>
+                          <input
+                            type="url"
+                            value={channelConfig.whatsappUrl}
+                            onChange={(e) => setChannelConfig({ ...channelConfig, whatsappUrl: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl border text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-bold mb-1">BOTIM URL</label>
+                          <input
+                            type="url"
+                            value={channelConfig.botimUrl}
+                            onChange={(e) => setChannelConfig({ ...channelConfig, botimUrl: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl border text-xs"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Add Module Form */}
                     <form onSubmit={handleAddModule} className="bg-white rounded-2xl p-6 border space-y-3 text-xs sm:text-sm">
                       <h3 className="font-extrabold text-base text-[#002664]">{t.addModTitle}</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2128,10 +2511,14 @@
               <div className="flex items-center gap-2.5">
                 <GiatLogo className="w-8 h-8" />
                 <span>
-                  <strong className="text-white">GIAT — Generation Intelligence Artificielle Tchad</strong> • {modeLabel} • PDG Mahamat Gombo Abakar
+                  <strong className="text-white">GIAT — Gombo Intelligence Artificielle Tchad</strong> • {modeLabel} • PDG Mahamat Gombo Abakar
                 </span>
               </div>
               <div className="flex items-center gap-3">
+                <button onClick={() => handleOpenTrainingChannel("meet")} className="text-emerald-400 hover:underline font-bold">
+                  🎥 Meet / WhatsApp / BOTIM
+                </button>
+                <span>•</span>
                 <button onClick={() => setActiveTab("live")} className="text-amber-400 hover:underline font-bold">
                   📡 {t.navLive}
                 </button>
