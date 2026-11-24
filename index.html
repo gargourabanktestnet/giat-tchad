@@ -2982,75 +2982,129 @@ with check (true);`;
             )}
 
             {/* ==================== CERTIFICATE A4 ==================== */}
-            {activeTab === "cert" && (
-              <div className="space-y-4">
-                <div className="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border">
-                  <div>
-                    <h2 className="font-extrabold">Mon Attestation Officielle GIAT (A4)</h2>
-                    <p className="text-xs text-slate-500">
-                      {user.certNumber || "Validez les 6 modules pour générer le numéro QR"}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => window.print()}
-                    disabled={!user.certNumber}
-                    className="px-5 py-2.5 rounded-xl bg-[#002664] disabled:bg-slate-300 text-white font-extrabold text-xs"
-                  >
-                    🖨️ Imprimer / PDF A4
-                  </button>
-                </div>
+{activeTab === "cert" && (
+  <div className="space-y-4">
+    <div className="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div>
+        <h2 className="font-extrabold text-slate-900">Mon Attestation Officielle GIAT (A4)</h2>
+        <p className="text-xs text-slate-500">
+          {user.certNumber
+            ? `Certificat débloqué : ${user.certNumber} • Cachet officiel apposé`
+            : "Validez tous les modules pour générer votre numéro et apposer le cachet officiel"}
+        </p>
+      </div>
+      <button
+        onClick={() => window.print()}
+        disabled={!user.certNumber}
+        className="px-5 py-2.5 rounded-xl bg-[#002664] hover:bg-blue-900 disabled:bg-slate-300 text-white font-extrabold text-xs shadow transition"
+      >
+        🖨️ Imprimer / PDF A4
+      </button>
+    </div>
 
-                <div
-                  id="printable-certificate"
-                  className="bg-white rounded-2xl p-6 sm:p-10 shadow-xl border-8 border-double border-[#002664] max-w-4xl mx-auto text-center space-y-5"
-                >
-                  <div className="flex items-center justify-between text-xs font-extrabold text-[#002664] border-b-2 border-[#FECB00] pb-3">
-                    <span>RÉPUBLIQUE DU TCHAD</span>
-                    <div className="flex items-center gap-2">
-                      <GiatLogo className="w-10 h-10" />
-                      <span>GIAT TCHAD</span>
-                    </div>
-                    <span>POWERED BY GDB</span>
-                  </div>
+    <div
+      id="printable-certificate"
+      className="bg-white rounded-2xl p-6 sm:p-10 shadow-xl border-8 border-double border-[#002664] max-w-4xl mx-auto text-center space-y-6"
+    >
+      {/* En-tête officiel */}
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold text-[#002664] border-b-2 border-[#FECB00] pb-3">
+        <span>RÉPUBLIQUE DU TCHAD</span>
+        <div className="flex items-center gap-2">
+          <GiatLogo className="w-10 h-10" />
+          <span>GIAT TCHAD</span>
+        </div>
+        <span>POWERED BY GDB</span>
+      </div>
 
-                  <h1 className="font-serif-cert text-2xl sm:text-4xl font-extrabold text-[#002664]">
-                    ATTESTATION DE RÉUSSITE
-                  </h1>
+      {/* Titre principal */}
+      <div>
+        <div className="text-xs uppercase tracking-[0.2em] text-amber-700 font-extrabold">
+          Académie Nationale d'Intelligence Artificielle
+        </div>
+        <h1 className="font-serif-cert text-2xl sm:text-4xl font-extrabold text-[#002664] mt-1">
+          ATTESTATION DE RÉUSSITE
+        </h1>
+      </div>
 
-                  <div className="font-serif-cert text-2xl sm:text-3xl font-extrabold text-slate-900 underline decoration-[#FECB00] decoration-4">
-                    {user.fullName || "[NOM COMPLET VÉRIFIÉ KYC]"}
-                  </div>
+      {/* Identité de l'apprenant */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-2">
+        {user.selfiePhoto && (
+          <img
+            src={user.selfiePhoto}
+            alt="Photo KYC Apprenant"
+            className="w-20 h-20 rounded-xl object-cover border-2 border-[#002664]"
+          />
+        )}
+        <div>
+          <div className="font-serif-cert text-2xl sm:text-3xl font-extrabold text-slate-900 underline decoration-[#FECB00] decoration-4">
+            {user.fullName || "[NOM COMPLET VÉRIFIÉ KYC]"}
+          </div>
+          <div className="text-xs text-slate-600 mt-1">
+            {user.city} •{" "}
+            {user.mode === "presential" ? "Présentiel N'Djamena" : "100% En Ligne"}
+          </div>
+        </div>
+      </div>
 
-                  <p className="text-xs sm:text-sm text-slate-700 max-w-2xl mx-auto">
-                    A validé avec succès le programme officiel de <strong>18 heures</strong> en Intelligence Artificielle Appliquée, Éthique Numérique et Création de Valeur.
-                  </p>
+      {/* Mention */}
+      <p className="text-xs sm:text-sm text-slate-700 max-w-2xl mx-auto leading-relaxed">
+        A validé avec succès l'ensemble du programme officiel de{" "}
+        <strong>18 heures</strong> en Intelligence Artificielle Appliquée, Éthique Numérique,
+        Création de Valeur et Plan d'Action 90 Jours.
+      </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center pt-4 border-t text-xs">
-                    <div className="text-start">
-                      <div className="font-bold text-slate-500">N° ATTESTATION :</div>
-                      <div className="font-extrabold text-[#002664] text-sm">
-                        {user.certNumber || "GIAT-2026-EN-ATTENTE"}
-                      </div>
-                    </div>
-                    <div className="flex justify-center">
-                      <img
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(
-                          user.certNumber || "GIAT-TCHAD-OFFICIEL"
-                        )}`}
-                        alt="QR"
-                        className="w-24 h-24 border p-1 rounded-lg"
-                      />
-                    </div>
-                    <div className="text-end">
-                      <div className="font-bold">Le PDG Fondateur</div>
-                      <div className="font-serif-cert italic text-base font-bold text-[#002664]">
-                        Mahamat Gombo Abakar
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+      {/* Pied d'attestation : Référence, QR Code, Cachet Tamponné & Signature PDG */}
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center pt-5 border-t border-slate-200 text-xs">
+        <div className="text-start space-y-1">
+          <div className="font-bold text-slate-500">N° ATTESTATION :</div>
+          <div className="font-extrabold text-[#002664] text-sm">
+            {user.certNumber || "GIAT-2026-EN-ATTENTE"}
+          </div>
+          <div className="text-slate-500">{user.certifiedAt || "—"}</div>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(
+              user.certNumber || "GIAT-TCHAD-OFFICIEL"
+            )}`}
+            alt="QR Code Vérification"
+            className="w-24 h-24 border p-1 rounded-lg"
+          />
+          <span className="text-[10px] text-slate-400 mt-1">Vérification QR</span>
+        </div>
+
+        {/* Cachet officiel apposé lorsque tous les modules sont validés */}
+        <div className="flex flex-col items-center justify-center min-h-[112px]">
+          {user.certNumber ? (
+            <img
+              src="./cachet-giat.png"
+              alt="Cachet Officiel GIAT Tchad"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = FALLBACK_LOGO_SVG;
+              }}
+              className="w-28 h-28 object-contain -rotate-6 opacity-95 drop-shadow-sm"
+            />
+          ) : (
+            <div className="px-3 py-2 rounded-xl border border-dashed border-slate-300 text-[11px] text-slate-400 font-semibold">
+              Cachet débloqué à la fin des modules
+            </div>
+          )}
+        </div>
+
+        <div className="text-end space-y-1">
+          <div className="font-bold text-slate-700">Le PDG Fondateur</div>
+          <div className="font-serif-cert italic text-base font-bold text-[#002664]">
+            Mahamat Gombo Abakar
+          </div>
+          <div className="text-[10px] text-slate-400">Direction Générale GIAT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
             {/* ==================== DIRECTORY & QR VERIFIER ==================== */}
             {activeTab === "directory" && (
