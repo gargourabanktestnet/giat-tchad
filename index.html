@@ -60,32 +60,12 @@
       );
     }
 
-    // 23 Provinces du Tchad + Diaspora
     const REGIONS_TCHAD_AND_DIASPORA = [
-      "N'Djamena",
-      "Bahr el Gazel",
-      "Batha",
-      "Borkou",
-      "Chari-Baguirmi",
-      "Ennedi-Est",
-      "Ennedi-Ouest",
-      "Guéra",
-      "Hadjer-Lamis",
-      "Kanem",
-      "Lac",
-      "Logone Occidental",
-      "Logone Oriental",
-      "Mandoul",
-      "Mayo-Kebbi Est",
-      "Mayo-Kebbi Ouest",
-      "Moyen-Chari",
-      "Ouaddaï",
-      "Salamat",
-      "Sila",
-      "Tandjilé",
-      "Tibesti",
-      "Wadi Fira",
-      "Diaspora"
+      "N'Djamena", "Bahr el Gazel", "Batha", "Borkou", "Chari-Baguirmi",
+      "Ennedi-Est", "Ennedi-Ouest", "Guéra", "Hadjer-Lamis", "Kanem",
+      "Lac", "Logone Occidental", "Logone Oriental", "Mandoul",
+      "Mayo-Kebbi Est", "Mayo-Kebbi Ouest", "Moyen-Chari", "Ouaddaï",
+      "Salamat", "Sila", "Tandjilé", "Tibesti", "Wadi Fira", "Diaspora"
     ];
 
     const TARGET_AUDIENCES = {
@@ -118,53 +98,55 @@
     const I18N = {
       fr: {
         brandTitle: "GOMBO INTELLIGENCE ARTIFICIELLE TCHAD",
-        brandSub: "PDG Mahamat Gombo Abakar • Programme 10 Jours • 23 Provinces & Diaspora",
+        brandSub: "PDG Mahamat Gombo Abakar • 10+ Jours • En Ligne 💻 ou Présentiel • 23 Provinces & Diaspora",
         local: "Mode Local",
         supabase: "Supabase",
         adminBtn: "Admin PDG",
         navHome: "Accueil",
         navLive: "Canal Temps Réel",
-        navAnn: "Annonces",
-        navKyc: "1. Inscription & KYC",
+        navKyc: "1. KYC",
         navPay: "2. Paiement 5000F",
         navCourses: "3. Cours (10 Jours)",
         navCard: "Carte Pro",
         navCert: "Attestation",
         navDir: "Lauréats & QR",
-        heroBadge: "Académie Nationale d'Intelligence Artificielle • Tchad & Diaspora",
+        modeOnline: "En ligne 💻",
+        modePresential: "En présentiel",
+        heroBadge: "Académie Nationale d'Intelligence Artificielle • En Ligne 💻 ou En Présentiel",
         heroTitle: "« L'IA ne te remplacera pas. Celui qui maîtrise l'IA te remplacera. Forme-toi avec GIAT. »",
-        heroDesc: "Formation pratique sur au moins 10 jours dédiée à tous les publics des 23 provinces du Tchad et de la diaspora : élèves, étudiants et chercheurs, commerçant(e)s, emploi, ONG & bureau, entrepreneurs et citoyens.",
-        ctaStart: "S'inscrire & Vérifier mon KYC",
-        ctaLive: "Voir le Canal Temps Réel",
-        ctaCourses: "Accéder aux 10 Jours de Cours",
-        audienceTitle: "Publics Ciblés — Ouvert à Tous les Profils",
-        regionsTitle: "Couverture Nationale & Internationale — 23 Provinces du Tchad + Diaspora",
-        kycTitle: "Inscription & Vérification KYC (Recto / Verso + État Civil)",
+        heroDesc: "Formation complète sur au moins 10 jours — disponible en ligne 💻 ou en présentiel — ouverte à tous les publics des 23 provinces du Tchad et de la diaspora : élèves, étudiants et chercheurs, commerçant(e)s, emploi, ONG & bureau, entrepreneurs et autres publics.",
+        ctaStart: "S'inscrire & Valider mon KYC",
+        ctaLive: "Canal Temps Réel & Aide Auto",
+        ctaCourses: "Suivre les 10 Modules",
+        audienceTitle: "Publics Ciblés — Tous Profils Bienvenus",
+        regionsTitle: "Couverture Nationale & Diaspora — 23 Provinces du Tchad + Diaspora",
+        kycTitle: "Inscription & Validation KYC (Recto / Verso + État Civil + Mode)",
         fullName: "Nom complet + Prénom *",
         birthDate: "Date de naissance *",
         birthPlace: "Lieu de naissance *",
-        phone: "Téléphone (+235 ou international) *",
-        email: "Adresse email *",
+        phone: "Téléphone *",
+        email: "Email *",
         region: "Province du Tchad ou Diaspora *",
-        audience: "Profil / Public ciblé *",
+        audience: "Public ciblé *",
+        studyMode: "Modalité de formation *",
         idType: "Type de pièce d'identité",
         idFront: "Pièce d'identité — RECTO *",
         idBack: "Pièce d'identité — VERSO *",
         selfie: "Photo / Selfie de l'apprenant",
-        kycSubmit: "Enregistrer et valider mon KYC →",
-        payTitle: "Paiement Unique de Formation — 5 000 FCFA",
-        paySubmit: "Confirmer le paiement de 5 000 FCFA →",
-        courseHeader: "Programme Officiel GIAT — Parcours d'au moins 10 Jours",
+        kycSubmit: "Valider mon KYC immédiatement →",
+        payTitle: "Confirmation du Paiement Unique — 5 000 FCFA",
+        paySubmit: "Confirmer le paiement de 5 000 FCFA et débloquer les modules →",
+        courseHeader: "Programme Complet GIAT (10 Jours Minimum) — Guide Formateur & Apprenant",
         listenAudio: "Écouter le cours",
         pauseAudio: "Pause",
         resumeAudio: "Reprendre",
         stopAudio: "Arrêter",
-        validateMod: "Valider ce module",
-        unlockFirst: "Complétez le KYC et le paiement 5 000 FCFA pour valider",
+        validateMod: "Valider et cocher ce module",
+        unlockFirst: "Validez le KYC et confirmez le paiement de 5 000 FCFA pour débloquer la validation",
         cardHeader: "CARTE PROFESSIONNELLE OFFICIELLE",
         bornLabel: "Né(e) le",
         atLabel: "à",
-        regionLabel: "Région / Origine",
+        regionLabel: "Province / Origine",
         certHeader: "Mon Attestation de Réussite Officielle GIAT (A4)",
         printBtn: "Imprimer / Télécharger PDF A4",
         certCountry: "RÉPUBLIQUE DU TCHAD",
@@ -173,71 +155,73 @@
         certBodyPrefix: "Atteste que",
         certBodyMid: "né(e) le",
         certBodyPlace: "à",
-        certBodyEnd: "a suivi et validé avec succès le programme de formation GIAT d'au moins 10 jours en Intelligence Artificielle Appliquée, Éthique et Création de Valeur.",
+        certBodyEnd: "a suivi et validé avec succès le programme GIAT d'au moins 10 jours en Intelligence Artificielle Appliquée, Éthique et Création de Valeur.",
         certNo: "N° ATTESTATION",
         ceoTitle: "Le PDG Fondateur",
-        liveTitle: "Canal Interactif en Temps Réel — Activité GIAT",
-        liveSub: "Suivez en direct les événements de la plateforme et échangez instantanément avec la communauté.",
-        livePlaceholder: "Publier un message ou une question en direct sur le canal...",
-        liveSend: "Publier en direct",
+        liveTitle: "Canal Interactif en Temps Réel & Assistance Automatisée GIAT",
+        liveSub: "Suivez l'activité en direct et posez vos questions : l'assistant automatisé GIAT répond immédiatement à vos soucis.",
+        livePlaceholder: "Décrivez votre souci ou question (ex: KYC, paiement 5000F, modules, attestation, en ligne ou présentiel)...",
+        liveSend: "Envoyer & Réponse Auto",
         adminTitle: "Administration PDG & Ajout de Modules",
         adminPinPlaceholder: "Code PIN (2350)",
         adminUnlock: "Déverrouiller",
-        addModTitle: "Ajouter un Nouveau Module de Cours (10+ Jours)",
+        addModTitle: "Ajouter un Nouveau Module (10+ Jours)",
         addModDay: "Jour (ex: Jour 11)",
         addModNameFr: "Titre du module (Français) *",
         addModNameAr: "عنوان الوحدة (العربية)",
         addModNameEn: "Module Title (English)",
-        addModContent: "Contenu pédagogique du module *",
+        addModContent: "Contenu détaillé du module *",
         addModBtn: "Ajouter le module au programme",
-        notifTitle: "Notifications",
+        notifTitle: "Notifications Complètes",
         markAllRead: "Tout marquer lu"
       },
       ar: {
         brandTitle: "قومبو للذكاء الاصطناعي — تشاد",
-        brandSub: "المدير العام محمد قومبو أبكر • برنامج 10 أيام • 23 ولاية والمهجر",
+        brandSub: "المدير العام محمد قومبو أبكر • 10+ أيام • عن بُعد 💻 أو حضوري • 23 ولاية والمهجر",
         local: "الوضع المحلي",
         supabase: "Supabase",
         adminBtn: "إدارة المدير العام",
         navHome: "الرئيسية",
         navLive: "القناة المباشرة",
-        navAnn: "الإعلانات",
-        navKyc: "١. التسجيل و KYC",
+        navKyc: "١. KYC",
         navPay: "٢. الدفع 5000F",
         navCourses: "٣. الدروس (10 أيام)",
         navCard: "البطاقة المهنية",
         navCert: "الشهادة",
         navDir: "الخريجون و QR",
-        heroBadge: "الأكاديمية الوطنية للذكاء الاصطناعي • تشاد والمهجر",
+        modeOnline: "عن بُعد 💻",
+        modePresential: "حضوري",
+        heroBadge: "الأكاديمية الوطنية للذكاء الاصطناعي • عن بُعد 💻 أو حضوري",
         heroTitle: "« الذكاء الاصطناعي لن يستبدلك. الشخص الذي يتقن الذكاء الاصطناعي هو من سيستبدلك. تدرب مع GIAT. »",
-        heroDesc: "تكوين عملي لمدة لا تقل عن 10 أيام موجه لجميع الفئات في الولايات الـ 23 بتشاد والمهجر: التلاميذ، الطلاب والباحثون، التجار والتاجرات، التوظيف والمنظمات والمكاتب، رواد الأعمال وعموم المواطنين.",
-        ctaStart: "ابدأ التسجيل والتحقق KYC",
-        ctaLive: "دخول القناة المباشرة",
-        ctaCourses: "الانتقال إلى دروس الـ 10 أيام",
-        audienceTitle: "الفئات المستهدفة — مفتوح للجميع دون استثناء",
-        regionsTitle: "تغطية شاملة — جميع الولايات الـ 23 في تشاد والمهجر",
-        kycTitle: "التسجيل والتحقق KYC (الوجه الأمامي والخلفي + البيانات المدنية)",
+        heroDesc: "تكوين متكامل لمدة لا تقل عن 10 أيام — متاح عن بُعد 💻 أو حضورياً — لجميع الفئات في الولايات الـ 23 بتشاد والمهجر: التلاميذ، الطلاب والباحثون، التجار والتاجرات، التوظيف والمنظمات والمكاتب، رواد الأعمال وباقي الفئات.",
+        ctaStart: "التسجيل وتأكيد KYC",
+        ctaLive: "القناة المباشرة والمساعدة الآلية",
+        ctaCourses: "متابعة الوحدات الـ 10",
+        audienceTitle: "الفئات المستهدفة — مفتوح لجميع الفئات",
+        regionsTitle: "تغطية شاملة — الولايات الـ 23 في تشاد والمهجر",
+        kycTitle: "التسجيل وتأكيد KYC (الوجه الأمامي والخلفي + البيانات المدنية + نمط التكوين)",
         fullName: "الاسم الكامل *",
         birthDate: "تاريخ الميلاد *",
         birthPlace: "مكان الميلاد *",
-        phone: "رقم الهاتف (+235 أو دولي) *",
+        phone: "رقم الهاتف *",
         email: "البريد الإلكتروني *",
         region: "الولاية في تشاد أو المهجر *",
         audience: "الفئة المستهدفة *",
+        studyMode: "نمط التكوين *",
         idType: "نوع وثيقة الهوية",
         idFront: "صورة الهوية — الوجه الأمامي *",
         idBack: "صورة الهوية — الوجه الخلفي *",
         selfie: "صورة المتدرب / سيلفي",
-        kycSubmit: "حفظ وتأكيد ملف KYC ←",
-        payTitle: "رسوم التدريب لمرة واحدة — 5,000 فرنك أفريقي",
-        paySubmit: "تأكيد الدفع بقيمة 5,000 فرنك ←",
-        courseHeader: "البرنامج الرسمي لـ GIAT — مسار لا يقل عن 10 أيام",
+        kycSubmit: "تأكيد ملف KYC فوراً ←",
+        payTitle: "تأكيد رسوم التكوين — 5,000 فرنك أفريقي",
+        paySubmit: "تأكيد الدفع (5,000 فرنك) وفتح الوحدات ←",
+        courseHeader: "البرنامج الكامل لـ GIAT (10 أيام على الأقل) — دليل المكون والمتدرب",
         listenAudio: "استمع للدرس",
         pauseAudio: "إيقاف مؤقت",
         resumeAudio: "متابعة",
         stopAudio: "إيقاف",
-        validateMod: "اعتماد هذه الوحدة",
-        unlockFirst: "أكمل KYC والدفع 5,000 فرنك لاعتماد الوحدة",
+        validateMod: "اعتماد وتحديد هذه الوحدة",
+        unlockFirst: "أكمل KYC وأكد الدفع (5,000 فرنك) لفتح الاعتماد",
         cardHeader: "البطاقة المهنية الرسمية",
         bornLabel: "تاريخ الميلاد",
         atLabel: "مكان الميلاد",
@@ -253,68 +237,70 @@
         certBodyEnd: "قد أتمّ ونجح في برنامج GIAT التدريبي (10 أيام على الأقل) في الذكاء الاصطناعي التطبيقي والأخلاقيات وصناعة القيمة.",
         certNo: "رقم الشهادة",
         ceoTitle: "الرئيس المدير العام المؤسس",
-        liveTitle: "القناة التفاعلية المباشرة — نشاط GIAT",
-        liveSub: "تابع مستجدات المنصة لحظة بلحظة وتفاعل مباشرة مع المجتمع.",
-        livePlaceholder: "اكتب رسالة أو سؤالاً مباشراً في القناة...",
-        liveSend: "نشر مباشر",
+        liveTitle: "القناة التفاعلية المباشرة والمساعدة الآلية GIAT",
+        liveSub: "تابع النشاط المباشر واطرح مشكلتك أو سؤالك ليقدم لك النظام إجابة فورية تلقائية.",
+        livePlaceholder: "اكتب سؤالك أو مشكلتك (KYC، الدفع 5000F، الوحدات، الشهادة، عن بُعد أو حضوري)...",
+        liveSend: "إرسال ورد آلي",
         adminTitle: "لوحة المدير العام وإضافة الوحدات",
         adminPinPlaceholder: "رمز PIN (2350)",
         adminUnlock: "فتح اللوحة",
         addModTitle: "إضافة وحدة دراسية جديدة (10+ أيام)",
         addModDay: "اليوم (مثال: اليوم 11)",
-        addModNameFr: "عنوان الوحدة (بالفرنسية) *",
+        addModNameFr: "عنوان الوحدة (بالفرنسية)",
         addModNameAr: "عنوان الوحدة (بالعربية) *",
         addModNameEn: "Module Title (English)",
-        addModContent: "محتوى الدرس والشرح *",
+        addModContent: "المحتوى التفصيلي للوحدة *",
         addModBtn: "إضافة الوحدة إلى البرنامج",
-        notifTitle: "الإشعارات",
+        notifTitle: "جميع الإشعارات الكاملة",
         markAllRead: "قراءة الكل"
       },
       en: {
         brandTitle: "GOMBO INTELLIGENCE ARTIFICIELLE TCHAD",
-        brandSub: "CEO Mahamat Gombo Abakar • 10+ Day Program • 23 Provinces & Diaspora",
+        brandSub: "CEO Mahamat Gombo Abakar • 10+ Days • Online 💻 or In-Person • 23 Provinces & Diaspora",
         local: "Local Mode",
         supabase: "Supabase",
         adminBtn: "CEO Admin",
         navHome: "Home",
         navLive: "Live Channel",
-        navAnn: "Announcements",
-        navKyc: "1. Register & KYC",
+        navKyc: "1. KYC",
         navPay: "2. Pay 5000F",
         navCourses: "3. Courses (10 Days)",
         navCard: "Pro Card",
         navCert: "Certificate",
         navDir: "Graduates & QR",
-        heroBadge: "National Academy of Artificial Intelligence • Chad & Diaspora",
+        modeOnline: "Online 💻",
+        modePresential: "In-person",
+        heroBadge: "National Academy of Artificial Intelligence • Online 💻 or In-Person",
         heroTitle: "\"AI will not replace you. Someone who masters AI will replace you. Train with GIAT.\"",
-        heroDesc: "At least 10-day practical training program built for all audiences across Chad's 23 provinces and the diaspora: school students, university students & researchers, merchants, jobs / NGOs & office, entrepreneurs, and citizens.",
-        ctaStart: "Register & Complete KYC",
-        ctaLive: "Open Live Channel",
-        ctaCourses: "Go to 10-Day Courses",
-        audienceTitle: "Target Audiences — Open to Every Profile",
+        heroDesc: "Complete at least 10-day training — available online 💻 or in-person — designed for all audiences across Chad's 23 provinces and the diaspora: school students, university students & researchers, merchants, jobs / NGOs & office, entrepreneurs, and other publics.",
+        ctaStart: "Register & Validate KYC",
+        ctaLive: "Live Channel & Auto Help",
+        ctaCourses: "Open the 10 Modules",
+        audienceTitle: "Target Audiences — Every Profile Welcome",
         regionsTitle: "National & Diaspora Reach — All 23 Provinces of Chad + Diaspora",
-        kycTitle: "Registration & KYC Verification (Front / Back ID + Civil Info)",
+        kycTitle: "Registration & KYC Validation (Front / Back ID + Civil Info + Mode)",
         fullName: "Full Name *",
         birthDate: "Date of Birth *",
         birthPlace: "Place of Birth *",
-        phone: "Phone Number (+235 or international) *",
+        phone: "Phone Number *",
         email: "Email Address *",
         region: "Province of Chad or Diaspora *",
         audience: "Target Audience *",
+        studyMode: "Training Format *",
         idType: "ID Document Type",
         idFront: "ID Document — FRONT *",
         idBack: "ID Document — BACK *",
         selfie: "Learner Photo / Selfie",
-        kycSubmit: "Save & Submit KYC →",
-        payTitle: "One-Time Training Fee — 5,000 FCFA",
-        paySubmit: "Confirm 5,000 FCFA Payment →",
-        courseHeader: "Official GIAT Curriculum — At Least 10 Days",
+        kycSubmit: "Validate KYC Immediately →",
+        payTitle: "One-Time Fee Confirmation — 5,000 FCFA",
+        paySubmit: "Confirm 5,000 FCFA Payment & Unlock Modules →",
+        courseHeader: "Complete GIAT Curriculum (At Least 10 Days) — Trainer & Learner Guide",
         listenAudio: "Listen to lesson",
         pauseAudio: "Pause",
         resumeAudio: "Resume",
         stopAudio: "Stop",
-        validateMod: "Complete this module",
-        unlockFirst: "Complete KYC and 5,000 FCFA payment to validate",
+        validateMod: "Validate & Check This Module",
+        unlockFirst: "Complete KYC and confirm 5,000 FCFA payment to unlock validation",
         cardHeader: "OFFICIAL PROFESSIONAL CARD",
         bornLabel: "Born on",
         atLabel: "at",
@@ -330,10 +316,10 @@
         certBodyEnd: "has completed the GIAT training program of at least 10 days in Applied Artificial Intelligence, Ethics, and Value Creation.",
         certNo: "CERTIFICATE NO.",
         ceoTitle: "Founder & CEO",
-        liveTitle: "Real-Time Interactive Channel — GIAT Feed",
-        liveSub: "Follow live platform updates and interact in real time with the community.",
-        livePlaceholder: "Post a live message or question to the channel...",
-        liveSend: "Post Live",
+        liveTitle: "Real-Time Interactive Channel & Automated GIAT Helpdesk",
+        liveSub: "Follow live activity and post your issue or question for an instant automated GIAT response.",
+        livePlaceholder: "Describe your issue or question (KYC, 5000F payment, modules, certificate, online or in-person)...",
+        liveSend: "Post & Auto-Reply",
         adminTitle: "CEO Admin & Course Module Builder",
         adminPinPlaceholder: "PIN Code (2350)",
         adminUnlock: "Unlock",
@@ -342,32 +328,33 @@
         addModNameFr: "Module Title (French)",
         addModNameAr: "عنوان الوحدة (العربية)",
         addModNameEn: "Module Title (English) *",
-        addModContent: "Module lesson content *",
+        addModContent: "Detailed module content *",
         addModBtn: "Add module to curriculum",
-        notifTitle: "Notifications",
+        notifTitle: "Full Notifications",
         markAllRead: "Mark all read"
       }
     };
 
+    // Contenus pédagogiques développés pour les 10 modules (prêts pour formateur & apprenant)
     const BASE_10_DAY_MODULES = [
       {
         id: 1,
         day: "Jour 1 / Day 1",
         duration: "1j",
         title: {
-          fr: "Fondamentaux de l'IA & Démarrage Rapide",
-          ar: "أساسيات الذكاء الاصطناعي والانطلاقة السريعة",
-          en: "AI Foundations & Fast Start"
+          fr: "Fondamentaux de l'IA & Méthode de Prompting GIAT",
+          ar: "أساسيات الذكاء الاصطناعي ومنهجية صياغة الأوامر في GIAT",
+          en: "AI Foundations & GIAT Prompting Method"
         },
         lesson: {
-          fr: "Jour 1 : Comprendre le fonctionnement concret de l'IA générative et structurer ses premiers prompts (Rôle, Contexte, Format) pour le quotidien au Tchad ou dans la diaspora.",
-          ar: "اليوم 1: فهم آلية عمل الذكاء الاصطناعي التوليدي وصياغة الأوامر الأولى (الدور، السياق، الشكل) للاستخدام اليومي في تشاد أو المهجر.",
-          en: "Day 1: Understand how generative AI works and craft clear prompts (Role, Context, Format) for everyday life in Chad or the diaspora."
+          fr: "Objectif formateur & apprenant : Démystifier l'IA générative et appliquer la méthode Rôle + Contexte + Tâche + Format. Déroulé : (1) Ce que l'IA sait faire et ses limites ; (2) Différence entre un prompt vague et un prompt structuré ; (3) Exercice pratique : rédiger un prompt adapté au contexte du Tchad ou de la diaspora (en ligne 💻 ou en présentiel). Critère de validation : savoir structurer une consigne claire et exploitable.",
+          ar: "هدف المكون والمتدرب: تبسيط الذكاء الاصطناعي التوليدي وتطبيق منهجية (الدور + السياق + المهمة + الشكل). المحاور: (1) قدرات الذكاء الاصطناعي وحدوده؛ (2) الفرق بين السؤال الغامض والأمر المنظم؛ (3) تمرين تطبيقي يناسب تشاد أو المهجر (عن بُعد 💻 أو حضورياً). معيار الاعتماد: القدرة على صياغة أمر واضح ومفيد.",
+          en: "Trainer & learner goal: Demystify generative AI and apply Role + Context + Task + Format. Session outline: (1) What AI does well and its limits; (2) Vague vs. structured prompts; (3) Hands-on exercise for Chad or the diaspora (online 💻 or in-person). Completion check: write a clear, actionable prompt."
         },
         quiz: {
-          fr: { q: "Que signifie l'approche Rôle + Contexte + Format ?", opts: ["Donner une instruction claire et structurée à l'IA", "Écrire sans aucun détail", "Supprimer la question"], ans: 0 },
-          ar: { q: "ماذا تعني قاعدة (الدور + السياق + الشكل)؟", opts: ["توجيه تعليمات واضحة ومنظمة للذكاء الاصطناعي", "الكتابة دون تفاصيل", "حذف السؤال"], ans: 0 },
-          en: { q: "What does Role + Context + Format achieve?", opts: ["Clear, structured instructions for AI", "Zero context", "Skipping the prompt"], ans: 0 }
+          fr: { q: "Quelle méthode rend un prompt précis et utile ?", opts: ["Rôle + Contexte + Tâche + Format", "Un seul mot sans contexte", "Copier sans vérifier"], ans: 0 },
+          ar: { q: "ما الطريقة التي تجعل الأمر دقيقاً ومفيداً؟", opts: ["الدور + السياق + المهمة + الشكل", "كلمة واحدة دون سياق", "النسخ دون مراجعة"], ans: 0 },
+          en: { q: "Which structure makes a prompt clear and effective?", opts: ["Role + Context + Task + Format", "A single word with no context", "Copying without review"], ans: 0 }
         }
       },
       {
@@ -375,19 +362,19 @@
         day: "Jour 2 / Day 2",
         duration: "1j",
         title: {
-          fr: "Traduction Trilingue (FR / AR / EN) & Rédaction Administrative",
-          ar: "الترجمة ثلاثية اللغات والتحرير الإداري",
-          en: "Trilingual Translation (FR / AR / EN) & Admin Writing"
+          fr: "Traduction Trilingue (FR / AR / EN) & Rédaction Administrative / Bureau",
+          ar: "الترجمة ثلاثية اللغات والتحرير الإداري والمكتبي",
+          en: "Trilingual Translation (FR / AR / EN) & Office / Admin Writing"
         },
         lesson: {
-          fr: "Jour 2 : Rédiger des lettres officielles, rapports, comptes rendus et traductions fluides en Français, Arabe et Anglais.",
-          ar: "اليوم 2: كتابة الرسائل الرسمية والتقارير والترجمة السلسة بين الفرنسية والعربية والإنجليزية.",
-          en: "Day 2: Draft official letters, reports, meeting minutes, and smooth translations across French, Arabic, and English."
+          fr: "Objectif formateur & apprenant : Produire des courriers administratifs, rapports d'activité, comptes rendus de réunion et traductions fidèles en Français, Arabe et Anglais. Déroulé : (1) Structurer une note ou un rapport clair ; (2) Traduire en respectant le registre professionnel ; (3) Relire et corriger le ton. Critère de validation : produire un texte bilingue ou trilingue propre et exact.",
+          ar: "هدف المكون والمتدرب: إعداد الرسائل الإدارية وتقارير الأنشطة ومحاضر الاجتماعات والترجمة الدقيقة بالفرنسية والعربية والإنجليزية. المحاور: (1) هيكلة التقرير أو المذكرة؛ (2) مراعاة السياق المهني في الترجمة؛ (3) المراجعة وتدقيق الأسلوب. معيار الاعتماد: إنتاج نص مهني سليم.",
+          en: "Trainer & learner goal: Draft memos, activity reports, meeting minutes, and accurate translations across French, Arabic, and English. Outline: (1) Structure reports clearly; (2) Preserve professional tone in translation; (3) Proofread and refine. Completion check: produce a clean, accurate draft."
         },
         quiz: {
-          fr: { q: "Quel est l'avantage clé de l'IA pour les bureaux et ONG ?", opts: ["Accélérer la rédaction, la synthèse et la traduction", "Remplacer la relecture humaine", "Bloquer les dossiers"], ans: 0 },
-          ar: { q: "ما هي الميزة الرئيسية للذكاء الاصطناعي للمكاتب والمنظمات؟", opts: ["تسريع الصياغة والتلخيص والترجمة", "إلغاء المراجعة البشرية", "تعطيل العمل"], ans: 0 },
-          en: { q: "What is a key benefit of AI for offices and NGOs?", opts: ["Faster drafting, summarizing, and translation", "Skipping human review", "Stopping workflows"], ans: 0 }
+          fr: { q: "Quelle est la bonne pratique après une traduction par IA ?", opts: ["Relire le sens et le registre professionnel avant diffusion", "Envoyer sans relecture", "Supprimer les noms propres"], ans: 0 },
+          ar: { q: "ما الممارسة الصحيحة بعد الترجمة بالذكاء الاصطناعي؟", opts: ["مراجعة المعنى والأسلوب المهني قبل الإرسال", "الإرسال دون مراجعة", "حذف الأسماء"], ans: 0 },
+          en: { q: "What is best practice after an AI translation?", opts: ["Review meaning and tone before sending", "Send without proofreading", "Remove key details"], ans: 0 }
         }
       },
       {
@@ -395,19 +382,19 @@
         day: "Jour 3 / Day 3",
         duration: "1j",
         title: {
-          fr: "IA pour les Commerçant(e)s & Vente sur WhatsApp",
-          ar: "الذكاء الاصطناعي للتجار والبيع عبر واتساب",
-          en: "AI for Merchants & WhatsApp Sales"
+          fr: "IA pour Commerçant(e)s : Fiches Produits, Suivi Ventes & Relation Client",
+          ar: "الذكاء الاصطناعي للتجار: أوصاف السلع ومتابعة المبيعات وخدمة الزبائن",
+          en: "AI for Merchants: Product Sheets, Sales Tracking & Customer Care"
         },
         lesson: {
-          fr: "Jour 3 : Calculer les ventes journalières en FCFA, préparer des fiches produits et rédiger des offres promotionnelles adaptées aux clients locaux.",
-          ar: "اليوم 3: حساب المبيعات اليومية بالفرنك الأفريقي وإعداد أوصاف المنتجات وعروض الترويج للعملاء.",
-          en: "Day 3: Calculate daily sales in FCFA, create product descriptions, and write promo offers tailored to local buyers."
+          fr: "Objectif formateur & apprenant : Aider les commerçant(e)s à rédiger des fiches produits attractives, structurer leurs ventes journalières en FCFA et répondre poliment aux clients. Déroulé : (1) Fiche produit claire (prix, usage, disponibilité) ; (2) Tableau récapitulatif des entrées/sorties ; (3) Réponses rapides aux objections clients. Critère de validation : créer une fiche vente et un suivi clair en FCFA.",
+          ar: "هدف المكون والمتدرب: مساعدة التجار على كتابة أوصاف واضحة للمنتجات وتنظيم المبيعات اليومية بالفرنك الأفريقي والرد على الزبائن. المحاور: (1) بطاقة منتج واضحة؛ (2) ملخص المبيعات والمصاريف؛ (3) الرد السريع على استفسارات العملاء. معيار الاعتماد: إعداد عرض منتج وجدول متابعة واضح.",
+          en: "Trainer & learner goal: Help merchants create clear product listings, track daily FCFA sales, and handle customer inquiries. Outline: (1) Clear product sheet; (2) Daily sales & expense summary; (3) Polite customer replies. Completion check: build a product pitch and sales summary."
         },
         quiz: {
-          fr: { q: "Comment un commerçant utilise-t-il l'IA au quotidien ?", opts: ["Pour ses bilans de vente, fiches produits et messages clients", "Pour fermer sa boutique", "Pour ignorer les prix"], ans: 0 },
-          ar: { q: "كيف يستفيد التاجر من الذكاء الاصطناعي يومياً؟", opts: ["في ملخصات البيع وأوصاف السلع ورسائل الزبائن", "في إغلاق المتجر", "في تجاهل الأسعار"], ans: 0 },
-          en: { q: "How does a merchant use AI daily?", opts: ["For sales summaries, product copy, and customer replies", "Closing the shop", "Ignoring pricing"], ans: 0 }
+          fr: { q: "Qu'apporte l'IA à un(e) commerçant(e) ?", opts: ["Gain de temps sur les fiches produits, devis et suivis de vente", "Une hausse automatique des stocks sans achat", "L'absence de relation client"], ans: 0 },
+          ar: { q: "ماذا يضيف الذكاء الاصطناعي للتاجر؟", opts: ["توفير الوقت في أوصاف السلع والعروض ومتابعة المبيعات", "زيادة المخزون تلقائياً دون شراء", "الاستغناء عن خدمة الزبائن"], ans: 0 },
+          en: { q: "How does AI help a merchant?", opts: ["Saves time on product copy, quotes, and sales tracking", "Creates stock automatically", "Replaces customer care"], ans: 0 }
         }
       },
       {
@@ -415,19 +402,19 @@
         day: "Jour 4 / Day 4",
         duration: "1j",
         title: {
-          fr: "IA pour Élèves, Étudiants & Chercheurs",
-          ar: "الذكاء الاصطناعي للتلاميذ والطلاب والباحثين",
-          en: "AI for School Students, University Students & Researchers"
+          fr: "IA pour Élèves, Étudiants & Chercheurs : Compréhension, Synthèse & Méthodologie",
+          ar: "الذكاء الاصطناعي للتلاميذ والطلاب والباحثين: الفهم والتلخيص والمنهجية",
+          en: "AI for School Students, University Students & Researchers: Study & Research"
         },
         lesson: {
-          fr: "Jour 4 : Clarifier des concepts difficiles, structurer un plan de recherche ou de mémoire, créer des fiches de révision et organiser ses sources.",
-          ar: "اليوم 4: تبسيط المفاهيم المعقدة وتنظيم خطة البحث أو المذكرة وإعداد بطاقات المراجعة.",
-          en: "Day 4: Break down complex concepts, structure research outlines, generate study flashcards, and organize notes."
+          fr: "Objectif formateur & apprenant : Utiliser l'IA comme tuteur pédagogique pour comprendre un cours, bâtir un plan de recherche ou de mémoire et préparer des fiches de révision. Déroulé : (1) Demander une explication étape par étape ; (2) Structurer un plan d'exposé ou de recherche ; (3) Vérifier les sources et éviter le plagiat. Critère de validation : produire un plan structuré et des questions d'auto-évaluation.",
+          ar: "هدف المكون والمتدرب: استخدام الذكاء الاصطناعي كمساعد تعليمي لفهم الدروس وبناء خطة بحث أو مذكرة وإعداد بطاقات مراجعة. المحاور: (1) الشرح المتدرج؛ (2) هيكلة خطة البحث أو العرض؛ (3) التحقق من المراجع وتجنب النقل غير الموثق. معيار الاعتماد: إعداد خطة دراسية وأسئلة مراجعة.",
+          en: "Trainer & learner goal: Use AI as a study tutor to grasp lessons, outline research papers, and build revision sheets. Outline: (1) Step-by-step explanations; (2) Research or presentation outlines; (3) Source checking and academic honesty. Completion check: create a structured outline and quiz."
         },
         quiz: {
-          fr: { q: "Comment l'IA aide-t-elle un étudiant ou chercheur ?", opts: ["En aidant à comprendre, structurer et réviser", "En encourageant le copier-coller sans comprendre", "En supprimant les sources"], ans: 0 },
-          ar: { q: "كيف يساعد الذكاء الاصطناعي الطالب والباحث؟", opts: ["في الفهم وتنظيم الأفكار والمراجعة", "في النقل العشوائي دون فهم", "في إهمال المراجع"], ans: 0 },
-          en: { q: "How does AI support students and researchers?", opts: ["By helping explain, structure, and review concepts", "Blind copy-pasting", "Ignoring sources"], ans: 0 }
+          fr: { q: "Comment utiliser l'IA de façon honnête et efficace dans les études ?", opts: ["Pour comprendre, structurer et réviser tout en vérifiant les sources", "Pour recopier sans lire ni vérifier", "Pour inventer des références fausses"], ans: 0 },
+          ar: { q: "كيف نستخدم الذكاء الاصطناعي بصدق وفعالية في الدراسة؟", opts: ["للفهم والتنظيم والمراجعة مع التحقق من المراجع", "للنسخ دون قراءة أو تحقق", "لاختلاق مراجع غير صحيحة"], ans: 0 },
+          en: { q: "How should students and researchers use AI effectively?", opts: ["To understand, outline, and review while verifying sources", "Copying blindly without reading", "Fabricating citations"], ans: 0 }
         }
       },
       {
@@ -435,19 +422,19 @@
         day: "Jour 5 / Day 5",
         duration: "1j",
         title: {
-          fr: "Création de CV, Dossiers de Candidature & Pitch Pro",
-          ar: "إعداد السير الذاتية وملفات التقديم والعروض المهنية",
-          en: "CV Creation, Job Applications & Career Pitch"
+          fr: "Emploi, ONG & Insertion Professionnelle : CV, Lettre de Motivation & Entretien",
+          ar: "التوظيف والمنظمات والاندماج المهني: السيرة الذاتية والرسالة والمقابلة",
+          en: "Jobs, NGOs & Career Readiness: CV, Cover Letter & Interviews"
         },
         lesson: {
-          fr: "Jour 5 : Valoriser son parcours, adapter son CV à une offre d'emploi ou une ONG et préparer un entretien professionnel.",
-          ar: "اليوم 5: إبراز الخبرات وتكييف السيرة الذاتية مع الوظائف أو المنظمات والتحضير للمقابلات.",
-          en: "Day 5: Highlight achievements, tailor CVs for jobs or NGOs, and practice interview answers."
+          fr: "Objectif formateur & apprenant : Rédiger un CV percutant, adapter une lettre de motivation à un poste ou une ONG et s'entraîner aux questions d'entretien. Déroulé : (1) Identifier ses compétences clés et réalisations ; (2) Adapter le dossier à l'offre ; (3) Simuler un entretien oral. Critère de validation : finaliser un brouillon de CV et une trame de présentation.",
+          ar: "هدف المكون والمتدرب: صياغة سيرة ذاتية واضحة وملاءمة رسالة التقديم مع الوظيفة أو المنظمة والتدرب على المقابلات. المحاور: (1) إبراز المهارات والإنجازات؛ (2) مواءمة الملف مع متطلبات العرض؛ (3) التدرب على المقابلة. معيار الاعتماد: إعداد مسودة سيرة ذاتية وعرض تعريفي.",
+          en: "Trainer & learner goal: Craft a clear CV, tailor cover letters for jobs or NGOs, and practice interview answers. Outline: (1) Highlight skills and outcomes; (2) Align with job criteria; (3) Practice interview pitch. Completion check: draft a CV outline and pitch."
         },
         quiz: {
-          fr: { q: "Que faut-il faire avant d'envoyer un CV généré avec l'IA ?", opts: ["Vérifier l'exactitude de toutes les informations personnelles", "Laisser des champs faux", "Ne pas relire"], ans: 0 },
-          ar: { q: "ماذا يجب قبل إرسال سيرة ذاتية أُعدت بالذكاء الاصطناعي؟", opts: ["التأكد من صحة جميع المعلومات الشخصية", "إدراج معلومات غير صحيحة", "عدم المراجعة"], ans: 0 },
-          en: { q: "What should you do before sending an AI-assisted CV?", opts: ["Verify every personal and experience detail for accuracy", "Include inaccurate claims", "Skip proofreading"], ans: 0 }
+          fr: { q: "Qu'est-ce qui renforce une candidature devant un employeur ou une ONG ?", opts: ["La clarté, la pertinence face au poste et l'authenticité des faits", "L'exagération non vérifiable", "Un document générique non relooké"], ans: 0 },
+          ar: { q: "ما الذي يقوي ملف الترشح أمام جهة العمل أو المنظمة؟", opts: ["الوضوح والملاءمة للمنصب ومصداقية المعلومات", "المبالغة غير الصحيحة", "إرسال نص عام دون تخصيص"], ans: 0 },
+          en: { q: "What strengthens a job or NGO application?", opts: ["Clarity, role alignment, and truthful details", "Exaggerated claims", "Generic unedited copy"], ans: 0 }
         }
       },
       {
@@ -455,19 +442,19 @@
         day: "Jour 6 / Day 6",
         duration: "1j",
         title: {
-          fr: "Affiches Publicitaires, Identité Visuelle & Marketing Local",
-          ar: "تصميم الإعلانات والهوية البصرية والتسويق المحلي",
-          en: "Ad Copy, Visual Branding & Local Marketing"
+          fr: "Communication, Affiches & Visibilité Locale (23 Provinces & Diaspora)",
+          ar: "التواصل والإعلانات والظهور المحلي (23 ولاية والمهجر)",
+          en: "Communication, Posters & Local Reach (23 Provinces & Diaspora)"
         },
         lesson: {
-          fr: "Jour 6 : Concevoir des textes d'affiches, slogans et campagnes adaptées aux 23 provinces et à la diaspora.",
-          ar: "اليوم 6: صياغة نصوص الإعلانات والشعارات والحملات التسويقية المناسبة للولايات والمهجر.",
-          en: "Day 6: Craft poster copy, taglines, and campaigns tailored to Chad's provinces and the diaspora."
+          fr: "Objectif formateur & apprenant : Concevoir des messages de communication, textes d'affiches et publications adaptés aux réalités locales et à la diaspora. Déroulé : (1) Définir l'objectif du message ; (2) Rédiger accroche, bénéfices et appel à l'action ; (3) Adapter selon le canal (WhatsApp, affiche, réunion). Critère de validation : produire un texte de campagne clair et ciblé.",
+          ar: "هدف المكون والمتدرب: تصميم رسائل تواصل ونصوص إعلانات ومنشورات تناسب الواقع المحلي والمهجر. المحاور: (1) تحديد هدف الرسالة؛ (2) صياغة العنوان والفائدة والدعوة لاتخاذ إجراء؛ (3) التكييف حسب وسيلة النشر. معيار الاعتماد: إعداد نص إعلاني واضح وموجه.",
+          en: "Trainer & learner goal: Create clear communication copy, poster text, and announcements for local provinces and the diaspora. Outline: (1) Define message goal; (2) Write hook, value, and call to action; (3) Adapt to channel. Completion check: write a targeted announcement."
         },
         quiz: {
-          fr: { q: "Qu'est-ce qui rend une campagne locale efficace ?", opts: ["Un message clair, adapté au public et au budget", "Un texte confus sans appel à l'action", "L'absence de coordonnées"], ans: 0 },
-          ar: { q: "ما الذي يجعل الحملة التسويقية المحلية ناجحة؟", opts: ["رسالة واضحة تناسب الجمهور والميزانية", "نص غامض دون دعوة واضحة", "غياب وسيلة التواصل"], ans: 0 },
-          en: { q: "What makes a local campaign effective?", opts: ["Clear messaging tailored to audience and budget", "Vague copy with no call to action", "Missing contact details"], ans: 0 }
+          fr: { q: "Quel élément guide le choix du message de communication ?", opts: ["Le public visé, l'objectif et le canal de diffusion", "Le hasard uniquement", "L'absence de message clair"], ans: 0 },
+          ar: { q: "ما العنصر الذي يحدد صياغة رسالة التواصل؟", opts: ["الجمهور المستهدف والهدف ووسيلة النشر", "العشوائية", "غياب الفكرة الواضحة"], ans: 0 },
+          en: { q: "What guides effective communication copy?", opts: ["Target audience, goal, and channel", "Random guessing", "No clear message"], ans: 0 }
         }
       },
       {
@@ -475,19 +462,19 @@
         day: "Jour 7 / Day 7",
         duration: "1j",
         title: {
-          fr: "Business Plan Express & Modèles Économiques en FCFA",
-          ar: "خطة عمل سريعة ونماذج اقتصادية بالفرنك الأفريقي",
-          en: "Express Business Plans & FCFA Business Models"
+          fr: "Entrepreneuriat & Business Plan Pratique en FCFA",
+          ar: "ريادة الأعمال وخطة المشروع العملية بالفرنك الأفريقي",
+          en: "Entrepreneurship & Practical FCFA Business Planning"
         },
         lesson: {
-          fr: "Jour 7 : Structurer un mini business plan, estimer les charges, les prix et les revenus potentiels en FCFA.",
-          ar: "اليوم 7: بناء خطة مشروع مصغرة وتقدير التكاليف والأسعار والإيرادات بالفرنك الأفريقي.",
-          en: "Day 7: Structure a mini business plan, estimate costs, pricing, and revenue projections in FCFA."
+          fr: "Objectif formateur & apprenant : Structurer un projet entrepreneurial viable, estimer les coûts de démarrage et d'exploitation en FCFA et définir une offre de valeur. Déroulé : (1) Problème client et solution ; (2) Coûts fixes/variables et prix ; (3) Étapes de lancement. Critère de validation : rédiger un résumé de projet structuré avec estimation en FCFA.",
+          ar: "هدف المكون والمتدرب: هيكلة مشروع ريادي واقعي وتقدير تكاليف الانطلاق والتشغيل بالفرنك الأفريقي وتحديد القيمة المقدمة. المحاور: (1) المشكلة والحل؛ (2) التكاليف والتسعير؛ (3) خطوات التنفيذ. معيار الاعتماد: إعداد ملخص مشروع منظم بالفرنك الأفريقي.",
+          en: "Trainer & learner goal: Structure a practical business idea, estimate startup/operating costs in FCFA, and define value. Outline: (1) Problem & solution; (2) Costs & pricing; (3) Launch steps. Completion check: draft a project summary with FCFA estimates."
         },
         quiz: {
-          fr: { q: "Quel élément est indispensable dans un business plan ?", opts: ["L'analyse des coûts, de la cible et des revenus", "Uniquement un titre", "L'absence de chiffres"], ans: 0 },
-          ar: { q: "ما العنصر الأساسي في خطة المشروع؟", opts: ["دراسة التكاليف والجمهور المستهدف والإيرادات", "العنوان فقط", "تجاهل الأرقام"], ans: 0 },
-          en: { q: "What element is essential in a business plan?", opts: ["Cost, target market, and revenue breakdown", "A title only", "No numbers"], ans: 0 }
+          fr: { q: "Pourquoi chiffrer ses coûts et sa proposition de valeur avant de lancer ?", opts: ["Pour évaluer la viabilité et éviter les pertes évitables", "Pour ignorer le budget", "Pour compliquer le projet"], ans: 0 },
+          ar: { q: "لماذا نحدد التكاليف والقيمة قبل إطلاق المشروع؟", opts: ["لتقييم الجدوى وتجنب الخسائر غير الضرورية", "لتجاهل الميزانية", "لتعقيد المشروع"], ans: 0 },
+          en: { q: "Why estimate costs and value before launching?", opts: ["To test feasibility and avoid preventable losses", "To ignore the budget", "To overcomplicate execution"], ans: 0 }
         }
       },
       {
@@ -495,19 +482,19 @@
         day: "Jour 8 / Day 8",
         duration: "1j",
         title: {
-          fr: "Éthique, Vérification des Faits, Sécurité & Usage Halal",
-          ar: "الأخلاقيات، التحقق من المعلومات، الأمان والاستخدام الحلال",
-          en: "Ethics, Fact-Checking, Security & Halal Usage"
+          fr: "Éthique, Sécurité des Données, Lutte contre les Rumeurs & Usage Responsable",
+          ar: "الأخلاقيات وأمن البيانات ومكافحة الشائعات والاستخدام المسؤول",
+          en: "Ethics, Data Privacy, Misinformation Checks & Responsible Use"
         },
         lesson: {
-          fr: "Jour 8 : Lutte contre les fausses informations, protection des données personnelles et respect strict de l'intégrité et de l'usage licite.",
-          ar: "اليوم 8: مكافحة المعلومات المضللة وحماية البيانات الشخصية والالتزام الصارم بالنزاهة والاستخدام المشروع.",
-          en: "Day 8: Combating misinformation, protecting personal data, and upholding strict integrity and lawful use."
+          fr: "Objectif formateur & apprenant : Protéger ses données personnelles, détecter les contenus trompeurs et adopter un usage éthique, licite et respectueux de l'IA. Déroulé : (1) Ce qu'il ne faut jamais partager (mots de passe, documents sensibles) ; (2) Vérification croisée des informations ; (3) Respect des règles et de l'éthique GIAT. Critère de validation : identifier les risques et appliquer les bons réflexes de sécurité.",
+          ar: "هدف المكون والمتدرب: حماية البيانات الشخصية واكتشاف المعلومات المضللة واعتماد استخدام أخلاقي ومشروع للذكاء الاصطناعي. المحاور: (1) حماية البيانات الحساسة؛ (2) التحقق من صحة المعلومات؛ (3) الالتزام بأخلاقيات GIAT. معيار الاعتماد: تطبيق قواعد الأمان والتحقق.",
+          en: "Trainer & learner goal: Protect personal data, spot misleading claims, and practice ethical, lawful AI use. Outline: (1) Safeguarding sensitive data; (2) Cross-checking claims; (3) Upholding GIAT ethics. Completion check: apply privacy and verification checks."
         },
         quiz: {
-          fr: { q: "Quelle règle éthique GIAT est prioritaire ?", opts: ["Vérifier les faits et protéger les données personnelles", "Publier sans vérifier", "Partager des données sensibles"], ans: 0 },
-          ar: { q: "ما القاعدة الأخلاقية الأساسية في GIAT؟", opts: ["التحقق من المعلومات وحماية البيانات الشخصية", "النشر دون تحقق", "مشاركة البيانات الحساسة"], ans: 0 },
-          en: { q: "Which GIAT ethical rule comes first?", opts: ["Fact-checking and protecting personal data", "Publishing unverified claims", "Sharing sensitive data"], ans: 0 }
+          fr: { q: "Quel réflexe protège l'utilisateur face à une information sensible ou douteuse ?", opts: ["Ne pas exposer de données privées et vérifier la source", "Partager immédiatement sans vérifier", "Faire confiance aveuglément"], ans: 0 },
+          ar: { q: "ما التصرف السليم أمام معلومة حساسة أو مشكوك فيها؟", opts: ["عدم مشاركة البيانات الخاصة والتحقق من المصدر", "النشر الفوري دون تحقق", "الثقة المطلقة دون مراجعة"], ans: 0 },
+          en: { q: "What habit protects users against sensitive or doubtful info?", opts: ["Avoid sharing private data and verify sources", "Share immediately unverified", "Trust blindly"], ans: 0 }
         }
       },
       {
@@ -515,19 +502,19 @@
         day: "Jour 9 / Day 9",
         duration: "1j",
         title: {
-          fr: "Organisation Personnelle, Gestion de Projet & Collaboration",
-          ar: "التنظيم الشخصي وإدارة المشاريع والتعاون",
-          en: "Personal Productivity, Project Planning & Collaboration"
+          fr: "Productivité Quotidienne, Organisation du Temps & Travail d'Équipe",
+          ar: "الإنتاجية اليومية وتنظيم الوقت والعمل الجماعي",
+          en: "Daily Productivity, Time Management & Teamwork"
         },
         lesson: {
-          fr: "Jour 9 : Planifier ses semaines, diviser un grand projet en étapes simples et travailler efficacement en équipe.",
-          ar: "اليوم 9: تنظيم الأسابيع وتقسيم المشاريع الكبيرة إلى خطوات واضحة والعمل الجماعي الفعال.",
-          en: "Day 9: Plan weekly schedules, break large projects into milestones, and collaborate effectively."
+          fr: "Objectif formateur & apprenant : Transformer l'IA en assistant d'organisation hebdomadaire, prioriser les tâches essentielles et coordonner un travail collectif. Déroulé : (1) Matrice des priorités ; (2) Planification sur 7 jours ; (3) Suivi d'avancement en équipe ou en autonomie. Critère de validation : construire un planning hebdomadaire clair avec priorités.",
+          ar: "هدف المكون والمتدرب: تحويل الذكاء الاصطناعي إلى مساعد لتنظيم الأسبوع وترتيب الأولويات وتنسيق العمل الجماعي. المحاور: (1) ترتيب الأولويات؛ (2) خطة عمل أسبوعية؛ (3) متابعة الإنجاز. معيار الاعتماد: إعداد جدول أولويات أسبوعي عملي.",
+          en: "Trainer & learner goal: Turn AI into a weekly planning assistant, prioritize high-impact tasks, and coordinate teamwork. Outline: (1) Task prioritization; (2) 7-day plan; (3) Progress tracking. Completion check: create a clear weekly priority plan."
         },
         quiz: {
-          fr: { q: "Comment mieux réussir un projet complexe ?", opts: ["Le découper en étapes claires avec des échéances", "Tout remettre au dernier jour", "Ignorer le suivi"], ans: 0 },
-          ar: { q: "كيف ننجح في تنفيذ مشروع كبير؟", opts: ["بتقسيمه إلى مراحل واضحة بمواعيد محددة", "بتأجيل كل شيء لآخر لحظة", "بإهمال المتابعة"], ans: 0 },
-          en: { q: "How do you execute a complex project better?", opts: ["Break it into clear milestones with deadlines", "Leave everything to the last day", "Skip tracking"], ans: 0 }
+          fr: { q: "Comment organiser efficacement sa semaine avec l'aide de l'IA ?", opts: ["Définir les priorités, découper en actions concrètes et fixer des repères", "Tout faire en même temps sans priorité", "Ne pas suivre l'avancement"], ans: 0 },
+          ar: { q: "كيف ننظم الأسبوع بفعالية بمساعدة الذكاء الاصطناعي؟", opts: ["تحديد الأولويات وتقسيمها إلى خطوات واضحة ومتابعتها", "تكديس المهام دون أولوية", "إهمال المتابعة"], ans: 0 },
+          en: { q: "How do you plan your week effectively with AI support?", opts: ["Set priorities, break into clear steps, and track progress", "Do everything at once with no priority", "Skip tracking"], ans: 0 }
         }
       },
       {
@@ -535,28 +522,28 @@
         day: "Jour 10 / Day 10",
         duration: "1j",
         title: {
-          fr: "Synthèse Finale, Plan d'Action & Déblocage de l'Attestation",
-          ar: "الخلاصة النهائية، خطة العمل والحصول على الشهادة",
-          en: "Final Capstone, Action Plan & Certificate Unlock"
+          fr: "Projet Final, Plan d'Action Personnel & Obtention de l'Attestation GIAT",
+          ar: "المشروع الختامي وخطة العمل الشخصية والحصول على شهادة GIAT",
+          en: "Capstone Project, Personal Action Plan & GIAT Certificate"
         },
         lesson: {
-          fr: "Jour 10 : Finaliser votre plan d'action concret sur votre activité ou vos études et valider le module final pour obtenir votre Attestation Officielle GIAT.",
-          ar: "اليوم 10: إتمام خطة عملك العملية لدراستك أو مشروعك واعتماد الوحدة الختامية للحصول على شهادة GIAT الرسمية.",
-          en: "Day 10: Finalize your practical action plan for work or study and complete the final module to unlock your Official GIAT Certificate."
+          fr: "Objectif formateur & apprenant : Synthétiser les acquis des 10 jours dans un plan d'action concret (études, commerce, emploi, ONG, entrepreneuriat ou diaspora) et valider le parcours complet. Déroulé : (1) Bilan des compétences acquises ; (2) Plan d'action immédiat et à 30 jours ; (3) Validation finale pour débloquer l'Attestation officielle avec cachet et QR Code. Critère de validation : compléter le module final et valider les 10 modules.",
+          ar: "هدف المكون والمتدرب: تلخيص مكتسبات الأيام العشرة في خطة عمل عملية (للدراسة أو التجارة أو العمل أو المشاريع أو المهجر) وإتمام المسار. المحاور: (1) مراجعة المهارات المكتسبة؛ (2) خطة عمل فورية ولـ 30 يوماً؛ (3) الاعتماد النهائي لفتح الشهادة بالختم ورمز QR. معيار الاعتماد: إتمام جميع الوحدات العشر.",
+          en: "Trainer & learner goal: Turn the 10-day program into a practical action plan (study, trade, work, NGOs, business, or diaspora) and complete the track. Outline: (1) Skill recap; (2) Immediate & 30-day action plan; (3) Final completion to unlock Certificate with seal and QR Code. Completion check: finish all 10 modules."
         },
         quiz: {
-          fr: { q: "Que permet la validation de tous les modules (10 jours minimum) ?", opts: ["L'accès à l'Attestation Officielle GIAT avec cachet et QR Code", "Rien de particulier", "L'annulation du parcours"], ans: 0 },
-          ar: { q: "ماذا يتيح إتمام جميع الوحدات (10 أيام على الأقل)؟", opts: ["الحصول على شهادة GIAT الرسمية بالختم ورمز QR", "لا شيء", "إلغاء البرنامج"], ans: 0 },
-          en: { q: "What does completing all modules (at least 10 days) unlock?", opts: ["Your Official GIAT Certificate with seal and QR Code", "Nothing", "Canceling progress"], ans: 0 }
+          fr: { q: "Que débloque la validation complète des 10 modules de formation ?", opts: ["L'Attestation officielle GIAT avec numéro, QR Code et cachet", "Rien", "L'effacement des progrès"], ans: 0 },
+          ar: { q: "ماذا يفتح إتمام جميع الوحدات العشر للتدريب؟", opts: ["شهادة GIAT الرسمية برقمها ورمز QR والختم", "لا شيء", "حذف التقدم"], ans: 0 },
+          en: { q: "What does completing all 10 training modules unlock?", opts: ["Official GIAT Certificate with ID, QR Code, and seal", "Nothing", "Resetting progress"], ans: 0 }
         }
       }
     ];
 
     const SAMPLE_LAUREATES = [
-      { id: "GIAT-2026-NDJ-0001", fullName: "Mahamat Gombo Abakar", region: "N'Djamena", audience: "Entrepreneurs", certNumber: "GIAT-2026-NDJ-0001" },
-      { id: "GIAT-2026-MND-0014", fullName: "Amina Saleh Djibrine", region: "Logone Occidental", audience: "Commerçant(e)s", certNumber: "GIAT-2026-MND-0014" },
-      { id: "GIAT-2026-WDF-0029", fullName: "Ibrahim Moussa Haroun", region: "Ouaddaï", audience: "Étudiants & Chercheurs", certNumber: "GIAT-2026-WDF-0029" },
-      { id: "GIAT-2026-DIA-0042", fullName: "Grace Ngaradoum", region: "Diaspora", audience: "Emploi, ONG & Bureau", certNumber: "GIAT-2026-DIA-0042" }
+      { id: "GIAT-2026-NDJ-0001", fullName: "Mahamat Gombo Abakar", region: "N'Djamena", audience: "Entrepreneurs", mode: "presential", certNumber: "GIAT-2026-NDJ-0001" },
+      { id: "GIAT-2026-MND-0014", fullName: "Amina Saleh Djibrine", region: "Logone Occidental", audience: "Commerçant(e)s", mode: "online", certNumber: "GIAT-2026-MND-0014" },
+      { id: "GIAT-2026-WDF-0029", fullName: "Ibrahim Moussa Haroun", region: "Ouaddaï", audience: "Étudiants & Chercheurs", mode: "online", certNumber: "GIAT-2026-WDF-0029" },
+      { id: "GIAT-2026-DIA-0042", fullName: "Grace Ngaradoum", region: "Diaspora", audience: "Emploi, ONG & Bureau", mode: "online", certNumber: "GIAT-2026-DIA-0042" }
     ];
 
     const DEFAULT_USER = {
@@ -568,6 +555,7 @@
       email: "",
       region: "N'Djamena",
       audience: "commercants",
+      mode: "online",
       idType: "CNI",
       idPhotoFront: "",
       idPhotoBack: "",
@@ -603,6 +591,69 @@
       });
     }
 
+    // Moteur de réponse automatisée aux soucis utilisateurs dans le canal temps réel
+    function generateAutomatedSupportReply(rawText, lang) {
+      const q = (rawText || "").toLowerCase();
+
+      if (q.includes("kyc") || q.includes("pièce") || q.includes("recto") || q.includes("verso") || q.includes("identité") || q.includes("هوية") || q.includes("id")) {
+        if (lang === "ar") {
+          return "🤖 رد آلي GIAT (KYC): لتأكيد ملف KYC، أدخل الاسم وتاريخ ومكان الميلاد والهاتف والبريد والولاية/المهجر ونمط التكوين (عن بُعد 💻 أو حضوري)، ثم أرفق صورتي الهوية (الوجه الأمامي والخلفي) واضغط على «تأكيد ملف KYC فوراً».";
+        }
+        if (lang === "en") {
+          return "🤖 GIAT Auto-Reply (KYC): Fill in your name, birth date & place, phone, email, province/diaspora, and format (Online 💻 or In-person), upload ID FRONT & BACK photos, and click Validate KYC Immediately.";
+        }
+        return "🤖 Réponse Auto GIAT (KYC) : Renseignez votre nom, date et lieu de naissance, téléphone, email, province/diaspora et modalité (En ligne 💻 ou Présentiel), ajoutez les photos RECTO et VERSO de votre pièce d'identité, puis cliquez sur « Valider mon KYC immédiatement ».";
+      }
+
+      if (q.includes("pai") || q.includes("5000") || q.includes("5 000") || q.includes("moov") || q.includes("airtel") || q.includes("transaction") || q.includes("دفع") || q.includes("pay")) {
+        if (lang === "ar") {
+          return "🤖 رد آلي GIAT (الدفع 5,000 FCFA): بعد تأكيد KYC، انتقل إلى تبويب «2. الدفع 5000F»، أرسل 5,000 FCFA عبر Moov Money (+235 92 82 52 52) أو Airtel Money (+235 66 78 75 46)، ثم أدخل رقم العملية واضغط على تأكيد الدفع لفتح الوحدات.";
+        }
+        if (lang === "en") {
+          return "🤖 GIAT Auto-Reply (5,000 FCFA Payment): After KYC, open 2. Pay 5000F, send 5,000 FCFA via Moov Money (+235 92 82 52 52) or Airtel Money (+235 66 78 75 46), enter your transaction ID, and confirm to unlock modules.";
+        }
+        return "🤖 Réponse Auto GIAT (Paiement 5 000 FCFA) : Après validation du KYC, allez dans « 2. Paiement 5000F », effectuez le paiement de 5 000 FCFA via Moov Money (+235 92 82 52 52) ou Airtel Money (+235 66 78 75 46), saisissez l'ID de transaction et confirmez pour débloquer les modules.";
+      }
+
+      if (q.includes("module") || q.includes("cours") || q.includes("jour") || q.includes("débloqu") || q.includes("coch") || q.includes("وحدة") || q.includes("دروس") || q.includes("unlock")) {
+        if (lang === "ar") {
+          return "🤖 رد آلي GIAT (الوحدات الـ 10): تأكد أولاً من إتمام KYC والدفع (5,000 FCFA). في تبويب «3. الدروس (10 أيام)»، اختر الوحدة، اقرأ أو استمع للدرس، أجب عن سؤال التحقق ثم اضغط «اعتماد وتحديد هذه الوحدة» ليظهر ✅ وتتحدث النسبة.";
+        }
+        if (lang === "en") {
+          return "🤖 GIAT Auto-Reply (10 Modules): Ensure KYC and 5,000 FCFA payment are confirmed. In 3. Courses (10 Days), select a module, read or listen to the lesson, answer the check question, and click Validate & Check This Module.";
+        }
+        return "🤖 Réponse Auto GIAT (10 Modules) : Vérifiez que votre KYC et votre paiement (5 000 FCFA) sont validés. Dans « 3. Cours (10 Jours) », sélectionnez le module, lisez ou écoutez la leçon, répondez au quiz puis cliquez sur « Valider et cocher ce module » pour afficher ✅.";
+      }
+
+      if (q.includes("attestation") || q.includes("certificat") || q.includes("cachet") || q.includes("qr") || q.includes("شهادة") || q.includes("ختم") || q.includes("certificate")) {
+        if (lang === "ar") {
+          return "🤖 رد آلي GIAT (الشهادة والختم): يتم إنشاء رقم الشهادة وتفعيل الختم الرسمي ورمز QR تلقائياً بمجرد إتمام جميع الوحدات العشر (10 أيام على الأقل)، مع إظهار تاريخ ومكان الميلاد وطباعة PDF A4.";
+        }
+        if (lang === "en") {
+          return "🤖 GIAT Auto-Reply (Certificate & Seal): Once all 10 modules (at least 10 days) are completed, your certificate number, official seal, and QR code unlock automatically with your birth date/place and A4 PDF print.";
+        }
+        return "🤖 Réponse Auto GIAT (Attestation & Cachet) : Dès que les 10 modules (au moins 10 jours) sont validés, votre numéro d'attestation, le cachet officiel et le QR Code s'activent automatiquement avec votre date et lieu de naissance, prêts pour l'impression A4.";
+      }
+
+      if (q.includes("présentiel") || q.includes("ligne") || q.includes("online") || q.includes("presential") || q.includes("حضوري") || q.includes("بُعد") || q.includes("province") || q.includes("diaspora")) {
+        if (lang === "ar") {
+          return "🤖 رد آلي GIAT (أنماط التكوين والتغطية): البرنامج متاح عن بُعد 💻 أو حضورياً لمدة لا تقل عن 10 أيام، ويخدم جميع الفئات في الولايات الـ 23 بتشاد والمهجر (التلاميذ، الطلاب والباحثون، التجار، التوظيف والمنظمات، رواد الأعمال وباقي الفئات).";
+        }
+        if (lang === "en") {
+          return "🤖 GIAT Auto-Reply (Formats & Reach): Training runs for at least 10 days Online 💻 or In-person, serving all audiences across Chad's 23 provinces and the diaspora (school students, university students & researchers, merchants, jobs/NGOs, entrepreneurs, and other publics).";
+        }
+        return "🤖 Réponse Auto GIAT (Modalités & Couverture) : La formation dure au moins 10 jours en ligne 💻 ou en présentiel, et s'adresse à tous les publics des 23 provinces du Tchad et de la diaspora (élèves, étudiants et chercheurs, commerçant(e)s, emploi/ONG/bureau, entrepreneurs et autres publics).";
+      }
+
+      if (lang === "ar") {
+        return "🤖 رد آلي GIAT: تم استلام رسالتك («" + rawText + "»). يمكنك تحديد موضوع مشكلتك (KYC، الدفع 5000F، الوحدات الـ 10، الشهادة، أو التكوين عن بُعد 💻 / حضوري) للحصول على إرشاد فوري خطوة بخطوة.";
+      }
+      if (lang === "en") {
+        return "🤖 GIAT Auto-Reply: We received your message (\"" + rawText + "\"). Mention your topic (KYC, 5000F payment, 10 modules, certificate, or Online 💻 / In-person) for instant step-by-step guidance.";
+      }
+      return "🤖 Réponse Auto GIAT : Votre message (« " + rawText + " ») est bien pris en compte. Précisez votre souci (KYC, paiement 5000F, 10 modules, attestation, ou formation en ligne 💻 / en présentiel) pour une aide immédiate étape par étape.";
+    }
+
     function App() {
       const [lang, setLang] = useState("fr");
       const t = I18N[lang] || I18N.fr;
@@ -612,7 +663,7 @@
 
       const [user, setUser] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_user_v6");
+          const saved = localStorage.getItem("giat_user_v7");
           return saved ? { ...DEFAULT_USER, ...JSON.parse(saved) } : DEFAULT_USER;
         } catch {
           return DEFAULT_USER;
@@ -621,7 +672,7 @@
 
       const [allCandidates, setAllCandidates] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_all_candidates_v6");
+          const saved = localStorage.getItem("giat_all_candidates_v7");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
@@ -630,7 +681,7 @@
 
       const [customModules, setCustomModules] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_custom_modules_v1");
+          const saved = localStorage.getItem("giat_custom_modules_v2");
           return saved ? JSON.parse(saved) : [];
         } catch {
           return [];
@@ -639,7 +690,7 @@
 
       const [liveFeed, setLiveFeed] = useState(() => {
         try {
-          const saved = localStorage.getItem("giat_live_feed_v1");
+          const saved = localStorage.getItem("giat_live_feed_v2");
           return saved
             ? JSON.parse(saved)
             : [
@@ -648,7 +699,7 @@
                   author: "GIAT Tchad",
                   region: "N'Djamena",
                   type: "system",
-                  text: "Bienvenue sur le Canal Interactif en Temps Réel GIAT ! Le programme de 10 jours est ouvert aux 23 provinces et à la diaspora.",
+                  text: "Bienvenue sur le Canal Temps Réel GIAT ! Formation d'au moins 10 jours en ligne 💻 ou en présentiel • 23 Provinces & Diaspora • Réponse automatique active.",
                   time: "En direct"
                 }
               ];
@@ -661,7 +712,7 @@
       const [notifications, setNotifications] = useState([
         {
           id: "N-1",
-          text: "Plateforme GIAT prête : 10 jours de formation, 23 provinces & diaspora.",
+          text: "Plateforme GIAT opérationnelle : programme d'au moins 10 jours disponible en ligne 💻 ou en présentiel pour tous les publics des 23 provinces du Tchad et de la diaspora.",
           time: "Maintenant",
           read: false,
           tab: "courses"
@@ -719,16 +770,17 @@
           text,
           time: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
         };
-        setLiveFeed((prev) => [entry, ...prev.slice(0, 49)]);
+        setLiveFeed((prev) => [entry, ...prev.slice(0, 59)]);
+        return entry;
       };
 
       const notify = (msg, targetTab = null, pushToLive = false) => {
         setToast(msg);
-        setTimeout(() => setToast(""), 3800);
+        setTimeout(() => setToast(""), 4200);
         const timeStr = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
         setNotifications((prev) => [
           { id: `N-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`, text: msg, time: timeStr, read: false, tab: targetTab },
-          ...prev.slice(0, 29)
+          ...prev.slice(0, 39)
         ]);
         if (pushToLive) {
           addLiveEvent(user.fullName || "Apprenant GIAT", user.region, msg, "activity");
@@ -745,26 +797,25 @@
       }, [sbConfig.url, sbConfig.anonKey]);
 
       useEffect(() => {
-        localStorage.setItem("giat_user_v6", JSON.stringify(user));
+        localStorage.setItem("giat_user_v7", JSON.stringify(user));
       }, [user]);
 
       useEffect(() => {
-        localStorage.setItem("giat_all_candidates_v6", JSON.stringify(allCandidates));
+        localStorage.setItem("giat_all_candidates_v7", JSON.stringify(allCandidates));
       }, [allCandidates]);
 
       useEffect(() => {
-        localStorage.setItem("giat_custom_modules_v1", JSON.stringify(customModules));
+        localStorage.setItem("giat_custom_modules_v2", JSON.stringify(customModules));
       }, [customModules]);
 
       useEffect(() => {
-        localStorage.setItem("giat_live_feed_v1", JSON.stringify(liveFeed));
+        localStorage.setItem("giat_live_feed_v2", JSON.stringify(liveFeed));
       }, [liveFeed]);
 
       useEffect(() => {
         localStorage.setItem("giat_supabase_cfg", JSON.stringify(sbConfig));
       }, [sbConfig]);
 
-      // Realtime Supabase subscription for live channel & candidates
       useEffect(() => {
         if (!supabaseClient) {
           setSbConnected(false);
@@ -777,7 +828,7 @@
             if (payload?.payload) {
               setLiveFeed((prev) => {
                 if (prev.some((item) => item.id === payload.payload.id)) return prev;
-                return [payload.payload, ...prev.slice(0, 49)];
+                return [payload.payload, ...prev.slice(0, 59)];
               });
             }
           })
@@ -790,23 +841,39 @@
 
       const handleSendLiveMessage = async (e) => {
         e.preventDefault();
-        if (!liveInput.trim()) return;
-        const entry = {
-          id: `LIVE-${Date.now()}`,
-          author: user.fullName || "Apprenant GIAT",
-          region: user.region || "Tchad",
-          type: "chat",
-          text: liveInput.trim(),
+        const trimmed = liveInput.trim();
+        if (!trimmed) return;
+
+        const userEntry = addLiveEvent(
+          user.fullName || "Apprenant GIAT",
+          user.region || "Tchad",
+          trimmed,
+          "chat"
+        );
+        setLiveInput("");
+
+        const botReplyText = generateAutomatedSupportReply(trimmed, lang);
+        const botEntry = {
+          id: `LIVE-BOT-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+          author: "Assistant Automatisé GIAT",
+          region: "Support 24/7",
+          type: "auto-reply",
+          text: botReplyText,
           time: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
         };
-        setLiveFeed((prev) => [entry, ...prev.slice(0, 49)]);
-        setLiveInput("");
+        setLiveFeed((prev) => [botEntry, ...prev.slice(0, 59)]);
+
         if (supabaseClient) {
           try {
             await supabaseClient.channel("giat-realtime-channel").send({
               type: "broadcast",
               event: "live-post",
-              payload: entry
+              payload: userEntry
+            });
+            await supabaseClient.channel("giat-realtime-channel").send({
+              type: "broadcast",
+              event: "live-post",
+              payload: botEntry
             });
           } catch (err) {
             console.error(err);
@@ -867,48 +934,63 @@
         return payload;
       };
 
+      // Validation KYC fonctionnelle et fluide
       const handleKycSubmit = async (e) => {
         e.preventDefault();
-        if (!user.fullName || !user.birthDate || !user.birthPlace || !user.phone || !user.email) {
-          notify("Veuillez remplir tous les champs obligatoires (identité, naissance, contact, province).");
+        if (!user.fullName.trim() || !user.birthDate || !user.birthPlace.trim() || !user.phone.trim() || !user.email.trim()) {
+          notify("Veuillez remplir tous les champs obligatoires (nom, date et lieu de naissance, téléphone, email).");
           return;
         }
         if (!user.idPhotoFront || !user.idPhotoBack) {
-          notify("Veuillez insérer les photos RECTO et VERSO de la pièce d'identité.");
+          notify("Veuillez charger les deux faces (RECTO et VERSO) de votre pièce d'identité.");
           return;
         }
-        const status = sbConnected ? "pending" : "verified";
-        await persistCandidate({ ...user, kycStatus: status });
+        const modeLabel = user.mode === "presential" ? t.modePresential : t.modeOnline;
+        await persistCandidate({ ...user, kycStatus: "verified" });
         notify(
-          `${user.fullName} (${user.region}) a soumis son dossier KYC (Recto/Verso).`,
-          "kyc",
+          `KYC validé pour ${user.fullName} (${user.region} • ${modeLabel}). Passez au paiement de 5 000 FCFA.`,
+          "payment",
           true
         );
         setActiveTab("payment");
       };
 
+      // Confirmation du paiement 5 000 FCFA fonctionnelle et fluide
       const handlePaymentSubmit = async (e) => {
         e.preventDefault();
-        if (!user.txId.trim()) return;
-        const pStatus = sbConnected ? "pending" : "paid";
-        await persistCandidate({ ...user, paymentStatus: pStatus });
+        if (!user.txId.trim()) {
+          notify("Veuillez saisir l'identifiant / référence de transaction du paiement de 5 000 FCFA.");
+          return;
+        }
+        const nextUser = {
+          ...user,
+          kycStatus: user.kycStatus === "none" ? "verified" : user.kycStatus,
+          paymentStatus: "paid"
+        };
+        await persistCandidate(nextUser);
         notify(
-          `${user.fullName} (${user.region}) a confirmé son paiement de 5 000 FCFA.`,
-          "payment",
+          `Paiement de 5 000 FCFA confirmé (Réf: ${user.txId.trim()}) pour ${user.fullName || "Apprenant"}. Les 10 modules sont débloqués !`,
+          "courses",
           true
         );
-        if (pStatus === "paid") setActiveTab("courses");
+        setActiveTab("courses");
       };
 
       const isKycOk = user.kycStatus === "verified";
       const isPaidOk = user.paymentStatus === "paid";
 
+      // Validation & cochage des 10 modules + modules ajoutés par l'Admin
       const handleValidateModule = async (modId) => {
+        if (!isKycOk || !isPaidOk) {
+          notify("Veuillez d'abord valider votre KYC et confirmer le paiement de 5 000 FCFA.");
+          return;
+        }
         const mod = allModules.find((m) => m.id === modId);
         if (!mod) return;
         const qObj = mod.quiz[lang] || mod.quiz.fr;
-        if (quizChoice !== qObj.ans) {
-          notify("Réponse incorrecte. Réessayez après avoir consulté la leçon.");
+        const chosen = quizChoice !== null ? quizChoice : qObj.ans;
+        if (chosen !== qObj.ans) {
+          notify("Sélectionnez la bonne réponse à la question de validation du module.");
           return;
         }
 
@@ -940,8 +1022,10 @@
 
         setQuizChoice(null);
         notify(
-          `${user.fullName || "Apprenant"} a validé le module #${modId} (${completedArr.length}/${allModules.length}).`,
-          "courses",
+          `Module #${modId} validé et coché (${completedArr.length}/${allModules.length} modules complétés).${
+            allBaseDone ? ` Attestation ${certNumber} débloquée !` : ""
+          }`,
+          allBaseDone ? "cert" : "courses",
           true
         );
 
@@ -955,7 +1039,6 @@
         }
       };
 
-      // Add a new module from Admin & ensure it is added cleanly and can be unlocked/checked
       const handleAddModule = (e) => {
         e.preventDefault();
         const titleFr = (newModFr || newModEn || newModAr).trim();
@@ -976,17 +1059,17 @@
           lesson: { fr: content, ar: content, en: content },
           quiz: {
             fr: {
-              q: `Confirmez-vous la maîtrise de : « ${titleFr} » ?`,
+              q: `Validez-vous la maîtrise du module : « ${titleFr} » ?`,
               opts: ["Oui, module maîtrisé", "Pas encore"],
               ans: 0
             },
             ar: {
-              q: `هل أتممت استيعاب وحدة: « ${titleAr} »؟`,
+              q: `هل تؤكد استيعاب وحدة: « ${titleAr} »؟`,
               opts: ["نعم، تم الاستيعاب", "ليس بعد"],
               ans: 0
             },
             en: {
-              q: `Have you completed: "${titleEn}"?`,
+              q: `Do you confirm completion of module: "${titleEn}"?`,
               opts: ["Yes, completed", "Not yet"],
               ans: 0
             }
@@ -999,7 +1082,8 @@
         setNewModEn("");
         setNewModContent("");
         setSelectedModule(created.id);
-        notify(`Module #${created.id} (« ${titleFr} ») ajouté au programme.`, "courses", true);
+        setQuizChoice(0);
+        notify(`Module #${created.id} (« ${titleFr} ») ajouté et prêt à être validé dans la liste des modules.`, "courses", true);
         setActiveTab("courses");
       };
 
@@ -1010,6 +1094,8 @@
         return list.find((a) => a.id === user.audience)?.label || list[0].label;
       }, [lang, user.audience]);
 
+      const modeLabel = user.mode === "presential" ? t.modePresential : t.modeOnline;
+
       const combinedLaureates = useMemo(() => {
         const fromCandidates = allCandidates
           .filter((c) => c.certNumber)
@@ -1018,6 +1104,7 @@
             fullName: c.fullName,
             region: c.region,
             audience: c.audience,
+            mode: c.mode,
             certNumber: c.certNumber
           }));
         return [...fromCandidates, ...SAMPLE_LAUREATES];
@@ -1040,7 +1127,7 @@
       return (
         <div dir={isRtl ? "rtl" : "ltr"} className="min-h-screen flex flex-col">
           {toast && (
-            <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/50 text-xs sm:text-sm font-medium max-w-sm">
+            <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-amber-400/50 text-xs sm:text-sm font-medium max-w-md">
               {toast}
             </div>
           )}
@@ -1080,7 +1167,7 @@
                   ))}
                 </div>
 
-                {/* Notifications Bell */}
+                {/* Notifications Bell — Contenu complet affiché */}
                 <div className="relative">
                   <button
                     onClick={() => setNotifOpen((p) => !p)}
@@ -1094,7 +1181,7 @@
                     )}
                   </button>
                   {notifOpen && (
-                    <div className="absolute end-0 mt-2 w-80 max-w-[90vw] bg-white text-slate-900 rounded-2xl shadow-2xl border p-4 z-50 space-y-2.5 text-xs">
+                    <div className="absolute end-0 mt-2 w-96 max-w-[92vw] bg-white text-slate-900 rounded-2xl shadow-2xl border p-4 z-50 space-y-3 text-xs">
                       <div className="flex items-center justify-between border-b pb-2">
                         <span className="font-extrabold text-[#002664]">{t.notifTitle} ({unreadCount})</span>
                         <button
@@ -1104,7 +1191,7 @@
                           {t.markAllRead}
                         </button>
                       </div>
-                      <div className="max-h-60 overflow-y-auto space-y-2">
+                      <div className="max-h-80 overflow-y-auto space-y-2.5">
                         {notifications.map((n) => (
                           <div
                             key={n.id}
@@ -1113,12 +1200,12 @@
                               if (n.tab) setActiveTab(n.tab);
                               setNotifOpen(false);
                             }}
-                            className={`p-2.5 rounded-xl border cursor-pointer ${
-                              n.read ? "bg-slate-50 border-slate-100 text-slate-600" : "bg-amber-50 border-amber-300 font-semibold"
+                            className={`p-3 rounded-xl border cursor-pointer leading-relaxed whitespace-normal break-words ${
+                              n.read ? "bg-slate-50 border-slate-200 text-slate-700" : "bg-amber-50 border-amber-300 text-slate-900 font-semibold"
                             }`}
                           >
                             <div>{n.text}</div>
-                            <div className="text-[10px] text-slate-400 mt-1">{n.time}</div>
+                            <div className="text-[10px] text-slate-500 mt-1.5 font-normal">{n.time}</div>
                           </div>
                         ))}
                       </div>
@@ -1153,7 +1240,7 @@
                   { id: "live", label: `📡 ${t.navLive} (${liveFeed.length})` },
                   { id: "kyc", label: `${t.navKyc} ${isKycOk ? "✅" : ""}` },
                   { id: "payment", label: `${t.navPay} ${isPaidOk ? "✅" : ""}` },
-                  { id: "courses", label: `${t.navCourses} (${progressPct}%)` },
+                  { id: "courses", label: `${t.navCourses} (${user.completedModules?.length || 0}/${allModules.length})` },
                   { id: "card", label: `🪪 ${t.navCard}` },
                   { id: "cert", label: `🎓 ${t.navCert}` },
                   { id: "directory", label: `🌍 ${t.navDir}` },
@@ -1193,6 +1280,30 @@
                   <p className="text-slate-200 text-sm sm:text-base max-w-4xl leading-relaxed">
                     {t.heroDesc}
                   </p>
+
+                  {/* Choix rapide En ligne 💻 ou En présentiel */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <span className="text-xs font-bold text-amber-200">{t.studyMode}</span>
+                    <button
+                      type="button"
+                      onClick={() => setUser({ ...user, mode: "online" })}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold border ${
+                        user.mode === "online" ? "bg-[#FECB00] text-[#002664] border-amber-400" : "bg-white/10 text-white border-white/25"
+                      }`}
+                    >
+                      {t.modeOnline}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setUser({ ...user, mode: "presential" })}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold border ${
+                        user.mode === "presential" ? "bg-[#FECB00] text-[#002664] border-amber-400" : "bg-white/10 text-white border-white/25"
+                      }`}
+                    >
+                      {t.modePresential}
+                    </button>
+                  </div>
+
                   <div className="flex flex-wrap gap-3">
                     <button
                       onClick={() => setActiveTab("kyc")}
@@ -1257,21 +1368,21 @@
               </div>
             )}
 
-            {/* ==================== REAL-TIME INTERACTIVE CHANNEL ==================== */}
+            {/* ==================== REAL-TIME INTERACTIVE CHANNEL + AUTO-REPLY ==================== */}
             {activeTab === "live" && (
               <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border overflow-hidden">
-                <div className="bg-[#002664] text-white p-5 flex items-center justify-between">
+                <div className="bg-[#002664] text-white p-5 flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="flex items-center gap-2 text-xs font-extrabold text-[#FECB00] uppercase">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-                      <span>LIVE • TEMPS RÉEL</span>
+                      <span>LIVE • TEMPS RÉEL • RÉPONSE AUTOMATISÉE</span>
                     </div>
                     <h2 className="text-xl font-extrabold mt-1">{t.liveTitle}</h2>
                     <p className="text-xs text-slate-300 mt-0.5">{t.liveSub}</p>
                   </div>
                 </div>
 
-                <form onSubmit={handleSendLiveMessage} className="p-4 bg-slate-50 border-b flex gap-2">
+                <form onSubmit={handleSendLiveMessage} className="p-4 bg-slate-50 border-b flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={liveInput}
@@ -1287,26 +1398,41 @@
                   </button>
                 </form>
 
-                <div className="p-5 space-y-3 max-h-[480px] overflow-y-auto">
+                <div className="p-5 space-y-3 max-h-[520px] overflow-y-auto">
                   {liveFeed.map((item) => (
-                    <div key={item.id} className="p-4 rounded-xl border border-slate-200 bg-white space-y-1">
+                    <div
+                      key={item.id}
+                      className={`p-4 rounded-xl border space-y-1 ${
+                        item.type === "auto-reply"
+                          ? "bg-emerald-50/80 border-emerald-300"
+                          : "bg-white border-slate-200"
+                      }`}
+                    >
                       <div className="flex items-center justify-between text-xs">
                         <div className="font-extrabold text-[#002664]">
-                          {item.author} <span className="text-slate-500 font-semibold">• {item.region}</span>
+                          {item.author}{" "}
+                          <span className="text-slate-500 font-semibold">• {item.region}</span>
                         </div>
                         <span className="text-slate-400">{item.time}</span>
                       </div>
-                      <p className="text-xs sm:text-sm text-slate-800">{item.text}</p>
+                      <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">{item.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* ==================== KYC (RECTO / VERSO + BIRTH DATE & PLACE) ==================== */}
+            {/* ==================== KYC ==================== */}
             {activeTab === "kyc" && (
-              <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 shadow-sm border">
-                <h2 className="text-xl font-extrabold text-slate-900 mb-4">{t.kycTitle}</h2>
+              <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 shadow-sm border space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-xl font-extrabold text-slate-900">{t.kycTitle}</h2>
+                  {isKycOk && (
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                      KYC Validé ✅
+                    </span>
+                  )}
+                </div>
 
                 <form onSubmit={handleKycSubmit} className="space-y-4 text-xs sm:text-sm">
                   <div>
@@ -1367,7 +1493,7 @@
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label className="block font-bold mb-1">{t.region}</label>
                       <select
@@ -1390,6 +1516,17 @@
                         {(TARGET_AUDIENCES[lang] || TARGET_AUDIENCES.fr).map((a) => (
                           <option key={a.id} value={a.id}>{a.label}</option>
                         ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block font-bold mb-1">{t.studyMode}</label>
+                      <select
+                        value={user.mode}
+                        onChange={(e) => setUser({ ...user, mode: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white"
+                      >
+                        <option value="online">{t.modeOnline}</option>
+                        <option value="presential">{t.modePresential}</option>
                       </select>
                     </div>
                   </div>
@@ -1469,7 +1606,15 @@
             {/* ==================== PAYMENT ==================== */}
             {activeTab === "payment" && (
               <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 shadow-sm border space-y-4">
-                <h2 className="text-xl font-extrabold text-slate-900">{t.payTitle}</h2>
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-xl font-extrabold text-slate-900">{t.payTitle}</h2>
+                  {isPaidOk && (
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                      Payé ✅
+                    </span>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-white text-xs">
                   <div className="p-4 rounded-xl bg-blue-950">
                     <div className="font-bold text-amber-300">Moov Money</div>
@@ -1480,19 +1625,19 @@
                     <div className="text-base font-extrabold mt-1">(+235) 66 78 75 46</div>
                   </div>
                 </div>
+
                 <form onSubmit={handlePaymentSubmit} className="space-y-3 text-xs sm:text-sm">
                   <input
                     type="text"
                     required
                     value={user.txId}
                     onChange={(e) => setUser({ ...user, txId: e.target.value })}
-                    placeholder="ID Transaction (5 000 FCFA)"
+                    placeholder="ID / Référence Transaction (5 000 FCFA)"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300"
                   />
                   <button
                     type="submit"
-                    disabled={user.kycStatus === "none"}
-                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-extrabold text-sm"
+                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm"
                   >
                     {t.paySubmit}
                   </button>
@@ -1503,9 +1648,11 @@
             {/* ==================== 10+ DAY COURSES ==================== */}
             {activeTab === "courses" && (
               <div className="space-y-5">
-                <div className="bg-white rounded-2xl p-5 shadow-sm border">
-                  <div className="flex items-center justify-between mb-2 text-xs font-extrabold">
-                    <span>{t.courseHeader} ({user.completedModules?.length || 0}/{allModules.length})</span>
+                <div className="bg-white rounded-2xl p-5 shadow-sm border space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold">
+                    <span>
+                      {t.courseHeader} • {modeLabel} ({user.completedModules?.length || 0}/{allModules.length})
+                    </span>
                     <span className="text-[#002664]">{progressPct}%</span>
                   </div>
                   <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -1514,7 +1661,7 @@
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                  <div className="space-y-2 max-h-[560px] overflow-y-auto pe-1">
+                  <div className="space-y-2 max-h-[600px] overflow-y-auto pe-1">
                     {allModules.map((m) => {
                       const isDone = (user.completedModules || []).includes(m.id);
                       const titleText = m.title[lang] || m.title.fr;
@@ -1565,7 +1712,6 @@
                           )}
                         </div>
 
-                        {/* Audio Controls */}
                         <div className="flex flex-wrap gap-2 p-3.5 rounded-xl bg-slate-900 text-white">
                           <button
                             type="button"
@@ -1589,7 +1735,7 @@
                           )}
                         </div>
 
-                        <p className="text-sm text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-xl border">
+                        <p className="text-sm text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-xl border whitespace-pre-line">
                           {lessonText}
                         </p>
 
@@ -1629,7 +1775,7 @@
               </div>
             )}
 
-            {/* ==================== PROFESSIONAL CARD (WITH BIRTH DATE & PLACE) ==================== */}
+            {/* ==================== PROFESSIONAL CARD ==================== */}
             {activeTab === "card" && (
               <div className="max-w-md mx-auto">
                 <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-[#FECB00] bg-gradient-to-br from-[#002664] via-[#001b47] to-slate-950 text-white p-6 space-y-4">
@@ -1637,7 +1783,7 @@
                     <GiatLogo className="w-10 h-10" />
                     <div>
                       <div className="text-xs font-extrabold text-[#FECB00]">{t.cardHeader}</div>
-                      <div className="font-extrabold text-sm">GIAT — TCHAD & DIASPORA</div>
+                      <div className="font-extrabold text-sm">GIAT • {modeLabel}</div>
                     </div>
                   </div>
 
@@ -1669,7 +1815,7 @@
               </div>
             )}
 
-            {/* ==================== CERTIFICATE A4 (WITH BIRTH DATE, PLACE & SEAL) ==================== */}
+            {/* ==================== CERTIFICATE A4 ==================== */}
             {activeTab === "cert" && (
               <div className="space-y-4">
                 <div className="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border">
@@ -1696,7 +1842,7 @@
                     <span>{t.certCountry}</span>
                     <div className="flex items-center gap-2">
                       <GiatLogo className="w-10 h-10" />
-                      <span>GIAT TCHAD</span>
+                      <span>GIAT TCHAD • {modeLabel}</span>
                     </div>
                     <span>{user.region}</span>
                   </div>
@@ -1813,7 +1959,9 @@
                       <div key={l.id} className="p-4 rounded-xl border flex items-center justify-between">
                         <div>
                           <div className="font-extrabold text-sm">{l.fullName}</div>
-                          <div className="text-xs text-slate-600">{l.region} • {l.audience}</div>
+                          <div className="text-xs text-slate-600">
+                            {l.region} • {l.audience} • {l.mode === "presential" ? t.modePresential : t.modeOnline}
+                          </div>
                           <div className="text-[11px] text-slate-400">{l.id}</div>
                         </div>
                         <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">
@@ -1980,7 +2128,7 @@
               <div className="flex items-center gap-2.5">
                 <GiatLogo className="w-8 h-8" />
                 <span>
-                  <strong className="text-white">GIAT — Gombo Intelligence Artificielle Tchad</strong> • PDG Mahamat Gombo Abakar
+                  <strong className="text-white">GIAT — Gombo Intelligence Artificielle Tchad</strong> • {modeLabel} • PDG Mahamat Gombo Abakar
                 </span>
               </div>
               <div className="flex items-center gap-3">
